@@ -1,9 +1,13 @@
 chrome.runtime.onInstalled.addListener(function() {
+    window.imparsinglist = false;
     window.amiwaiting = false;
+    window.lists = {};
+    window.tables = {};
     window.lastRepition = [];
     console.log("lets go lets connect");
     connect();
 });
+
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (window.amiwaiting) {
@@ -11,8 +15,8 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         return;
     }
     if (["Meta", "Shift", "Control", "Alt"].indexOf(msg.text.key) != -1) {
-      // console.log("ignoring loan modifier key");
-      return;
+        // console.log("ignoring loan modifier key");
+        return;
     }
     sendResponse("Gotcha! " + JSON.stringify(msg));
 
@@ -47,6 +51,12 @@ function onNativeMessage(message) {
     }
     if (message.event == "IM DONE") {
         window.amiwaiting = false;
+    }
+    if (message.action && message.action.type == "GO_TO_TAB") {
+        chrome.tabs.update(message.action.tab_id, { selected: true });
+    }
+    if (message.action && message.action.type == "PLACE_IN_CLIPBOARD") {
+        placeInClipboard(message);
     }
 }
 
