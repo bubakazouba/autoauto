@@ -8,12 +8,6 @@ document.onkeydown = function(e) {
     console.log("not trusted ignore");
     return;
   }
-  // if (e.key == "z") {
-  //   console.log("got a z");
-  //   connect();
-  //   sendNativeMessage("hello there");
-  // }
-  // return;
   let m = {};
   for (f of FIELDS) {
     m[f] = e[f];

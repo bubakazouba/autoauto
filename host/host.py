@@ -19,7 +19,6 @@ while True:
     if message == "hello":
         nativemessaging.send_message(nativemessaging.encode_message("I'm alive"))
     else:
-        nativemessaging.send_message(nativemessaging.encode_message("hi im still ok" + str(len(message))))
         keys = json.loads(message)
         for key in keys:
             time.sleep(0.5)
