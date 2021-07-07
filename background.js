@@ -27,7 +27,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             element: null,
             keyParams: msg.text
         },
-        // timestamp: Date.now(),
+        timestamp: Date.now(),
     };
     console.log("got", actionToString(action));
     sendNativeMessage(action);
