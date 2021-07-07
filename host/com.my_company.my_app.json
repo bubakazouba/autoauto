@@ -1,0 +1,9 @@
+{
+    "name": "com.my_company.my_app",
+    "description": "My App",
+    "path": "/Users/sahmoud/extension/host/host.py",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://ollflbjipknkhilcpihkchcaebegjdng/"
+    ]
+}
