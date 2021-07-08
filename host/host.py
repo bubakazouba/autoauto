@@ -25,6 +25,13 @@ def send_keyboard_command(cmd):
 
 proxy_file = open("/tmp/proxy_file.log", 'a')
 
+def disable_extension_keyboard_listener():
+    nativemessaging.send_message(nativemessaging.encode_message("IM WORKING"))
+
+def enable_extension_keyboard_listener():
+    nativemessaging.send_message(nativemessaging.encode_message("IM DONE"))
+    
+
 def main():
     while True:
         message = nativemessaging.get_message()

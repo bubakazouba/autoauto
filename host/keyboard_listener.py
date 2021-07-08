@@ -12,7 +12,6 @@ def process_cmd(cmd):
     if cmd is not None and len(cmd) > 0:
         keyboard.press_and_release(cmd)
 
-
 proxy_file_watcher.register_callback(process_cmd)
 
 proxy_file_watcher.follow(s=0.2)
