@@ -1,5 +1,7 @@
 import networkx as nx
 import json
+import numpy as np
+from pprint import pprint as pp 
 
 class MarkovChain():
     def __init__(self):
@@ -13,14 +15,27 @@ class MarkovChain():
 
     def resolve_transition_probabilities(self):
         for node in self.graph.nodes():
-            node_successors = self.graph.successors(node)
+            node_successors = list(self.graph.successors(node))
             cumulative_weight = sum(
                 [self.graph[node][successor]['weight'] for successor in node_successors])
             for successor in node_successors:
                 self.graph[node][successor]['weight'] /= cumulative_weight
 
     def get_cycles_with_probabilities(self):
-        return list(nx.simple_cycles(self.graph))
+        cycles = list(nx.simple_cycles(self.graph))
+        cycles_with_probabilities = []
+        for cycle in cycles:
+            cycle.append(cycle[0])
+            cycle_transition_probabilities = []
+            for state1, state2 in zip(cycle[:-1], cycle[1:]):
+                if self.graph.has_edge(state1, state2): # sanity check
+                    cycle_transition_probabilities.append(self.graph[state1][state2]['weight'])
+                else:
+                    cycle_transition_probabilities.append(0)
+                    break
+            cycle_probability = np.prod(cycle_transition_probabilities)
+            cycles_with_probabilities.append((cycle[:-1], cycle_probability))
+        return cycles_with_probabilities
 
     def clear(self):
         self.graph.clear()
@@ -31,6 +46,9 @@ def markov_chain_unittest():
     for case in cases:
         chain = MarkovChain()
         for action1, action2 in zip(case[:-1], case[1:]):
-            chain.add_transition()
-                
+            chain.add_transition(action1['key'], action2['key'])
+        chain.resolve_transition_probabilities()
+        pp(chain.get_cycles_with_probabilities())
+
+
 markov_chain_unittest()
