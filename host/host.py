@@ -1,9 +1,7 @@
 #!/home/sultan/anaconda3/bin/python
 import nativemessaging
-import keyboard
 import json
 import time
-import tail
 
 def getKeyboardStringFromKeyParams(keyParams):
     s = keyParams["key"]
@@ -11,7 +9,6 @@ def getKeyboardStringFromKeyParams(keyParams):
         s = s[5:]
     if s in ["Meta", "Shift", "Control", "Alt"]: # Ignore a lone Meta
         return ""
-
     if keyParams["metaKey"]:
         s = "cmd+" + s
     if keyParams["ctrlKey"]:
@@ -22,23 +19,28 @@ def getKeyboardStringFromKeyParams(keyParams):
         s = "alt+" + s
     return s
 
-proxy_file_watcher = tail.Tail('/tmp/proxy_file.log')
+def send_keyboard_command(cmd):
+    proxy_file.write(cmd + "\n")
+    proxy_file.flush()
 
-def process_message(message):
-    print(message)
+proxy_file = open("/tmp/proxy_file.log", 'a')
 
-proxy_file_watcher.register_callback(process_message)
-
-proxy_file_watcher.follow(s=0.2)
-
-
-
-
-
-
-    
-#    keys = json.loads(message)
-#    for key in keys:
-#        time.sleep(0.5)
-#        s = getKeyboardStringFromKeyParams(key["action"]["keyParams"])
-#        keyboard.press_and_release(s)
+def main():
+    while True:
+        message = nativemessaging.get_message()
+        if message == "hello":
+            nativemessaging.send_message(nativemessaging.encode_message("I'm alive"))
+        else:
+            keys = json.loads(message)
+            for key in keys:
+                time.sleep(0.5)
+                s = getKeyboardStringFromKeyParams(key["action"]["keyParams"])
+                if s == "":
+                    nativemessaging.send_message(nativemessaging.encode_message("skipping cuz empty"))
+                    continue
+                send_keyboard_command(s)
+                nativemessaging.send_message(nativemessaging.encode_message(s))
+            nativemessaging.send_message(nativemessaging.encode_message("done"))
+            
+if __name__ == "__main__":
+    main()
