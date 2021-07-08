@@ -48,7 +48,14 @@ class MarkovChain():
     def clear(self):
         self.graph.clear()
 
-
+    def order_cycles_by_first_action_occurence(self, cycles, cmd_list):
+        # TODO
+        pass
+    
+def get_cmds_from_action_list():
+    # TODO
+    pass
+    
 def markov_chain_unittest():
     cases = json.load(open("./host/markov_test_cases.json", 'r'))
     for idx, case in enumerate(cases):
