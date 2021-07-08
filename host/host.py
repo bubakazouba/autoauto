@@ -7,12 +7,19 @@ import tail
 
 def getKeyboardStringFromKeyParams(keyParams):
     s = keyParams["key"]
-    if s[:5] == "Arrow":
+    if s[:5] == "Arrow": # ArrowDown -> Down
         s = s[5:]
-    if s[:4] == "Meta":
+    if s in ["Meta", "Shift", "Control", "Alt"]: # Ignore a lone Meta
         return ""
+
     if keyParams["metaKey"]:
         s = "cmd+" + s
+    if keyParams["ctrlKey"]:
+        s = "ctrl+" + s
+    if keyParams["shiftKey"]:
+        s = "shift+" + s
+    if keyParams["altKey"]:
+        s = "alt+" + s
     return s
 
 proxy_file_watcher = tail.Tail('/tmp/proxy_file.log')
