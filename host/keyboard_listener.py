@@ -1,8 +1,5 @@
 #!/home/sultan/anaconda3/bin/python
-import nativemessaging
 import keyboard
-import json
-import time
 import tail
 
 proxy_file_watcher = tail.Tail('/tmp/proxy_file.log')
