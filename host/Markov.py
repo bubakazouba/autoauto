@@ -2,6 +2,7 @@ import networkx as nx
 import json
 import numpy as np
 from pprint import pprint as pp 
+from networkx.drawing.nx_agraph import to_agraph
 
 class MarkovChain():
     def __init__(self):
@@ -21,7 +22,14 @@ class MarkovChain():
             for successor in node_successors:
                 self.graph[node][successor]['weight'] /= cumulative_weight
 
-    def get_cycles_with_probabilities(self):
+    def save(self, name):
+        for src, dst in self.graph.edges():
+            self.graph[src][dst]['label'] = '{:.2f}'.format(self.graph[src][dst]['weight'])
+        A = to_agraph(self.graph)
+        A.layout('circo')
+        A.draw('{}.jpeg'.format(name))
+
+    def get_cycles(self):
         cycles = list(nx.simple_cycles(self.graph))
         cycles_with_probabilities = []
         for cycle in cycles:
@@ -43,12 +51,12 @@ class MarkovChain():
 
 def markov_chain_unittest():
     cases = json.load(open("./host/markov_test_cases.json", 'r'))
-    for case in cases:
+    for idx, case in enumerate(cases):
         chain = MarkovChain()
         for action1, action2 in zip(case[:-1], case[1:]):
             chain.add_transition(action1['key'], action2['key'])
         chain.resolve_transition_probabilities()
-        pp(chain.get_cycles_with_probabilities())
+        chain.save("case_{}".format(idx))
 
 
 markov_chain_unittest()
