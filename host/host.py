@@ -1,8 +1,9 @@
-#!/usr/bin/python3
+#!/home/sultan/anaconda3/bin/python
 import nativemessaging
 import keyboard
 import json
 import time
+import tail
 
 def getKeyboardStringFromKeyParams(keyParams):
     s = keyParams["key"]
@@ -14,18 +15,23 @@ def getKeyboardStringFromKeyParams(keyParams):
         s = "cmd+" + s
     return s
 
-while True:
-    message = nativemessaging.get_message()
-    if message == "hello":
-        nativemessaging.send_message(nativemessaging.encode_message("I'm alive"))
-    else:
-        keys = json.loads(message)
-        for key in keys:
-            time.sleep(0.5)
-            s = getKeyboardStringFromKeyParams(key["action"]["keyParams"])
-            if s == "":
-                nativemessaging.send_message(nativemessaging.encode_message("skipping cuz empty"))
-                continue
-            keyboard.press_and_release(s)
-            nativemessaging.send_message(nativemessaging.encode_message(s))
-        nativemessaging.send_message(nativemessaging.encode_message("done"))
+proxy_file_watcher = tail.Tail('/tmp/proxy_file.log')
+
+def process_message(message):
+    print(message)
+
+proxy_file_watcher.register_callback(process_message)
+
+proxy_file_watcher.follow(s=0.2)
+
+
+
+
+
+
+    
+#    keys = json.loads(message)
+#    for key in keys:
+#        time.sleep(0.5)
+#        s = getKeyboardStringFromKeyParams(key["action"]["keyParams"])
+#        keyboard.press_and_release(s)
