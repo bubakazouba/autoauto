@@ -40,7 +40,6 @@ def trigger_switching_tab(tabId):
 def disable_extension_keyboard_listener():
     send_message({"event": "IM WORKING"})
 
-
 def enable_extension_keyboard_listener():
     send_message({"event": "IM DONE"})
 
@@ -61,22 +60,23 @@ def main():
     msg = {}
     while True:
         message = nativemessaging.get_message()
+
         try:
             msg = json.loads(message)
         except Exception as e:
-            send_message("dumbo i cant parse ur 'json'")
+            send_message("dumbo i cant parse ur 'json'" + message)
             continue
 
         if "event" not in msg:
             send_message("dumbass send a valid msg")
             continue
 
-        if msg["event"] = "heart_beat":
+        if msg["event"] == "HEARTBEAT":
             send_message("I'm alive")
             continue
         if msg["event"] == "ACTION":
             actions.append(msg["action"])
-            send_message("ack got the key")
+            send_message("ack got the key=" + get_keyboard_string_from_key_params(actions[-1]["action"]["keyParams"]))
             continue
         if msg["event"] == "USER_PRESSED_STOP":
             actionsToTrigger = detect_actions_to_trigger(actions, msg["repitions"])

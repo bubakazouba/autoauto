@@ -7,6 +7,7 @@ chrome.runtime.onInstalled.addListener(function() {
     window.lastRepition = [];
     console.log("lets go lets connect");
     connect();
+    sendNativeMessage({"event": "HEARTBEAT"});
 
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
@@ -69,7 +70,7 @@ var port = null;
 
 function sendNativeMessage(message) {
     console.log("sending message now", JSON.stringify(message));
-    port.postMessage(message);
+    port.postMessage(JSON.stringify(message));
 }
 
 function onNativeMessage(message) {
