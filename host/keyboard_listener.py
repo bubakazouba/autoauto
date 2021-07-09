@@ -1,4 +1,4 @@
-#!/home/sultan/anaconda3/bin/python
+#!/usr/bin/env python3
 import keyboard
 import tail
 
@@ -12,10 +12,3 @@ def process_cmd(cmd):
 proxy_file_watcher.register_callback(process_cmd)
 
 proxy_file_watcher.follow(s=0.2)
-
-
-
-
-
-
-    

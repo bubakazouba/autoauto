@@ -59,7 +59,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         timestamp: Date.now(),
     };
     console.log("got", actionToString(action));
-    sendNativeMessage(action);
+    sendNativeMessage({
+        event: "ACTION",
+        action: action
+    });
 });
 
 var port = null;
@@ -77,10 +80,10 @@ function onNativeMessage(message) {
     if (message.event == "IM DONE") {
         window.amiwaiting = false;
     }
-    if (message.action && message.action.type == "GO_TO_TAB") {
-        chrome.tabs.update(message.action.tab_id, { selected: true });
+    if (message.event && message.event.type == "GO_TO_TAB") {
+        chrome.tabs.update(message.event.tab_id, { selected: true });
     }
-    if (message.action && message.action.type == "PLACE_IN_CLIPBOARD") {
+    if (message.event && message.event.type == "PLACE_IN_CLIPBOARD") {
         placeInClipboard(message);
     }
 }
