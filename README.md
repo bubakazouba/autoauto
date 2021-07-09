@@ -6,6 +6,8 @@
 * Open ``edge://extensions` and click "Load Unpacked"
 	* Select extension directory in file browser
 * Modify extension id to match the extension id shown in `edge://extensions` page
-* Make sure `host.py` is executable
-* `pip install -r requirements.txt`
+* `pip3 install -r host/requirements.txt`
 * Reload extension
+
+## Tests
+Run `./host/runtests.sh`
