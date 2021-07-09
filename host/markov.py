@@ -54,4 +54,4 @@ class MarkovChain():
     
 def get_cmds_from_action_list():
     # TODO
-    pass
+    return []

@@ -1,1 +1,1 @@
-python3 tst/markov.py
+python3 tst/*_test.py
