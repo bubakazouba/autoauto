@@ -92,9 +92,5 @@
     {
         "key": "cmd+ArrowDown",
         "tab": 1
-    },
-    {
-        "key": "shift+cmd+ArrowDown",
-        "tab": 1
     }]
 ]
