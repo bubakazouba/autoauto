@@ -1,226 +1,224 @@
 [
     [
-        {
-            "key": "1",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "2",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "3",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowUp",
-            "tab": 1
-        },
-        {
-            "key": "a",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "b",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "c",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowUp",
-            "tab": 1
-        },
-        {
-            "key": "1",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "2",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "3",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowUp",
-            "tab": 1
-        },
-        {
-            "key": "a",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "b",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        },
-        {
-            "key": "c",
-            "tab": 1
-        },
-        {
-            "key": "Enter",
-            "tab": 1
-        }
-    ],
+    {
+        "key": "1",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "2",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "3",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowUp",
+        "tab": 1
+    },
+    {
+        "key": "a",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "b",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "c",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowUp",
+        "tab": 1
+    },
+    {
+        "key": "1",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "2",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "3",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowUp",
+        "tab": 1
+    },
+    {
+        "key": "a",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "b",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    },
+    {
+        "key": "c",
+        "tab": 1
+    },
+    {
+        "key": "Enter",
+        "tab": 1
+    }],
     [
-        {
-            "key": "shift+cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+c",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+v",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowLeft",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "shift+cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+c",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+v",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowLeft",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "shift+cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+c",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+v",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowLeft",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "shift+cmd+ArrowDown",
-            "tab": 1
-        },
-        {
-            "key": "cmd+c",
-            "tab": 1
-        },
-        {
-            "key": "ArrowRight",
-            "tab": 1
-        },
-        {
-            "key": "cmd+v",
-            "tab": 1
-        }
-    ]
+    {
+        "key": "shift+cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+c",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+v",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowLeft",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "shift+cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+c",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+v",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowLeft",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "shift+cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+c",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+v",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowLeft",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "shift+cmd+ArrowDown",
+        "tab": 1
+    },
+    {
+        "key": "cmd+c",
+        "tab": 1
+    },
+    {
+        "key": "ArrowRight",
+        "tab": 1
+    },
+    {
+        "key": "cmd+v",
+        "tab": 1
+    }]
 ]
