@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import nativemessaging
 import json
+import os
 import time
+from subprocess import Popen
 
-proxy_file = open("/tmp/proxy_file.log", 'a')
+KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
 
 def get_keyboard_string_from_key_params(keyParams):
     s = keyParams["key"]
@@ -26,8 +28,7 @@ def send_message(s):
 
 def trigger_keyboard_command(keyParams):
     cmd = get_keyboard_string_from_key_params(keyParams)
-    proxy_file.write(cmd + "\n")
-    proxy_file.flush()
+    Popen(["sudo", KEYBOARD_LISTENER_PATH, cmd])
 
 def trigger_switching_tab(tabId):
     send_message({
@@ -49,6 +50,7 @@ def detect_actions_to_trigger(actions, repitions):
     pass
 
 def trigger_actions(actions):
+    time.sleep(2) # give a chance for the user to leave the popup and go back to the page
     disable_extension_keyboard_listener()
     # for action in actions:
         # time.sleep(0.5)

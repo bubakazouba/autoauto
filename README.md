@@ -7,6 +7,8 @@
 	* Select extension directory in file browser
 * Modify extension id to match the extension id shown in `edge://extensions` page
 * `pip3 install -r host/requirements.txt`
+* Add `ALL   ALL=NOPASSWD: /Users/sahmoud/extension/host/keyboard_listener.py` in your /etc/sudoers to allow running it without a password
+	* Change your path accordingly
 * Reload extension
 
 ## Tests
