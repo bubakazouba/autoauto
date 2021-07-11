@@ -1,7 +1,6 @@
 chrome.runtime.onInstalled.addListener(function() {
     window.imparsinglist = false;
     window.amiwaiting = false;
-    window.userIsRecording = false;
     window.lists = {};
     window.tables = {};
     window.lastRepition = [];
@@ -21,12 +20,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg.event && msg.event.type == "USER_PRESSED_START") {
-        window.userIsRecording = true;
-        return;
-    }
     if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
-        window.userIsRecording = false;
         sendNativeMessage({
             event: "USER_PRESSED_STOP",
             repitions: msg.event.repitions,
@@ -34,10 +28,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
     if (window.amiwaiting) {
         console.log("ignoring because amiwaiting = true");
-        return;
-    }
-    if (!window.userIsRecording) {
-        console.log("ignoring because userIsRecording = false");
         return;
     }
     if (["Meta", "Shift", "Control", "Alt"].indexOf(msg.text.key) != -1) {
