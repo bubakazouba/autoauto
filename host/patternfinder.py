@@ -58,7 +58,7 @@ class PatternFinder:
 			sss = ""
 			# temp hack since unit tests dont conform to the same format for now
 			if type(self.actions[0]) == type({}) and "action" in self.actions[0]:
-				sss = ',m'.join([x["action"]["keyParams"]["key"] for x in result["pattern"]])
+				sss = ','.join([x["action"]["keyParams"]["key"] for x in result["pattern"]])
 			if len(result["pattern"]) > 0 and result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and len(result["pattern"]) >= MIN_PATTERN_LENGTH:
 				self.log("error < threshold =" + str(result["error"]) + "||" + sss)
 				results.append(result)

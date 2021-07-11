@@ -89,6 +89,8 @@ def main():
             s = ""
             if res is not None:
                 send_message({"event": "IM SURE", "sureness": res["sureness"]})
+            else:
+                send_message({"event": "IM NOT SURE"})
             continue
         if msg["event"] == "USER_PRESSED_STOP":
             actionsToTrigger = detect_actions_to_trigger(pattern_finder, int(msg["repitions"]))

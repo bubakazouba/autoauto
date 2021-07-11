@@ -8,34 +8,21 @@
         "scripts": ["utils.js", "background.js"],
         "persistent": false
     },
-    "page_action":
-    {
-        "default_popup": "popup.html",
-        "default_icon":
-        {
-            "16": "images/get_started16.png",
-            "32": "images/get_started32.png",
-            "48": "images/get_started48.png",
-            "128": "images/get_started128.png"
-        },
-        "icons":
-        {
-            "16": "images/get_started16.png",
-            "32": "images/get_started32.png",
-            "48": "images/get_started48.png",
-            "128": "images/get_started128.png"
-        }
-    },
+    
     "content_scripts": [
     {
         "matches": ["<all_urls>"],
         "js": ["content.js"]
     }],
     "icons": {
-        "16": "images/get_started16.png",
-        "32": "images/get_started32.png",
-        "48": "images/get_started48.png",
-        "128": "images/get_started128.png"
-      },
-    "manifest_version": 2
+        "32": "images/red.png"
+    },
+    "manifest_version": 2,
+    "browser_action": {
+        "default_icon": {
+            "32": "images/red.png"
+        },
+        "default_title": "Google Mail",      // optional; shown in tooltip
+        "default_popup": "popup.html"        // optional
+      }
 }

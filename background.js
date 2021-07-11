@@ -81,6 +81,12 @@ function onNativeMessage(message) {
     if (message.event == "IM DONE") {
         window.amiwaiting = false;
     }
+    if (message.event == "IM SURE") {
+        chrome.browserAction.setIcon({path: 'images/green.png'});
+    }
+    if (message.event == "IM NOT SURE") {
+        chrome.browserAction.setIcon({path: 'images/red.png'});
+    }
     if (message.event && message.event.type == "GO_TO_TAB") {
         chrome.tabs.update(message.event.tab_id, { selected: true });
     }
