@@ -1,6 +1,7 @@
 import adhoc2
+import sys
 
-MAX_ERROR_RATIO_THRESHOLD = 0.1
+MAX_ERROR_RATIO_THRESHOLD = 0.2
 MIN_PATTERN_LENGTH = 3
 USER_CONFIRMATION_WEIGHT = 2
 
@@ -10,6 +11,7 @@ class PatternFinder:
 		self.suspected_result = None
 		self.suspected_result_last_index = None
 		self.send_message = send_message
+
 		
 	def log(self, s):
 		if self.send_message is None:
@@ -37,6 +39,7 @@ class PatternFinder:
 	def append(self, action):
 		self.actions.append(action)
 		self._suggestPattern()
+		self.log("---------------")
 		if self.suspected_result is None:
 			return None
 		else:
@@ -59,11 +62,17 @@ class PatternFinder:
 			# temp hack since unit tests dont conform to the same format for now
 			if type(self.actions[0]) == type({}) and "action" in self.actions[0]:
 				sss = ','.join([x["action"]["keyParams"]["key"] for x in result["pattern"]])
+			else:
+				sss = ','.join([x["key"] for x in result["pattern"]])
+			if len(result["pattern"]) == 0:
+				xx = "no pattern"
+			else:
+				xx = str(result["error"]) + "||" + str(result["error"]/len(result["pattern"])) + "||" + sss
 			if len(result["pattern"]) > 0 and result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and len(result["pattern"]) >= MIN_PATTERN_LENGTH:
-				self.log("error < threshold =" + str(result["error"]) + "||" + sss)
+				self.log("error < threshold =" + xx)
 				results.append(result)
 			else:
-				self.log("error too high =" + str(result["error"]) + "||" + sss)
+				self.log("error too high =" + xx)
 				pass
 		sorted_results = sorted(results, key=lambda r: len(r["pattern"])-r["error"])
 		final_result = sorted_results[-1] if len(sorted_results) > 0 else None

@@ -28,7 +28,40 @@
     null,
     null,
     null,
-    null,
+    {
+        "sureness": 12,
+        "giveMePattern": 
+            {"current": [
+                {"key": "1"},
+                {"key": "Enter"},
+                {"key": "2"},
+                {"key": "Enter"},
+                {"key": "3"},
+                {"key": "Enter"},
+                {"key": "ArrowRight"},
+                {"key": "cmd+ArrowUp"},
+                {"key": "a"},
+                {"key": "Enter"},
+                {"key": "b"},
+                {"key": "Enter"},
+                {"key": "c"},
+                {"key": "Enter"}],
+            "complete": [
+                {"key": "1"},
+                {"key": "Enter"},
+                {"key": "2"},
+                {"key": "Enter"},
+                {"key": "3"},
+                {"key": "Enter"},
+                {"key": "ArrowRight"},
+                {"key": "cmd+ArrowUp"},
+                {"key": "a"},
+                {"key": "Enter"},
+                {"key": "b"},
+                {"key": "Enter"},
+                {"key": "c"},
+                {"key": "Enter"}]
+    }},
     {
         "sureness": 14,
         "giveMePattern": 
@@ -189,7 +222,25 @@
     null,
     null,
     null,
-    null,
+    {
+        "sureness": 5,
+        "giveMePattern": 
+            {"current": [
+                {"key": "shift+cmd+ArrowDown"},
+                {"key": "cmd+c"},
+                {"key": "ArrowRight"},
+                {"key": "cmd+v"},
+                {"key": "cmd+ArrowLeft"},
+                {"key": "cmd+ArrowDown"}
+        ], "complete": [
+            {"key": "shift+cmd+ArrowDown"},
+            {"key": "cmd+c"},
+            {"key": "ArrowRight"},
+            {"key": "cmd+v"},
+            {"key": "cmd+ArrowLeft"},
+            {"key": "cmd+ArrowDown"}
+            ]
+    }},
     {
         "sureness": 7,
         "giveMePattern": 

@@ -8,6 +8,7 @@ from subprocess import Popen
 import patternfinder
 
 KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
+MIN_SURENESS_THRESHOLD = 10
 
 def get_keyboard_string_from_key_params(keyParams):
     s = keyParams["key"]
@@ -87,7 +88,7 @@ def main():
         if msg["event"] == "ACTION":
             res = pattern_finder.append(msg["action"])
             s = ""
-            if res is not None:
+            if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
                 send_message({"event": "IM SURE", "sureness": res["sureness"]})
             else:
                 send_message({"event": "IM NOT SURE"})
