@@ -2,8 +2,10 @@
 import nativemessaging
 import json
 import os
+import sys
 import time
 from subprocess import Popen
+import patternfinder
 
 KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
 
@@ -28,7 +30,10 @@ def send_message(s):
 
 def trigger_keyboard_command(keyParams):
     cmd = get_keyboard_string_from_key_params(keyParams)
-    Popen(["sudo", KEYBOARD_LISTENER_PATH, cmd])
+    if sys.platform == "darwin":
+        Popen([KEYBOARD_LISTENER_PATH, cmd])
+    else:
+        Popen(["sudo", KEYBOARD_LISTENER_PATH, cmd])
 
 def trigger_switching_tab(tabId):
     send_message({
@@ -44,25 +49,28 @@ def disable_extension_keyboard_listener():
 def enable_extension_keyboard_listener():
     send_message({"event": "IM DONE"})
 
-def detect_actions_to_trigger(actions, repitions):
-    # actionsToTrigger = find_sequence_with_markov(actions)
-    # return actionsToTrigger
-    pass
+def detect_actions_to_trigger(pattern_finder, repitions):
+    res = pattern_finder.giveMePattern()
+    return res["current"] + res["complete"] * (repitions - 1)
 
 def trigger_actions(actions):
-    time.sleep(2) # give a chance for the user to leave the popup and go back to the page
+     # give a chance for the user to leave the popup and go back to the page
+    send_message("starting in 2...")
+    time.sleep(1) 
+    send_message("1..")
+    time.sleep(1) 
+    send_message("0.")
     disable_extension_keyboard_listener()
-    # for action in actions:
-        # time.sleep(0.5)
-        # trigger_keyboard_command(action["keyParams"])
+    for action in actions:
+        trigger_keyboard_command(action["action"]["keyParams"])
+        time.sleep(0.5)
     enable_extension_keyboard_listener()
 
 def main():
-    actions = []
+    pattern_finder = patternfinder.PatternFinder(send_message)
     msg = {}
     while True:
         message = nativemessaging.get_message()
-
         try:
             msg = json.loads(message)
         except Exception as e:
@@ -77,13 +85,14 @@ def main():
             send_message("I'm alive")
             continue
         if msg["event"] == "ACTION":
-            actions.append(msg["action"])
-            send_message("ack got the key=" + get_keyboard_string_from_key_params(actions[-1]["action"]["keyParams"]))
+            res = pattern_finder.append(msg["action"])
+            s = ""
+            if res is not None:
+                send_message({"event": "IM SURE", "sureness": res["sureness"]})
             continue
         if msg["event"] == "USER_PRESSED_STOP":
-            actionsToTrigger = detect_actions_to_trigger(actions, msg["repitions"])
+            actionsToTrigger = detect_actions_to_trigger(pattern_finder, int(msg["repitions"]))
             trigger_actions(actionsToTrigger)
-            actions = []
             continue
 
 if __name__ == "__main__":
