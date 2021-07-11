@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 var port = null;
 
 function sendNativeMessage(message) {
-    console.log("sending message now", JSON.stringify(message));
+    // console.log("sending message now", JSON.stringify(message));
     port.postMessage(JSON.stringify(message));
 }
 

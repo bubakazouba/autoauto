@@ -43,6 +43,7 @@ class PatternFinder:
 		if self.suspected_result is None:
 			return None
 		else:
+			self.log("sureness=" + str(self._getSureness()))
 			return {
 				"sureness": self._getSureness()
 			}
@@ -55,15 +56,10 @@ class PatternFinder:
 				self.suspected_result = None
 				self.suspected_result_last_index = None
 		results = []
-		start_index = max(0, len(self.actions) - 100)
+		start_index = max(0, len(self.actions) - 50)
 		for i in range(start_index, len(self.actions)):
 			result = adhoc2.detect_repition(self.actions[i:])
-			sss = ""
-			# temp hack since unit tests dont conform to the same format for now
-			if type(self.actions[0]) == type({}) and "action" in self.actions[0]:
-				sss = ','.join([x["action"]["keyParams"]["key"] for x in result["pattern"]])
-			else:
-				sss = ','.join([x["key"] for x in result["pattern"]])
+			sss = getPrettyPrintActions(result["pattern"]) + "||" + getPrettyPrintActions(self.actions[i:])
 			if len(result["pattern"]) == 0:
 				xx = "no pattern"
 			else:
@@ -89,3 +85,12 @@ class PatternFinder:
 			"current": self.suspected_result["pattern"][start_from_index:],
 			"complete": self.suspected_result["pattern"]
 		}
+
+def getPrettyPrintActions(actions):
+	if len(actions) == 0:
+		return "nothing"
+	# temp hack since unit tests dont conform to the same format for now
+	if type(actions[0]) == type({}) and "action" in actions[0]:
+		return ','.join([x["action"]["keyParams"]["key"] for x in actions])
+	else:
+		return ','.join([x["key"] for x in actions])
