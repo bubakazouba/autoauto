@@ -70,6 +70,8 @@ def trigger_actions(actions):
 def main():
     pattern_finder = patternfinder.PatternFinder(send_message)
     msg = {}
+    results_file = open("/tmp/myresults", "a")
+    last_res = None
     while True:
         message = nativemessaging.get_message()
         try:
@@ -92,6 +94,15 @@ def main():
                 send_message({"event": "IM SURE", "sureness": res["sureness"]})
             else:
                 send_message({"event": "IM NOT SURE"})
+            if res is None and last_res is None:
+                pass
+            else:
+                if res is None:
+                    results_file.write("None")
+                else:
+                    res["timestamp"] = int(time.time())
+                    results_file.write(json.dumps(res))
+            last_res = res
             continue
         if msg["event"] == "USER_PRESSED_STOP":
             actionsToTrigger = detect_actions_to_trigger(pattern_finder, int(msg["repitions"]))

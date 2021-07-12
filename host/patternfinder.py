@@ -29,7 +29,6 @@ class PatternFinder:
 				return False
 			j += 1
 		return True
-
 	def _getSureness(self):
 		len_user_confirmation = len(self.actions) - self.suspected_result_last_index
 		sureness = len(self.suspected_result["pattern"]) - self.suspected_result["error"] + len_user_confirmation * USER_CONFIRMATION_WEIGHT
@@ -45,7 +44,14 @@ class PatternFinder:
 		else:
 			self.log("sureness=" + str(self._getSureness()))
 			return {
-				"sureness": self._getSureness()
+				"sureness": self._getSureness(),
+				"suspected_result": self.suspected_result,
+				"sureness_breakdown": {
+					"len": len(self.suspected_result["pattern"]),
+					"error": self.suspected_result["error"],
+					"len_user_confirmation": len(self.actions) - self.suspected_result_last_index,
+					"how_many_times_user_completed_suggestion": (len(self.actions) - self.suspected_result_last_index)/len(self.suspected_result["pattern"])
+				}
 			}
 
 	def _suggestPattern(self):
