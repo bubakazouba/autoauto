@@ -54,19 +54,4 @@ class MarkovChain():
     
 def get_cmds_from_action_list():
     # TODO
-    pass
-    
-def markov_chain_unittest():
-    cases = json.load(open("./host/markov_test_cases.json", 'r'))
-    for idx, case in enumerate(cases):
-        chain = MarkovChain()
-        for action1, action2 in zip(case[:-1], case[1:]):
-            chain.add_transition(action1['key'], action2['key'])
-        chain.resolve_transition_probabilities()
-        pp(chain.get_cycles())
-        chain.save("case_{}".format(idx))
-        if(idx == 0):
-            break
-
-
-markov_chain_unittest()
+    return []

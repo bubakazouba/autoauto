@@ -6,6 +6,10 @@
 * Open ``edge://extensions` and click "Load Unpacked"
 	* Select extension directory in file browser
 * Modify extension id to match the extension id shown in `edge://extensions` page
-* Make sure `host.py` is executable
-* `pip install -r requirements.txt`
+* `pip3 install -r host/requirements.txt`
+* Add `ALL   ALL=NOPASSWD: /Users/sahmoud/extension/host/keyboard_listener.py` in your /etc/sudoers to allow running it without a password
+	* Change your path accordingly
 * Reload extension
+
+## Tests
+Run `./host/runtests.sh`

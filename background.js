@@ -6,10 +6,26 @@ chrome.runtime.onInstalled.addListener(function() {
     window.lastRepition = [];
     console.log("lets go lets connect");
     connect();
+    sendNativeMessage({"event": "HEARTBEAT"});
+
+    chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+        chrome.declarativeContent.onPageChanged.addRules([{
+            conditions: [new chrome.declarativeContent.PageStateMatcher({
+                pageUrl: {schemes: ['http', 'https']}
+            })],
+            actions: [new chrome.declarativeContent.ShowPageAction()]
+        }]);
+    });
 });
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
+        sendNativeMessage({
+            event: "USER_PRESSED_STOP",
+            repitions: msg.event.repitions,
+        });
+    }
     if (window.amiwaiting) {
         console.log("ignoring because amiwaiting = true");
         return;
@@ -31,17 +47,20 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             element: null,
             keyParams: msg.text
         },
-        timestamp: Date.now(),
+        // timestamp: Date.now(),
     };
     console.log("got", actionToString(action));
-    sendNativeMessage(action);
+    sendNativeMessage({
+        event: "ACTION",
+        action: action
+    });
 });
 
 var port = null;
 
 function sendNativeMessage(message) {
-    console.log("sending message now", JSON.stringify(message));
-    port.postMessage(message);
+    // console.log("sending message now", JSON.stringify(message));
+    port.postMessage(JSON.stringify(message));
 }
 
 function onNativeMessage(message) {
@@ -52,10 +71,16 @@ function onNativeMessage(message) {
     if (message.event == "IM DONE") {
         window.amiwaiting = false;
     }
-    if (message.action && message.action.type == "GO_TO_TAB") {
-        chrome.tabs.update(message.action.tab_id, { selected: true });
+    if (message.event == "IM SURE") {
+        chrome.browserAction.setIcon({path: 'images/green.png'});
     }
-    if (message.action && message.action.type == "PLACE_IN_CLIPBOARD") {
+    if (message.event == "IM NOT SURE") {
+        chrome.browserAction.setIcon({path: 'images/red.png'});
+    }
+    if (message.event && message.event.type == "GO_TO_TAB") {
+        chrome.tabs.update(message.event.tab_id, { selected: true });
+    }
+    if (message.event && message.event.type == "PLACE_IN_CLIPBOARD") {
         placeInClipboard(message);
     }
 }
