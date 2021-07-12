@@ -11,6 +11,7 @@ nativemessaging = "1.0.1"
 networkx = "^2.5.1"
 matplotlib = "^3.4.2"
 pygraphviz = "^1.7"
+autopep8 = "^1.5.7"
 
 [tool.poetry.dev-dependencies]
 
