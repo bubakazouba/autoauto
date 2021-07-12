@@ -27,7 +27,7 @@ class BayesianPatternFinder:
         return [i for i in range(
             len(string)) if string.startswith(substr, i)]
 
-    # @lru_cache(maxsize=None)
+    @lru_cache(maxsize=None)
     def _getPathProbability(self, path):
         actions_str = SEPERATOR.join(self.actions)
         split_path = path.split(SEPERATOR)
@@ -65,10 +65,12 @@ class BayesianPatternFinder:
             idx_last_action = len(self.actions)-1
             history_up_to_last_action = self.actions[:idx_last_action]
             if last_action in history_up_to_last_action:
-                idx_last_occurence_reversed = list(
-                    reversed(history_up_to_last_action)).index(last_action)
-                idx_last_occurence = len(
-                    history_up_to_last_action) - idx_last_occurence_reversed - 1
+                # idx_last_occurence_reversed = list(
+                #     reversed(history_up_to_last_action)).index(last_action)
+                # idx_last_occurence = len(
+                #     history_up_to_last_action) - idx_last_occurence_reversed - 1
+                idx_last_occurence = history_up_to_last_action.index(last_action)
+
                 cycle = SEPERATOR.join(
                     self.actions[idx_last_occurence:idx_last_action+1])
                 self.candidate_cycles.add(cycle)
@@ -77,7 +79,7 @@ class BayesianPatternFinder:
         return cycle_prob
 
     def _getCycleMetrics(self):
-        # self._getPathProbability.cache_clear()
+        self._getPathProbability.cache_clear()
         cycles = []
         for cycle in self.candidate_cycles:
             cycle_metric = self._getCycleCandidacyMetric(
@@ -110,7 +112,11 @@ class BayesianPatternFinder:
         pass
 
     def giveMePattern(self):
-        pass
+        patterns = []
+        for cycle, metric in self.evaluated_cycles:
+            pattern = cycle.split(SEPERATOR)[:-1]
+            patterns.append((pattern, metric))
+        return patterns
         # if self.suspected_result is None:
         #     return []
         # start_from_index = len(self.actions) - self.suspected_result_last_index

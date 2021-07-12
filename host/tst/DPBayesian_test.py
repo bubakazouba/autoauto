@@ -13,7 +13,11 @@ class TestStringMethods(unittest.TestCase):
                 pattern_finder.append(action['key'])
             # pp(pattern_finder.candidate_cycles)
             pattern_finder._getCycleMetrics()
-            pp(pattern_finder.evaluated_cycles)
+            patterns = pattern_finder.giveMePattern()
+            for pattern, metric in patterns:
+                print('------------------------------')
+                print(pattern)
+                print(metric)
             if idx == 0:
                 break
 
