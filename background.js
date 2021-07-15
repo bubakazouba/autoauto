@@ -20,6 +20,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    console.log(msg);
     if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
         sendNativeMessage({
             event: "USER_PRESSED_STOP",
@@ -30,36 +31,58 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         console.log("ignoring because amiwaiting = true");
         return;
     }
-    if (["Meta", "Shift", "Control", "Alt"].indexOf(msg.text.key) != -1) {
-        // console.log("ignoring loan modifier key");
-        return;
-    }
-    sendResponse("Gotcha! " + JSON.stringify(msg));
+    if (msg.event && msg.event.type == "KEY_PRESSED") {
+        if (["Meta", "Shift", "Control", "Alt"].indexOf(msg.event.keyParams.key) != -1) {
+            // console.log("ignoring loan modifier key");
+            return;
+        }
+        sendResponse("Gotcha! " + JSON.stringify(msg));
 
-    let action = {
-        tab: {
-            id: sender.tab.id,
-            index: sender.tab.index,
-            url: sender.tab.url,
-        },
-        action: {
-            type: "KEYBOARD",
-            element: null,
-            keyParams: msg.text
-        },
-        // timestamp: Date.now(),
-    };
-    console.log("got", actionToString(action));
-    sendNativeMessage({
-        event: "ACTION",
-        action: action
-    });
+        let action = {
+            tab: {
+                id: sender.tab.id,
+                index: sender.tab.index,
+                url: sender.tab.url,
+            },
+            action: {
+                type: "KEYBOARD",
+                element: null,
+                keyParams: msg.event.keyParams
+            },
+            // timestamp: Date.now(),
+        };
+        console.log("got", actionToString(action));
+        sendNativeMessage({
+            event: "ACTION",
+            action: action
+        });    
+    }
+    if (msg.event && msg.event.type == "MOUSE_CLICK") {
+        let action = {
+            tab: {
+                id: sender.tab.id,
+                index: sender.tab.index,
+                url: sender.tab.url,
+            },
+            action: {
+                type: "MOUSE_CLICK",
+                element: msg.event.clickParams.list || msg.event.clickParams.table,
+                clickParams: msg.event.clickParams
+            },
+            // timestamp: Date.now(),
+        };
+        sendNativeMessage({
+            event: "ACTION",
+            action: action,
+        })
+    }
+    
 });
 
 var port = null;
 
 function sendNativeMessage(message) {
-    // console.log("sending message now", JSON.stringify(message));
+    console.log("sending message now", JSON.stringify(message));
     port.postMessage(JSON.stringify(message));
 }
 

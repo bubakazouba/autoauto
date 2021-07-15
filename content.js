@@ -4,27 +4,117 @@ function getCurrentTab() {
     let queryOptions = { active: true, currentWindow: true };
     return chrome.tabs.query(queryOptions);
 }
+
+function getListItemIndex(li) {
+    let list = li.parentElement;
+    let listItems = list.getElementsByTagName("li");
+    for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i] == li) {
+            return i;
+        }
+    }
+}
+
+function getTableItemIndex(td) {
+    let tableRow = td.parentElement;
+    let tableRowCells = tableRow.getElementsByTagName("td");
+    let x;
+    for (let i = 0; i < tableRowCells.length; i++) {
+        if (tableRowCells[i] == td) {
+            x = i;
+            break;
+        }
+    }
+    let table = tableRow.parentElement;
+    let tableRows = table.getElementsByTagName("tr");
+    let y;
+    for (let i = 0; i < tableRows.length; i++) {
+        if (tableRows[i] == td) {
+            y = i;
+            break;
+        }
+    }
+    return [x, y];
+}
+
+function getElementId(list) {
+    if (!window.elementsMap) {
+        window.elementsMap = {};
+    }
+    for (let storedList of Object.values(window.elementsMap)) {
+        if (storedList == list) {
+            return storedList;
+        }
+    }
+    let id = Math.random();
+    window.elementsMap[id] = list;
+    return id;
+}
+function getClickParams(e) {
+    for (let elem of e.path) {
+        if (elem.nodeName == "LI") {
+            return {
+                "type": "click",
+                "list_item_index": getListItemIndex(elem),
+                "list": getElementId(elem.parentElement)
+            };
+        }
+    }
+
+    for (let elem of e.path) {
+        if (elem.nodeName == "TD") {
+            return {
+                "type": "click",
+                "table_item_index": getTableItemIndex(elem),
+                "table": getElementId(elem.parentElement.parentElement)
+            };
+        }
+    }
+}
+document.addEventListener('click', (e) => {
+    let clickParams = getClickParams(e);
+    if (!clickParams) {
+        return;
+    }
+    console.log("clickParams=", clickParams);
+    chrome.runtime.sendMessage({
+        event: {
+            type: "MOUSE_CLICK",
+            clickParams: clickParams,
+        }
+    }, function(response) {
+        console.log("Response: ", response);
+    });
+}, true);
+
 document.onkeydown = function(e) {
     if (!e.isTrusted) {
         console.log("not trusted ignore");
         return;
     }
-    let m = {};
+    let keyParams = {};
     for (f of FIELDS) {
-        m[f] = e[f];
+        keyParams[f] = e[f];
     }
     console.log(e);
 
-    chrome.runtime.sendMessage({ text: m }, function(response) {
+    chrome.runtime.sendMessage({
+        event: {
+            type: "KEY_PRESSED",
+            keyParams: keyParams
+        }
+    }, function(response) {
         console.log("Response: ", response);
     });
 };
 
 function parseList(listId) {
+    let list = getElementId(listId);
     return ["1.", "2.", "3.", "4.", "5.", "6."];
 }
 
 function parseTable(tableId) {
+    let table = getElementId(tableId);
     return [
         ["(0,0)", "(1,0)", "(2,0)", "(3,0)"],
         ["(0,1)", "(1,1)", "(2,1)", "(3,1)"],
@@ -40,8 +130,7 @@ chrome.runtime.onMessage.addListener(function(request, sendResponse) {
         console.log("I was asked to parse list:" + request.id);
         parsedList = parseList(request.id);
         sendResponse({ "parsedList": parsedList });
-    }
-    else if (request.action == "PARSE_TABLE") {
+    } else if (request.action == "PARSE_TABLE") {
         console.log("I was asked to parse table:" + request.id);
         parsedTable = parseTable(request.id);
         sendResponse({ "parsedTable": parsedTable });
