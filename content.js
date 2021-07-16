@@ -37,17 +37,17 @@ function getTableItemIndex(td) {
     return [x, y];
 }
 
-function getElementId(list) {
+function getElementId(element) {
     if (!window.elementsMap) {
         window.elementsMap = {};
     }
-    for (let storedList of Object.values(window.elementsMap)) {
-        if (storedList == list) {
-            return storedList;
+    for (let [id, storedElement] of Object.entries(window.elementsMap)) {
+        if (storedElement == element) {
+            return id;
         }
     }
     let id = Math.random();
-    window.elementsMap[id] = list;
+    window.elementsMap[id] = element;
     return id;
 }
 function getClickParams(e) {
@@ -89,6 +89,7 @@ document.addEventListener('click', (e) => {
 
 document.onkeydown = function(e) {
     if (!e.isTrusted) {
+        // ignore javascript programmatic key presses
         console.log("not trusted ignore");
         return;
     }

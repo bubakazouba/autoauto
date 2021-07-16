@@ -1,5 +1,6 @@
 import adhoc2
 import sys
+import printutils
 
 MAX_ERROR_RATIO_THRESHOLD = 0.2
 MIN_PATTERN_LENGTH = 3
@@ -65,7 +66,7 @@ class PatternFinder:
 		start_index = max(0, len(self.actions) - 50)
 		for i in range(start_index, len(self.actions)):
 			result = adhoc2.detect_repition(self.actions[i:])
-			sss = getPrettyPrintActions(result["pattern"]) + "||" + getPrettyPrintActions(self.actions[i:])
+			sss = printutils.getPrettyPrintActions(result["pattern"]) + "||" + printutils.getPrettyPrintActions(self.actions[i:])
 			if len(result["pattern"]) == 0:
 				xx = "no pattern"
 			else:
@@ -91,12 +92,3 @@ class PatternFinder:
 			"current": self.suspected_result["pattern"][start_from_index:],
 			"complete": self.suspected_result["pattern"]
 		}
-
-def getPrettyPrintActions(actions):
-	if len(actions) == 0:
-		return "nothing"
-	# temp hack since unit tests dont conform to the same format for now
-	if type(actions[0]) == type({}) and "action" in actions[0]:
-		return ','.join([x["action"]["keyParams"]["key"] for x in actions])
-	else:
-		return ','.join([x["key"] for x in actions])

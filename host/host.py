@@ -6,31 +6,16 @@ import sys
 import time
 from subprocess import Popen
 import patternfinder
+import printutils
 
 KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
 MIN_SURENESS_THRESHOLD = 10
-
-def get_keyboard_string_from_key_params(keyParams):
-    s = keyParams["key"]
-    if s[:5] == "Arrow":  # ArrowDown -> Down
-        s = s[5:]
-    if s in ["Meta", "Shift", "Control", "Alt"]:  # Ignore a lone Meta
-        return ""
-    if keyParams["metaKey"]:
-        s = "cmd+" + s
-    if keyParams["ctrlKey"]:
-        s = "ctrl+" + s
-    if keyParams["shiftKey"]:
-        s = "shift+" + s
-    if keyParams["altKey"]:
-        s = "alt+" + s
-    return s
 
 def send_message(s):
     nativemessaging.send_message(nativemessaging.encode_message(s))
 
 def trigger_keyboard_command(keyParams):
-    cmd = get_keyboard_string_from_key_params(keyParams)
+    cmd = printutils.get_keyboard_string_from_key_params(keyParams)
     if sys.platform == "darwin":
         Popen([KEYBOARD_LISTENER_PATH, cmd])
     else:
