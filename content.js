@@ -37,6 +37,15 @@ function getTableItemIndex(td) {
     return [x, y];
 }
 
+function generateId() {
+    let s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
 function getElementId(element) {
     if (!window.elementsMap) {
         window.elementsMap = {};
@@ -46,7 +55,7 @@ function getElementId(element) {
             return id;
         }
     }
-    let id = Math.random();
+    let id = generateId();
     window.elementsMap[id] = element;
     return id;
 }
@@ -82,8 +91,6 @@ document.addEventListener('click', (e) => {
             type: "MOUSE_CLICK",
             clickParams: clickParams,
         }
-    }, function(response) {
-        console.log("Response: ", response);
     });
 }, true);
 
@@ -104,8 +111,6 @@ document.onkeydown = function(e) {
             type: "KEY_PRESSED",
             keyParams: keyParams
         }
-    }, function(response) {
-        console.log("Response: ", response);
     });
 };
 

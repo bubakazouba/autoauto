@@ -20,7 +20,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    console.log(msg);
+    console.log("got", pprint(msg, sender.tab.index));
     if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
         sendNativeMessage({
             event: "USER_PRESSED_STOP",
@@ -51,7 +51,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             },
             // timestamp: Date.now(),
         };
-        console.log("got", actionToString(action));
         sendNativeMessage({
             event: "ACTION",
             action: action

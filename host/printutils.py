@@ -31,6 +31,6 @@ def getPrettyPrintActions(actions):
 
 def _getPrettyPrintClick(action):
 	if "table" in action["action"]["clickParams"]:
-		return str(action["action"]["clickParams"]["table"]) + str(action["action"]["clickParams"]["table_item_index"])
+		return "[{0}] {1}".format(action["action"]["clickParams"]["table"][:5], str(action["action"]["clickParams"]["table_item_index"]))
 	elif "list" in action["action"]["clickParams"]:
-		return str(action["action"]["clickParams"]["list"]) + str(action["action"]["clickParams"]["list_item_index"])
+		return "[{0}] {1}".format(action["action"]["clickParams"]["list"][:5], str(action["action"]["clickParams"]["list_item_index"]))

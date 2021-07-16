@@ -54,6 +54,11 @@ class PatternFinder:
 					"how_many_times_user_completed_suggestion": (len(self.actions) - self.suspected_result_last_index)/len(self.suspected_result["pattern"])
 				}
 			}
+	def _resultPassesErrorConstraints(self, result):
+		return len(result["pattern"]) > 0 and \
+			result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and \
+			# len(result["pattern"]) >= MIN_PATTERN_LENGTH
+			True
 
 	def _suggestPattern(self):
 		if self.suspected_result is not None:
@@ -65,19 +70,12 @@ class PatternFinder:
 		results = []
 		start_index = max(0, len(self.actions) - 50)
 		for i in range(start_index, len(self.actions)):
-			result = adhoc2.detect_repition(self.actions[i:])
-			sss = printutils.getPrettyPrintActions(result["pattern"]) + "||" + printutils.getPrettyPrintActions(self.actions[i:])
-			if len(result["pattern"]) == 0:
-				xx = "no pattern"
-			else:
-				xx = str(result["error"]) + "||" + str(result["error"]/len(result["pattern"])) + "||" + sss
-			if len(result["pattern"]) > 0 and result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and len(result["pattern"]) >= MIN_PATTERN_LENGTH:
-				self.log("error < threshold =" + xx)
+			current_actions = self.actions[i:]
+			result = adhoc2.detect_repition(current_actions)
+			if self._resultPassesErrorConstraints(result):
 				results.append(result)
-			else:
-				self.log("error too high =" + xx)
-				pass
-		sorted_results = sorted(results, key=lambda r: len(r["pattern"])-r["error"])
+			self.log(self._getResultLog(result, current_actions))
+		sorted_results = sorted(results, key=lambda r: len(r["pattern"]) - r["error"])
 		final_result = sorted_results[-1] if len(sorted_results) > 0 else None
 		
 		if final_result is not None:
@@ -92,3 +90,14 @@ class PatternFinder:
 			"current": self.suspected_result["pattern"][start_from_index:],
 			"complete": self.suspected_result["pattern"]
 		}
+
+	def _getResultLog(self, result, actions):
+		if len(result["pattern"]) == 0:
+			return "no pattern"
+		# Error, Error Ratio, Pattern, From
+		s = "E:{}||ER:{}||P:{}||F:{}".format(result["error"], result["error"]/len(result["pattern"]),
+			printutils.getPrettyPrintActions(result["pattern"]), printutils.getPrettyPrintActions(actions))
+		if self._resultPassesErrorConstraints(result):
+			return "error < threshold =" + s
+		else:
+			return "error > threshold =" + s

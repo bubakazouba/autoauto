@@ -54,24 +54,36 @@ function parseTable(tabId, tableId, x, y) {
 }
 
 
-function actionToString(action) {
-    let keyName = action.action.keyParams.key;
-    if (action.action.keyParams.metaKey) {
+function keyParamsToString(keyParams) {
+    let keyName = keyParams.key;
+    if (keyParams.metaKey) {
         keyName = "cmd+" + keyName
     }
-    if (action.action.keyParams.ctrlKey) {
+    if (keyParams.ctrlKey) {
         keyName = "ctrl+" + keyName;
     }
-    if (action.action.keyParams.shiftKey) {
+    if (keyParams.shiftKey) {
         keyName = "shift+" + keyName;
     }
-    if (action.action.keyParams.altKey) {
+    if (keyParams.altKey) {
         keyName = "alt+" + keyName;
     }
     
-    return "key=" + keyName + ", tab=" + action.tab.index;
+    return "key=" + keyName;
 }
 
-function actionsToString(actions) {
-    return actions.map(lr => actionToString(lr));
+function _pprint(msg) {
+    if(!msg.event) {
+        return JSON.stringify(msg);
+    }
+    if (msg.event.type == "KEY_PRESSED") {
+        return keyParamsToString(msg.event.keyParams);
+    }
+    else if (msg.event.type == "MOUSE_CLICK") {
+        return JSON.stringify(msg.event.clickParams);
+    }
+}
+
+function pprint(msg, tabIndex) {
+     return _pprint(msg) + ", tab=" + tabIndex;
 }
