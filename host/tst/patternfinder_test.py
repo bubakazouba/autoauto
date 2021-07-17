@@ -4,6 +4,9 @@ import testutils
 
 class TestStringMethods(unittest.TestCase):
 
+    def utilDir(self, directoryPath):
+        self.util(directoryPath+"/test.json", directoryPath+"/expected.json")
+
     def util(self, casesFilePath, expectedFilePath):
         self.maxDiff = None
         actionsList = testutils.jsonLoad(casesFilePath)
@@ -19,13 +22,18 @@ class TestStringMethods(unittest.TestCase):
                 else:
                     if expected_results[j] is None:
                         self.assertEqual(True, False)
+                        continue
                     self.assertEqual(res["sureness"], expected_results[j]["sureness"])
                     self.assertEqual(pattern_finder.giveMePattern(), expected_results[j]["giveMePattern"])
-    
+
     def test_patternfinder_perfect(self):
-        self.util("patternfinder_perfect_test_cases.json", "patternfinder_perfect_expected.json")
+        self.utilDir("patternfinder/perfect_keystrokes")
 
     def test_patternfinder_fuzzy(self):
-        self.util("patternfinder_fuzzy_test_cases.json", "patternfinder_fuzzy_expected.json")
+        self.utilDir("patternfinder/fuzzy_keystrokes")
+
+    def test_patternfinder_perfect_list_incrementing_with_stuff_before(self):
+        self.utilDir("patternfinder/perfect_list_incrementing")
+
 if __name__ == '__main__':
     unittest.main()
