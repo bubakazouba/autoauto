@@ -35,5 +35,8 @@ class TestStringMethods(unittest.TestCase):
     def test_patternfinder_perfect_list_incrementing_with_stuff_before(self):
         self.utilDir("patternfinder/perfect_list_incrementing")
 
+    def test_patternfinder_perfect_list_incrementing_with_stuff_before(self):
+        self.utilDir("patternfinder/perfect_list_no_interpretation")
+
 if __name__ == '__main__':
     unittest.main()
