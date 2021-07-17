@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             },
             action: {
                 type: "MOUSE_CLICK",
-                element: msg.event.clickParams.list || msg.event.clickParams.table,
+                element: msg.event.clickParams.element_id,
                 clickParams: msg.event.clickParams
             },
             // timestamp: Date.now(),

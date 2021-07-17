@@ -77,7 +77,7 @@ class PatternFinder:
 			result["log"] = self._getResultLog(result, current_actions)
 			results.append(result)
 
-			current_actions_with_indices_interpretation = interpretationdetection.getInterpretation(current_actions)
+			current_actions_with_indices_interpretation = interpretationdetection.getInterpretation(current_actions, self.log)
 			if current_actions_with_indices_interpretation is None:
 				continue
 			result = adhoc2.detect_repition(current_actions_with_indices_interpretation)
@@ -90,8 +90,8 @@ class PatternFinder:
 		for result in results:
 			if result == final_result:
 				self.log("!!!!winner!!!!" + result["log"])
-			else:
-				self.log(result["log"])
+			# else:
+			# 	self.log(result["log"])
 		if final_result is not None and self._resultPassesErrorConstraints(final_result):
 			self.suspected_result = final_result
 			self.suspected_result_last_index = len(self.actions)

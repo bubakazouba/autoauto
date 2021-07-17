@@ -29,7 +29,7 @@ function getTableItemIndex(td) {
     let tableRows = table.getElementsByTagName("tr");
     let y;
     for (let i = 0; i < tableRows.length; i++) {
-        if (tableRows[i] == td) {
+        if (tableRows[i] == tableRow) {
             y = i;
             break;
         }
@@ -64,8 +64,9 @@ function getClickParams(e) {
         if (elem.nodeName == "LI") {
             return {
                 "type": "click",
-                "list_item_index": getListItemIndex(elem),
-                "list": getElementId(elem.parentElement)
+                "element_type": "LIST",
+                "item_index": getListItemIndex(elem),
+                "element_id": getElementId(elem.parentElement)
             };
         }
     }
@@ -74,8 +75,9 @@ function getClickParams(e) {
         if (elem.nodeName == "TD") {
             return {
                 "type": "click",
-                "table_item_index": getTableItemIndex(elem),
-                "table": getElementId(elem.parentElement.parentElement)
+                "element_type": "TABLE",
+                "item_index": getTableItemIndex(elem),
+                "element_id": getElementId(elem.parentElement.parentElement)
             };
         }
     }
