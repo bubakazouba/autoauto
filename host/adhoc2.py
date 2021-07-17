@@ -1,6 +1,8 @@
 import editdistance
+import copy
+
 def detect_repition(actions):
-	actionsstr = [str(x) for x in actions]
+	actionsstr = [_getActionStringToCompare(action) for action in actions]
 	n = len(actions)
 	min_editdistance = 9999
 	min_eval = None
@@ -19,3 +21,15 @@ def detect_repition(actions):
 		"error": min_editdistance,
 		"pattern": min_eval
 	}
+
+def _getActionStringToCompare(action):
+	action = copy.deepcopy(action)
+	if "action" not in action:
+		return str(action)
+	if "clickParams" in action["action"] and "list_item_index_pattern" in action["action"]["clickParams"]:
+		del action["action"]["clickParams"]["list_item_index"]
+		return str(action)
+	if "clickParams" in action["action"] and "table_item_index_pattern" in action["action"]["clickParams"]:
+		del action["action"]["clickParams"]["table_item_index"]
+		return str(action)
+	return str(action)
