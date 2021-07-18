@@ -3,6 +3,7 @@ import copy
 # Gets interpretations of user patterns such as incrementing/decrementing numbers
 # selecting/clicking list indices if user is going up or down the list
 # * List/Table API:
+# 	* Input: add "itemIndex" (int or list(int)) to action["action"]["clickParams"]
 # 	* returns ["action"]["pattern"]
 def getIncrement(actions, log):
 	actions = copy.deepcopy(actions)
@@ -20,13 +21,12 @@ def _getIncrements(actions, log):
 	detected_any_pattern = False
 	elementIdsToIndices = defaultdict(list)
 	for i in range(len(actions)):
-		if "clickParams" in actions[i]["action"] and actions[i]["action"]["clickParams"]["element_type"] in ["LIST", "TABLE"]:
+		if "clickParams" in actions[i]["action"] and "item_index" in actions[i]["action"]["clickParams"]:
 			elementIdsToIndices[actions[i]["action"]["clickParams"]["element_id"]].append(i)
 	for elementId in elementIdsToIndices.keys():
 		elementActionsIndices = elementIdsToIndices[elementId]
 		if len(elementActionsIndices) < 2:
 			continue
-		element_type = actions[elementActionsIndices[0]]["action"]["clickParams"]["element_type"]
 
 		proposed_pattern = proposeIncrement(actions[elementActionsIndices[0]], actions[elementActionsIndices[1]])
 		found_case_breaks_proposed_pattern = False
@@ -67,7 +67,6 @@ def proposeIncrement(action1, action2):
 
 # checks if pattern applies for 2 actions on the same element
 def incrementApplies(pattern, action1, action2):
-	element_type = action1["action"]["clickParams"]["element_type"]
 	i1 = action1["action"]["clickParams"]["item_index"]
 	i2 = action2["action"]["clickParams"]["item_index"]
 	return i2 == pattern[1](i1)
