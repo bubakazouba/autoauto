@@ -22,7 +22,7 @@ def getPrettyPrintActions(actions):
 		arr = []
 		for action in actions:
 			if action["action"]["type"] == "KEYBOARD":
-				arr.append(get_keyboard_string_from_key_params(action["action"]["keyParams"]))
+				arr.append("{}'{}'".format(action["action"]["element"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
 			elif action["action"]["type"] == "MOUSE_CLICK":
 				arr.append(_getPrettyPrintClick(action))
 		return ','.join(arr)

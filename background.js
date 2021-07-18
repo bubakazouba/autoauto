@@ -46,7 +46,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             },
             action: {
                 type: "KEYBOARD",
-                element: null,
+                element: msg.event.keyParams.element_id,
                 keyParams: msg.event.keyParams
             },
             // timestamp: Date.now(),

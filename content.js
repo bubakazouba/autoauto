@@ -1,5 +1,3 @@
-const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
-
 function getCurrentTab() {
     let queryOptions = { active: true, currentWindow: true };
     return chrome.tabs.query(queryOptions);
@@ -58,8 +56,20 @@ function getElementId(element) {
             }
         }
     }
-    return getElementIndex(element);
+    if (!window.elements) {
+        window.elements = {};
+    }
+    let id = getElementIndex(element);
+    window.elements[id] = element;
+    return id;
 }
+
+// TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
+// simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
+function getElementById(id) {
+    return window.elements[id];
+}
+
 function getClickParams(e) {
     for (let elem of e.path) {
         if (elem.nodeName == "LI") {
@@ -108,6 +118,7 @@ document.addEventListener('click', (e) => {
 }, true);
 
 document.onkeydown = function(e) {
+    const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
     if (!e.isTrusted) {
         // ignore javascript programmatic key presses
         console.log("not trusted ignore");
@@ -117,6 +128,7 @@ document.onkeydown = function(e) {
     for (f of FIELDS) {
         keyParams[f] = e[f];
     }
+    keyParams["element_id"] = getElementId(e.path[0]);
     console.log(e);
 
     chrome.runtime.sendMessage({
@@ -128,12 +140,12 @@ document.onkeydown = function(e) {
 };
 
 function parseList(listId) {
-    let list = getElementId(listId);
+    let list = getElementById(listId);
     return ["1.", "2.", "3.", "4.", "5.", "6."];
 }
 
 function parseTable(tableId) {
-    let table = getElementId(tableId);
+    let table = getElementById(tableId);
     return [
         ["(0,0)", "(1,0)", "(2,0)", "(3,0)"],
         ["(0,1)", "(1,1)", "(2,1)", "(3,1)"],
