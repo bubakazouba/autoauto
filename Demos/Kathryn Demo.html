@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" 
+              content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="https://code.jquery.com/jquery-3.5.0.slim.js" 
+                integrity="sha256-sCexhaKpAfuqulKjtSY7V9H7QT0TCN90H+Y5NlmqOUE="
+                crossorigin="anonymous">
+        </script>
+            <style>
+        h1 {
+            color: green;
+        }
+        .display {
+            border: 2px solid black;
+            height: 100px;
+            width: 400px;
+            text-align: center;
+        }
+  
+        .input {
+            display: flex;
+            flex-direction: column;
+            font-size: 0px;
+        }
+        button {
+            border: none;
+            margin: 2px;
+            width: 80px;
+            height: 3vw;
+            float: right;
+            background-color: green;
+            color: white;
+        }
+        button:hover {
+            background-color: rgb(5, 94, 12);
+        }
+        table {
+            width: 100%;
+            border: 1px solid black;
+        }
+        tr {
+            border: 1px solid black;
+        }
+        td {
+            border: 1px solid black;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>Kathryn Demo</h1>
+        <div class="display"><h3></h3></div>
+        <label>ID:</label> <input type="text">
+        <div>
+            <button id ="btn">Submit</button>
+        </div>
+        <div id="hamada">
+        </div>
+        <script type="text/javascript">
+            function createTable(tableData, parentElem) {
+              var table = document.createElement('table');
+              var tableBody = document.createElement('tbody');
+
+              tableData.forEach(function(rowData) {
+                var row = document.createElement('tr');
+
+                rowData.forEach(function(cellData) {
+                  var cell = document.createElement('td');
+                  cell.appendChild(document.createTextNode(cellData));
+                  row.appendChild(cell);
+                });
+
+                tableBody.appendChild(row);
+              });
+
+              table.appendChild(tableBody);
+              parentElem.appendChild(table);
+            }
+
+            document.getElementById("btn").onclick = function() {
+                let parentElem = document.getElementById("hamada");
+                for (let child of parentElem.children) {
+                  parentElem.removeChild(child);
+                }
+                let arr = [];
+                for (let i = 0; i < 4; i++) {
+                    arr.push([]);
+                    for (let j = 0; j < 4; j++) {
+                        arr[i].push(getRandomCellContent());
+                    }
+                }
+                createTable(arr, parentElem);
+            }
+            function getRandomCellContent() {
+                const words = ["be","Will","you","my","friend","and","You","I","will","always","friends","of","Today","is","the","first","November","a","saw","bear","today","in","She","her","room","to","Let’s","go","park","have","few","questions","too","like","it","It","sunny","outside","really","here","that","That","door","open","for","This","letter","are","nice","he","He","brother","with","want","on","watch","movies","iPad","do","What","now","say","Can","something","this","favorite","cookie","they","They","here!","at","pick","me","up","mall","but","I’m","sorry","she’s","away","we","We","going","movie","his","box","from","card","came","cousin","That’s","cool","trick!","not","what","can’t","won’t","by","come","see","she","very","happy","or","Do","blue","yellow","as","Her","role","an","English","teacher","important","thinking","there","their","house","can","who","Who","help","get","eyeglasses","if","fail","would","Would","out","book","all","All","books","shelf","My","mom","coming","visit","make","our","projects","together","about","know","where","place","find","As","soon","here,","I’ll","talk","live","mountains","one","teachers","time","There","was","liked","play","golf","so","many","things","learn","year","finally","am","think","need","lie","down","when","When","again","which","Which","these","slippers","yours","them","Please","give","some","apples","brought","home","people","take","throw","trash","into","puppy","ran","woods","just","Just","close","your","eyes","Did","him","heard","singing","earlier","Your","dad","party","could","Could","project","than","cake","better","other","showed","bag","shoes","ones","how","How","turn","then","had","breakfast","went","church","its","read","manual","two","Two","cheeseburgers,","please","more","milk","shake","ribbons","way","look","also","best","new","because","crying","sad","day","National","Friendship","stickers","use","no","There’s","electricity","man","looking","Where","rare","furniture","thing","One","led","another","Give","pearls","shared","dreams","well","only","those","Those","boots","belong","tell","She’s","he’s","been","waiting","upset","right","grandmother","sick","even","stand","own","back","any","Have","luck","research","good","You’re","person","woman","looks","polished","through","faith","tough","times","us","life","child","cross","street","herself","work","may","seats","after","dinner","should","Should","buy","dress","call","Call","home,","okay","world","travel","over","wait","school","goes","still","try","nicer","What’s","start","watching","series","last","slice","cake,","promise!","ask","waiter","bring","wine","tonight!","wine,","too!","feel","tired,","relax","unwind","three","sisters","state","Check","shed,","it’s","falling","apart","never","drink","become","Over","years","we’ve","between","high","five!","painting!","most","beautiful","girl","I’ve","ever","seen","glass","much","love","guys","family","Get","leave","put","listen","old","old!","while","shop","mean","didn’t","sound","angry","lights","keep","tonight","student","diligent","why","don’t","anymore","let","Why","great","ice","cream","families","kids!","same","Hey,","we’re","wearing","shirt!","big","crush","Brad","Pitt","group","The","sitting","across","table","noisy","begin","huge","seem","quiet,","outgoing","once","country","Japan","such","country!","Math","homework","private","were","night","If","problem","plenty","every","Every","has","goal","fulfill","language","hand","Don’t","might","actually","American","culture","dynamic","show","vacuum","cleaner","part","movie!","story","against","domestic","abuse!","wonderful!","kept","saying","annoying","game","errands","done!","case","interesting","working","now!","week","rough","company","system","wrong","airport’s","each","apple","program","community","teens","helpful","hear","sleepy","question","during","During","session,","fall","asleep","weekend","soccer","next","instead","government","hope","does","poverty","run","small","favor","number","favors","off","television","pepper","spray","move","tourist","spot","young","there’s","tomorrow","Mr","Morris","point","believe","hold","pen","happen","submit","report","without","phone","before","Before","bed","wash","face","large","amount","data","online","topic","Dinosaurs","million","must","under","hid","water","filled","tub","His","end","corridor","write","prescription","mother","lovely","area","needs","fixed","national","virus","concern","money","medicine","media","hopeful","fact","It’s","fact:","shopping","improve","mood","month","month!","different","different,","doesn’t","bad","lot","explaining","Turn","reach","corner","study","lessons","borrow","eye","pink","job","word","Describe","yourself","though","Though","now,","sure","forget","later","business","thriving","issue","side","Whose","on,","anyway","kind","Always","kind,","strangers","four","seasons","head","back,","freezing","far","We’ve","gone","lost","black","long,","hair","long","brown","both","chocolate","little","boys","quiet","yes","After","time,","learned","since","Ever","died,","cranky","ago","provide","list","services","service","specific","dental","treat","around","block","father","sit","He’s","until","Until","power","With","comes","responsibility","hour","checking","temperature","often","bakery","yet","line","grocery","cashier","political","stay","discussions","era","among","Among","pets,","tried","minute","did","lose","however","bag,","however,","save","member","babysitter’s","club","pay","groceries","law","jay-walking","meet","aunt","car","inside","city","sleeps","almost","done","include","remember","summary","continue","set","Great,","appointment","finish","Our","tight","knit","name","five","reasons","video","named","Bark","white","sneakers","least","productive","employees","president","class","I’d","real","change","team","hired","design","office","laughing","potato","salad","tasted","several","clothes","donate","idea","beach,","kid","loved","toy","body","worked","hard","achieve","toned","information","nothing","Three","ago,","visited","right,","lead","follow","social","awkward","gatherings","understand","whether","Whether","groups","groups,","shy","Looking","knew","introvert","sun","horizon","They’re","You’ll","parent","trying","doing","allowed","stop","red","anything","create","presentation","public","property","already","asked","resend","speak","louder","others","haven’t","arrived","somewhere","haunted","level","allow","kids","add","Is","bit","sugar","tea","Welcome","spend","spree","left","health","care"];
+                return words[Math.floor(Math.random()*words.length)] + " " + words[Math.floor(Math.random()*words.length)];
+            }
+        </script>
+    </body>
+</html>
