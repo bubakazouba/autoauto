@@ -47,17 +47,18 @@ function generateId() {
 }
 
 function getElementId(element) {
-    if (!window.elementsMap) {
-        window.elementsMap = {};
-    }
-    for (let [id, storedElement] of Object.entries(window.elementsMap)) {
-        if (storedElement == element) {
-            return id;
+    function getElementIndex(elem) {
+        if (!elem.parentElement) {
+            return "";
+        }
+        // TODO: evaluate children vs childNodes
+        for(let i = 0; i < elem.parentElement.childNodes.length; i++) {
+            if (elem.parentElement.childNodes[i] == elem) {
+                return getElementIndex(elem.parentElement) + "" + i;
+            }
         }
     }
-    let id = generateId();
-    window.elementsMap[id] = element;
-    return id;
+    return getElementIndex(element);
 }
 function getClickParams(e) {
     for (let elem of e.path) {
@@ -80,6 +81,16 @@ function getClickParams(e) {
                 "element_id": getElementId(elem.parentElement.parentElement)
             };
         }
+    }
+
+    let elem = e.path[0];
+    let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
+    if (elemIsSubmitButton || elem.nodeName == "BUTTON") {
+        return {
+            "type": "click",
+            "element_type": "BUTTON",
+            "element_id": getElementId(elem),
+        };
     }
 }
 document.addEventListener('click', (e) => {

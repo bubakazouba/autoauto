@@ -30,7 +30,10 @@ def getPrettyPrintActions(actions):
 		return ','.join([action["key"] for action in actions])
 
 def _getPrettyPrintClick(action):
-	if "pattern" in action["action"]:
-		return "{}[{}] I={}".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"], action["action"]["pattern"])
+	if "item_index" in action["action"]["clickParams"]:
+		if "pattern" in action["action"]:
+			return "{}[{}] I={}".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"], action["action"]["pattern"])
+		else:
+			return "{}[{}]".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"])
 	else:
-		return "{}[{}]".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"])
+		return "{}{}".format(action["action"]["clickParams"]["element_type"], action["action"]["clickParams"]["element_id"][:5])
