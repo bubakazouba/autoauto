@@ -1,7 +1,7 @@
 import adhoc2
 import sys
 import printutils
-import interpretationdetection
+import increment_finder
 
 MAX_ERROR_RATIO_THRESHOLD = 0.2
 MIN_PATTERN_LENGTH = 3
@@ -77,11 +77,11 @@ class PatternFinder:
 			result["log"] = self._getResultLog(result, current_actions)
 			results.append(result)
 
-			current_actions_with_indices_interpretation = interpretationdetection.getInterpretation(current_actions, self.log)
-			if current_actions_with_indices_interpretation is None:
+			current_actions_with_increment_detection = increment_finder.getIncrement(current_actions, self.log)
+			if current_actions_with_increment_detection is None:
 				continue
-			result = adhoc2.detect_repition(current_actions_with_indices_interpretation)
-			result["log"] = self._getResultLog(result, current_actions_with_indices_interpretation)
+			result = adhoc2.detect_repition(current_actions_with_increment_detection)
+			result["log"] = self._getResultLog(result, current_actions_with_increment_detection)
 			results.append(result)
 		sorted_results = sorted(results, key=lambda r: len(r["pattern"]) - r["error"])
 		final_result = sorted_results[-1] if len(sorted_results) > 0 else None

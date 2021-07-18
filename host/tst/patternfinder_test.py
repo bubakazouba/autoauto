@@ -13,7 +13,7 @@ class TestStringMethods(unittest.TestCase):
         for i in range(len(actionsList)):
             actions = actionsList[i]
             expected_results = testutils.jsonLoad(expectedFilePath)[i]
-            pattern_finder = patternfinder.PatternFinder(print)
+            pattern_finder = patternfinder.PatternFinder(lambda i: i)
             for j in range(len(actions)):
                 action = actions[j]
                 res = pattern_finder.append(action)
@@ -35,8 +35,8 @@ class TestStringMethods(unittest.TestCase):
     def test_patternfinder_perfect_list_incrementing_with_stuff_before(self):
         self.utilDir("patternfinder/perfect_list_incrementing")
 
-    def test_patternfinder_perfect_list_incrementing_with_stuff_before(self):
-        self.utilDir("patternfinder/perfect_list_no_interpretation")
+    def test_patternfinder_perfect_list_no_incrementing(self):
+        self.utilDir("patternfinder/perfect_list_no_incrementing")
 
 if __name__ == '__main__':
     unittest.main()
