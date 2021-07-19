@@ -11,13 +11,14 @@ def getIncrement(actions, log):
 		return None
 	interpreted_actions = []
 
-	actions, detected_any_list_pattern = _getIncrements(actions, log)
-	if detected_any_list_pattern:
-		return actions
+	actions, detected_any_pattern, last_index_trackers = _getIncrements(actions, log)
+	if detected_any_pattern:
+		return actions, last_index_trackers
 	else:
-		return None
+		return None, None
 
 def _getIncrements(actions, log):
+	last_index_trackers = {}
 	detected_any_pattern = False
 	# TODO: separate this by action type (click vs selection)
 	# e.g user could click a checkbox in the list then select some field. these 2 should be tracked separately
@@ -43,8 +44,9 @@ def _getIncrements(actions, log):
 		if not found_case_breaks_proposed_pattern:
 			detected_any_pattern = True
 			for index in elementActionsIndices:
-				actions[index]["action"]["pattern"] = proposed_pattern[0]
-	return actions, detected_any_pattern
+				actions[index]["action"]["pattern"] = proposed_pattern
+			last_index_trackers[actions[0]["action"]["element_id"]] = actions[elementActionsIndices[-1]]["action"]["item_index"]
+	return actions, detected_any_pattern, last_index_trackers
 
 def proposeIncrement(action1, action2):
 	i1 = action1["action"]["item_index"]

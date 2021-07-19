@@ -154,6 +154,16 @@ document.onkeydown = function(e) {
         console.log("not trusted ignore");
         return;
     }
+    let element = e.path[0];
+    let element_id = getElementId(element);
+    let element_type = element.nodeName;
+    // TODO: hack to avoid complexity of determining patterns for copy and paste actions
+    // we are just assuming here that the keydown is some keyboard shortcut to act on the selected text
+    // lets check that element type isnt input because then we would be fine
+    if (isTextSelected() && element_type != "INPUT") {
+        element_id = "";
+        element_type = "";
+    }
     let keyParams = {};
     for (f of FIELDS) {
         keyParams[f] = e[f];
@@ -162,9 +172,9 @@ document.onkeydown = function(e) {
 
     chrome.runtime.sendMessage({
         event: {
-            type: "KEY_PRESSED",
-            element_id: getElementId(e.path[0]),
-            element_type: e.path[0].nodeName,
+            type: "KEYBOARD",
+            element_id: element_id,
+            element_type: element_type,
             keyParams: keyParams
         }
     });

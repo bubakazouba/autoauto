@@ -76,7 +76,7 @@ function _pprint(msg) {
     if(!msg.event) {
         return JSON.stringify(msg);
     }
-    if (msg.event.type == "KEY_PRESSED") {
+    if (msg.event.type == "KEYBOARD") {
         return keyParamsToString(msg.event.keyParams);
     }
     else {
