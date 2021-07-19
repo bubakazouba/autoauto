@@ -57,7 +57,6 @@ class PatternFinder:
 			len(result["pattern"]) >= MIN_PATTERN_LENGTH
 
 	def _suggestPattern(self):
-		self.log("all actions=" + str(printutils.getPrettyPrintActions(self.actions)))
 		if self.suspected_result is not None:
 			if self._isUserConfirmingOurSuggestion():
 				self.log("user is confirming our suggestion")
@@ -128,14 +127,13 @@ class PatternFinder:
 	def _actionIsEqualTo(self, action1, action2):
 		# Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
 		# in action1 since we are tightly coupling this to _isUserConfirmingOurSuggestion where the second argument is the suspected result
-		if "action" not in action1 or "pattern" not in action1["action"] or "item_index" not in action1 or "item_index" not in action2:
+		if "pattern" not in action1["action"] or "item_index" not in action1 or "item_index" not in action2:
 			return action1 == action1
 		else:
 			element_id = action1["action"]["element_id"]
 			i1 = action1["action"]["item_index"]
 			i2 = action2["action"]["item_index"]
 			pattern = action1["action"]["pattern"]
-			# TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object
 			if element_id not in self.last_index_trackers:
 				self.last_index_trackers[element_id] = i1
 			does_action_2_follow_predicted_pattern = i2 == pattern[1](self.last_index_trackers[element_id])
@@ -145,6 +143,9 @@ class PatternFinder:
 			del action1["action"]["pattern"]
 			del action2["action"]["item_index"]
 			res = does_action_2_follow_predicted_pattern and action1 == action2
+			# TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object
+			# so it doesnt fail if we just check for equality
 			if res:
+				# Only update if user is still confirming the pattern
 				self.last_index_trackers[element_id] = i2
 			return res

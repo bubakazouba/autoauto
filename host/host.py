@@ -71,14 +71,12 @@ def trigger_actions(actions, last_index_trackers):
         i += 1
         time.sleep(0.5)
     enable_extension_keyboard_listener()
-def _getSerializableRes(res):
+def _getSerializableResult(res):
     res = copy.deepcopy(res)
     for action in res["suspected_result"]["pattern"]:
         if "pattern" in action["action"]:
             action["action"]["pattern"] = action["action"]["pattern"][0]
-
     return res
-            
 def main():
     pattern_finder = patternfinder.PatternFinder(send_message)
     msg = {}
@@ -113,7 +111,7 @@ def main():
                     results_file.write("None")
                 else:
                     res["timestamp"] = int(time.time())
-                    res = _getSerializableRes(res)
+                    res = _getSerializableResult(res)
                     results_file.write(json.dumps(res))
             last_res = res
             continue

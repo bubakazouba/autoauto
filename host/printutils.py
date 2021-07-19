@@ -18,16 +18,13 @@ def getPrettyPrintActions(actions):
 	if len(actions) == 0:
 		return "nothing"
 	# temp hack since unit tests dont conform to the same format for now
-	if type(actions[0]) == type({}) and "action" in actions[0]:
-		arr = []
-		for action in actions:
-			if action["action"]["type"] == "KEYBOARD":
-				arr.append("{}'{}'".format(action["action"]["element_id"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
-			elif action["action"]["type"] in ["CLICK", "SELECTION"]:
-				arr.append(_getPrettyPrintClick(action))
-		return ','.join(arr)
-	else:
-		return ','.join([action["key"] for action in actions])
+	arr = []
+	for action in actions:
+		if action["action"]["type"] == "KEYBOARD":
+			arr.append("{}'{}'".format(action["action"]["element_id"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
+		elif action["action"]["type"] in ["CLICK", "SELECTION"]:
+			arr.append(_getPrettyPrintClick(action))
+	return ','.join(arr)
 
 def _getPrettyPrintClick(action):
 	if "item_index" in action["action"]:

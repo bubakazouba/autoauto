@@ -217,11 +217,15 @@ chrome.runtime.onMessage.addListener(function(request, sendResponse) {
 });
 
 function isTextSelected(input) {
-    var selecttxt = '';
+    let selecttxt = '';
     if (window.getSelection) {
-        selecttxt = window.getSelection();
+        if (!window.getSelection().isCollapsed) {
+            selecttxt = window.getSelection().baseNode.textContent;
+        }
     } else if (document.getSelection) {
-        selecttxt = document.getSelection();
+        if (!document.getSelection().isCollapsed) {
+            selecttxt = document.getSelection().baseNode.textContent;
+        }
     } else if (document.selection) {
         selecttxt = document.selection.createRange().text;
     }
@@ -230,5 +234,4 @@ function isTextSelected(input) {
         return false;
     }
     return true;
- 
 }

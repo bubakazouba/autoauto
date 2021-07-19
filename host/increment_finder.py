@@ -7,8 +7,8 @@ import copy
 # 	* returns ["action"]["pattern"]
 def getIncrement(actions, log):
 	actions = copy.deepcopy(actions)
-	if len(actions) == 0 or "action" not in actions[0]:
-		return None
+	if len(actions) == 0:
+		return None, None
 	interpreted_actions = []
 
 	actions, detected_any_pattern, last_index_trackers = _getIncrements(actions, log)
