@@ -181,19 +181,26 @@ document.onkeydown = function(e) {
 };
 
 function parseList(listId) {
+    let parsedList = [];
     let list = getElementById(listId);
-    return ["1.", "2.", "3.", "4.", "5.", "6."];
+    for(let li of list.getElementsByTagName('li')) {
+        parsedList.push(li.textContent);
+    }
+    return parsedList;
 }
 
 function parseTable(tableId) {
     let table = getElementById(tableId);
-    return [
-        ["(0,0)", "(1,0)", "(2,0)", "(3,0)"],
-        ["(0,1)", "(1,1)", "(2,1)", "(3,1)"],
-        ["(0,2)", "(1,2)", "(2,2)", "(3,2)"],
-        ["(0,3)", "(1,3)", "(2,3)", "(3,3)"],
-        ["(0,4)", "(1,4)", "(2,4)", "(3,4)"]
-    ];
+    let parsedTable = [];
+        let list = getElementById(listId);
+        for(let tr of list.getElementsByTagName('tr')) {
+            let parsedRow = [];
+            parsedTable.push(parsedRow);
+            for(let td of tr.getElementsByTagName('td')) {
+                parsedRow.push(td.textContent);
+            }
+        }
+    return parsedTable;
 }
 
 chrome.runtime.onMessage.addListener(function(request, sendResponse) {
