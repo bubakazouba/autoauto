@@ -79,8 +79,8 @@ function _pprint(msg) {
     if (msg.event.type == "KEY_PRESSED") {
         return keyParamsToString(msg.event.keyParams);
     }
-    else if (msg.event.type == "MOUSE_CLICK") {
-        return JSON.stringify(msg.event.clickParams);
+    else {
+        return JSON.stringify(msg.event);
     }
 }
 

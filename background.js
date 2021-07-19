@@ -31,43 +31,19 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         console.log("ignoring because amiwaiting = true");
         return;
     }
-    if (msg.event && msg.event.type == "KEY_PRESSED") {
-        if (["Meta", "Shift", "Control", "Alt"].indexOf(msg.event.keyParams.key) != -1) {
+
+    if (msg.event && ["CLICK", "KEY_PRESSED", "SELECTION"].includes(msg.event.type)) {
+        if ("keyParams" in msg.event && ["Meta", "Shift", "Control", "Alt"].includes(msg.event.keyParams.key)) {
             // console.log("ignoring loan modifier key");
             return;
         }
-        sendResponse("Gotcha! " + JSON.stringify(msg));
-
         let action = {
             tab: {
                 id: sender.tab.id,
                 index: sender.tab.index,
                 url: sender.tab.url,
             },
-            action: {
-                type: "KEYBOARD",
-                element: msg.event.keyParams.element_id,
-                keyParams: msg.event.keyParams
-            },
-            // timestamp: Date.now(),
-        };
-        sendNativeMessage({
-            event: "ACTION",
-            action: action
-        });    
-    }
-    if (msg.event && msg.event.type == "MOUSE_CLICK") {
-        let action = {
-            tab: {
-                id: sender.tab.id,
-                index: sender.tab.index,
-                url: sender.tab.url,
-            },
-            action: {
-                type: "MOUSE_CLICK",
-                element: msg.event.clickParams.element_id,
-                clickParams: msg.event.clickParams
-            },
+            action: msg.event,
             // timestamp: Date.now(),
         };
         sendNativeMessage({

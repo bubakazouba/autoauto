@@ -26,6 +26,6 @@ def _getActionStringToCompare(action):
 	action = copy.deepcopy(action)
 	if "action" not in action:
 		return str(action)
-	if "pattern" in action["action"] and "clickParams" in action["action"]:
-		del action["action"]["clickParams"]["item_index"]
+	if "pattern" in action["action"] and "item_index" in action["action"]:
+		del action["action"]["item_index"]
 	return str(action)

@@ -22,18 +22,18 @@ def getPrettyPrintActions(actions):
 		arr = []
 		for action in actions:
 			if action["action"]["type"] == "KEYBOARD":
-				arr.append("{}'{}'".format(action["action"]["element"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
-			elif action["action"]["type"] == "MOUSE_CLICK":
+				arr.append("{}'{}'".format(action["action"]["element_id"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
+			elif action["action"]["type"] in ["MOUSE_CLICK", "SELECTION"]:
 				arr.append(_getPrettyPrintClick(action))
 		return ','.join(arr)
 	else:
 		return ','.join([action["key"] for action in actions])
 
 def _getPrettyPrintClick(action):
-	if "item_index" in action["action"]["clickParams"]:
+	if "item_index" in action["action"]:
 		if "pattern" in action["action"]:
-			return "{}[{}] I={}".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"], action["action"]["pattern"])
+			return "{}[{}] I={}".format(action["action"]["element_id"][:5], action["action"]["item_index"], action["action"]["pattern"])
 		else:
-			return "{}[{}]".format(action["action"]["clickParams"]["element_id"][:5], action["action"]["clickParams"]["item_index"])
+			return "{}[{}]".format(action["action"]["element_id"][:5], action["action"]["item_index"])
 	else:
-		return "{}{}".format(action["action"]["clickParams"]["element_type"], action["action"]["clickParams"]["element_id"][:5])
+		return "{}{}".format(action["action"]["element_type"], action["action"]["element_id"][:5])
