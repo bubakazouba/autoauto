@@ -96,7 +96,7 @@ function getSelectionInfo(e) {
 
 document.addEventListener('mouseup', (e) => {
     // Make sure text was selected
-    if (!window.getSelection().rangeCount || !window.getSelection().getRangeAt(0).startContainer.data) {
+    if (!isTextSelected()) {
         return;
     }
     let selectionInfo = getSelectionInfo(e);
@@ -198,3 +198,20 @@ chrome.runtime.onMessage.addListener(function(request, sendResponse) {
         sendResponse({ "parsedTable": parsedTable });
     }
 });
+
+function isTextSelected(input) {
+    var selecttxt = '';
+    if (window.getSelection) {
+        selecttxt = window.getSelection();
+    } else if (document.getSelection) {
+        selecttxt = document.getSelection();
+    } else if (document.selection) {
+        selecttxt = document.selection.createRange().text;
+    }
+ 
+    if (selecttxt == '') {
+        return false;
+    }
+    return true;
+ 
+}
