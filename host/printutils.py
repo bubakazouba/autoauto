@@ -28,8 +28,8 @@ def getPrettyPrintActions(actions):
 
 def _getPrettyPrintClick(action):
 	if "item_index" in action["action"]:
-		if "pattern" in action["action"]:
-			return "{}[{}] I={}".format(action["action"]["element_id"][:5], action["action"]["item_index"], action["action"]["pattern"][0])
+		if "increment_pattern" in action["action"]:
+			return "{}[{}] I={}".format(action["action"]["element_id"][:5], action["action"]["item_index"], action["action"]["increment_pattern"][0])
 		else:
 			return "{}[{}]".format(action["action"]["element_id"][:5], action["action"]["item_index"])
 	else:

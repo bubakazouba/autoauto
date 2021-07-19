@@ -24,6 +24,6 @@ def detect_repition(actions):
 
 def _getActionStringToCompare(action):
 	action = copy.deepcopy(action)
-	if "pattern" in action["action"] and "item_index" in action["action"]:
+	if "increment_pattern" in action["action"] and "item_index" in action["action"]:
 		del action["action"]["item_index"]
 	return str(action)

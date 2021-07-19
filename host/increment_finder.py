@@ -4,7 +4,7 @@ import copy
 # selecting/clicking list indices if user is going up or down the list
 # * List/Table API:
 # 	* Input: add "itemIndex" (int or list(int)) to action["action"]
-# 	* returns ["action"]["pattern"]
+# 	* returns ["action"]["increment_pattern"]
 def getIncrement(actions, log):
 	actions = copy.deepcopy(actions)
 	if len(actions) == 0:
@@ -44,8 +44,8 @@ def _getIncrements(actions, log):
 		if not found_case_breaks_proposed_pattern:
 			detected_any_pattern = True
 			for index in elementActionsIndices:
-				actions[index]["action"]["pattern"] = proposed_pattern
-			last_index_trackers[actions[0]["action"]["element_id"]] = actions[elementActionsIndices[-1]]["action"]["item_index"]
+				actions[index]["action"]["increment_pattern"] = proposed_pattern
+			last_index_trackers[elementId] = actions[elementActionsIndices[-1]]["action"]["item_index"]
 	return actions, detected_any_pattern, last_index_trackers
 
 def proposeIncrement(action1, action2):

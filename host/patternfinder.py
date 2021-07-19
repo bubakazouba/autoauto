@@ -30,7 +30,7 @@ class PatternFinder:
 	def _getSureness(self):
 		len_user_confirmation = len(self.actions) - self.suspected_result_last_index
 		sureness = len(self.suspected_result["pattern"]) - self.suspected_result["error"] + len_user_confirmation * USER_CONFIRMATION_WEIGHT
-		self.log("<<<len={}, error={}, conf={}".format(len(self.suspected_result["pattern"]), self.suspected_result["error"], len_user_confirmation))
+		self.log("<<<len={}, error={}, confirmation={}".format(len(self.suspected_result["pattern"]), self.suspected_result["error"], len_user_confirmation))
 		return sureness
 
 	def append(self, action):
@@ -51,6 +51,7 @@ class PatternFinder:
 					"how_many_times_user_completed_suggestion": (len(self.actions) - self.suspected_result_last_index)/len(self.suspected_result["pattern"])
 				}
 			}
+
 	def _resultPassesErrorConstraints(self, result):
 		return len(result["pattern"]) > 0 and \
 			result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and \
@@ -127,20 +128,20 @@ class PatternFinder:
 	def _actionIsEqualTo(self, action1, action2):
 		# Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
 		# in action1 since we are tightly coupling this to _isUserConfirmingOurSuggestion where the second argument is the suspected result
-		if "pattern" not in action1["action"] or "item_index" not in action1 or "item_index" not in action2:
-			return action1 == action1
+		if "increment_pattern" not in action1["action"] or "item_index" not in action1["action"] or "item_index" not in action2["action"]:
+			return action1 == action2
 		else:
 			element_id = action1["action"]["element_id"]
 			i1 = action1["action"]["item_index"]
 			i2 = action2["action"]["item_index"]
-			pattern = action1["action"]["pattern"]
+			pattern = action1["action"]["increment_pattern"]
 			if element_id not in self.last_index_trackers:
 				self.last_index_trackers[element_id] = i1
 			does_action_2_follow_predicted_pattern = i2 == pattern[1](self.last_index_trackers[element_id])
 			action1 = copy.deepcopy(action1)
 			action2 = copy.deepcopy(action2)
 			del action1["action"]["item_index"]
-			del action1["action"]["pattern"]
+			del action1["action"]["increment_pattern"]
 			del action2["action"]["item_index"]
 			res = does_action_2_follow_predicted_pattern and action1 == action2
 			# TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object

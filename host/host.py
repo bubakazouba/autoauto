@@ -42,8 +42,8 @@ def detect_actions_to_trigger(pattern_finder, repitions):
 
 def trigger_place_clipboard(action, last_index_trackers):
     action = copy.deepcopy(action)
-    if "pattern" in action["action"]:
-        action["item_index"] = action["pattern"][1](last_index_trackers[action["element_id"]])
+    if "increment_pattern" in action["action"]:
+        action["item_index"] = action["action"]["increment_pattern"][1](last_index_trackers[action["element_id"]])
         last_index_trackers[action["element_id"]] = action["item_index"]
     send_message({"event": "PLACE_IN_CLIPBOARD", "tab_id": action["tab"]["id"], "element_id": action["element_id"], "item_index": action["item_index"]})
 
@@ -74,8 +74,8 @@ def trigger_actions(actions, last_index_trackers):
 def _getSerializableResult(res):
     res = copy.deepcopy(res)
     for action in res["suspected_result"]["pattern"]:
-        if "pattern" in action["action"]:
-            action["action"]["pattern"] = action["action"]["pattern"][0]
+        if "increment_pattern" in action["action"]:
+            action["action"]["increment_pattern"] = action["action"]["increment_pattern"][0]
     return res
 def main():
     pattern_finder = patternfinder.PatternFinder(send_message)
