@@ -22,7 +22,6 @@ class PatternFinder:
 			return False
 		index = len(self.actions) - self.suspected_result_last_index - 1
 		index = index % len(self.suspected_result["pattern"])
-		self.log("{} - {} - 1 = {} % {} = {}".format(len(self.actions), self.suspected_result_last_index, len(self.actions) - self.suspected_result_last_index - 1, len(self.suspected_result["pattern"]), index))
 		return self._actionIsEqualTo(self.suspected_result["pattern"][index], self.actions[-1])
 	
 	def _getSureness(self):
@@ -64,7 +63,7 @@ class PatternFinder:
 				self.suspected_result = None
 				self.suspected_result_last_index = None
 		results = []
-		start_index = max(0, len(self.actions) - 50)
+		start_index = max(0, len(self.actions) - 100)
 		for i in range(start_index, len(self.actions)):
 			current_actions = self.actions[i:]
 			result = adhoc2.detect_repition(current_actions)
@@ -102,8 +101,9 @@ class PatternFinder:
 
 	def giveMePattern(self):
 		if self.suspected_result is None:
-			return []
-		start_from_index = len(self.actions) - self.suspected_result_last_index
+			return None
+		start_from_index = (len(self.actions) - self.suspected_result_last_index) % len(self.suspected_result["pattern"])
+		self.log("start_from_index={}-{}={} % {}={}".format(len(self.actions),self.suspected_result_last_index,len(self.actions)-self.suspected_result_last_index, len(self.suspected_result["pattern"]), start_from_index))
 		return {
 			"current": self.suspected_result["pattern"][start_from_index:],
 			"complete": self.suspected_result["pattern"],

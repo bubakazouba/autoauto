@@ -67,7 +67,27 @@ function getElementId(element) {
 // TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
 // simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
 function getElementById(id) {
-    return window.elements[id];
+    function _getElementById(node, id) {
+        let i = id.indexOf(".");
+        let x;
+        if (i==-1) {
+            x = parseInt(id);
+            return node.childNodes[x];
+        }
+        else {
+            let x = parseInt(id.substr(0, i));
+            return _getElementById(node.childNodes[x], id.substr(i+1));
+        }
+    }
+    let root = document.documentElement;
+    let i = id.indexOf(".");
+    if (i == -1) {
+        return null;
+    }
+    return _getElementById(root, id.substr(i + 1));
+    // only do this if element still exists on the page. this way its more stable incase page changed over time.
+    // Maybe i need to way to identify elements? one with indices the other without. static vs dynamic element addressing
+    // return window.elements[id];
 }
 
 function getSelectionInfo(e) {
@@ -130,6 +150,11 @@ function getClickInfo(e) {
 }
 
 document.addEventListener('click', (e) => {
+    if (!e.isTrusted) {
+        // ignore javascript programmatic clicks
+        console.log("click not trusted ignore");
+        return;
+    }
     let clickInfo = getClickInfo(e);
     if (!clickInfo) {
         return;
@@ -151,7 +176,7 @@ document.onkeydown = function(e) {
     const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
     if (!e.isTrusted) {
         // ignore javascript programmatic key presses
-        console.log("not trusted ignore");
+        console.log("keydown not trusted ignore");
         return;
     }
     let element = e.path[0];
@@ -180,19 +205,19 @@ document.onkeydown = function(e) {
     });
 };
 
-function parseList(listId) {
+function parseList(elementId) {
     let parsedList = [];
-    let list = getElementById(listId);
+    let list = getElementById(elementId);
     for(let li of list.getElementsByTagName('li')) {
         parsedList.push(li.textContent);
     }
     return parsedList;
 }
 
-function parseTable(tableId) {
-    let table = getElementById(tableId);
+function parseTable(elementId) {
+    let table = getElementById(elementId);
     let parsedTable = [];
-        let list = getElementById(listId);
+        let list = getElementById(elementId);
         for(let tr of list.getElementsByTagName('tr')) {
             let parsedRow = [];
             parsedTable.push(parsedRow);
@@ -200,19 +225,41 @@ function parseTable(tableId) {
                 parsedRow.push(td.textContent);
             }
         }
+    console.log("i parsed the table=", parsedTable);
     return parsedTable;
 }
 
-chrome.runtime.onMessage.addListener(function(request, sendResponse) {
+function putElementInFocus(element_id) {
+    let element = getElementById(element_id);
+    element.focus();
+}
+
+function clickOnElement(element_id) {
+    let element = getElementById(element_id);
+    element.click();
+}
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
     if (request.action == "PARSE_LIST") {
-        console.log("I was asked to parse list:" + request.id);
-        parsedList = parseList(request.id);
-        sendResponse({ "parsedList": parsedList });
+        console.log("I was asked to parse list: " + request.params.id);
+        parsedList = parseList(request.params.id);
+        let index = request.params.index;
+        sendResponse({ "text": parsedList[index] });
     } else if (request.action == "PARSE_TABLE") {
-        console.log("I was asked to parse table:" + request.id);
-        parsedTable = parseTable(request.id);
-        sendResponse({ "parsedTable": parsedTable });
+        console.log("I was asked to parse table: " + request.params.id);
+        parsedTable = parseTable(request.params.id);
+        let x = request.params.x;
+        let y = request.params.y;
+        sendResponse({ "text": parsedTable[y][x] });
+    } else if (request.action == "PUT_ELEMENT_IN_FOCUS") {
+        console.log("I was asked to put element in focus: " + request.params.id);
+        putElementInFocus(request.params.id);
+        sendResponse({"event": "DONE"});
+    } else if (request.action == "CLICK_ON_ELEMENT") {
+        console.log("I was asked to click on element: " + request.params.id);
+        clickOnElement(request.params.id);
+        sendResponse({"event": "DONE"});
     }
 });
 

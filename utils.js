@@ -1,58 +1,53 @@
+function clickOnElement(message){
+    let element_id = message.event.element_id;
+    let tab_id = message.event.tab_id;
+    let request = { action: 'CLICK_ON_ELEMENT', params: { id: element_id } };
+    chrome.tabs.sendMessage(tab_id, request, function(response) {
+        
+    });
+}
+
+function putElementInFocus(message){
+    let element_id = message.event.element_id;
+    let tab_id = message.event.tab_id;
+    let request = { action: 'PUT_ELEMENT_IN_FOCUS', params: { id: element_id } };
+    chrome.tabs.sendMessage(tab_id, request, function(response) {
+        
+    });
+}
+
 function placeInClipboard(message) {
-    if (message.action.list_id) {
-        let listId = message.action.list_id;
-        if (!window.lists[tabId] || !window.lists[tabId][listId]) {
-            chrome.tabs.update(message.action.tab_id, { selected: true });
-            parseList(listId, tabId, message.action.list_item_index);
-        } else {
-            navigator.clipboard.writeText(window.lists[listId][message.action.list_item_index]);
-        }
+    let element_id = message.event.element_id;
+    let tab_id = message.event.tab_id;
+    console.log("[placeInClipboard] element_id=" + element_id);
+    if (message.event.element_type == "LIST") {
+        let item_index = message.event.item_index;
+        chrome.tabs.update(tab_id, { selected: true });
+        parseList(element_id, tab_id, item_index);
     }
-    else if (message.action.table_id) {
-        let tableId = message.action.table_id;
-        if (!window.tables[tabId] || !window.tables[tabId][tableId]) {
-            chrome.tabs.update(message.action.tab_id, { selected: true });
-            parseTable(tableId, tabId, message.action.table_cell.x, message.action.table_cell.y);
-        } else {
-            navigator.clipboard.writeText(window.tables[tableId][message.action.table_cell.x][message.action.table_cell.y]);
-        }
+    else if (message.event.element_type == "TABLE") {
+        let x = message.event.item_index[0];
+        let y = message.event.item_index[1];
+        chrome.tabs.update(tab_id, { selected: true });
+        parseTable(element_id, tab_id, x, y);
     }
 }
 
-function storeListData(tabId, listId, parsedList) {
-    if (!window.lists[tabId]) {
-        window.lists[tabId] = {};
-    }
-    window.lists[tabId][listId] = parsedList;
-}
-
-function storeTableData(tabId, tableId, parsedTable) {
-    if (!window.tables[tabId]) {
-        window.tables[tabId] = {};
-    }
-    window.tables[tabId][tableId] = parsedTable;
-}
-
-function parseList(tabId, listId, index) {
-    let request = { action: 'PARSE_LIST', params: { id: listId } };
-    chrome.tabs.sendMessage(tabId, request, function(response) {
-        console.log(">> got back parsed list from content script");
-        storeListData(tabId, listId, response.parsedList);
-        navigator.clipboard.writeText(window.lists[tabId][listId][index]);
-        console.log("<< finished placing list index " + index + " in clipboard");
+function parseList(element_id, tab_id, index) {
+    let request = { action: 'PARSE_LIST', params: { id: element_id, index: index } };
+    chrome.tabs.sendMessage(tab_id, request, function(response) {
+        console.log("[placeInClipboard] got back parsed list from content script", response.text);
+        _copy(response.text);
     });
 }
 
-function parseTable(tabId, tableId, x, y) {
-    let request = { action: 'PARSE_TABLE', params: { id: tableId } };
-    chrome.tabs.sendMessage(tabId, request, function(response) {
-        console.log(">> got back parsed table from content script");
-        storeTableData(tabId, tableId, response.parsedTable);
-        navigator.clipboard.writeText(window.tables[tabId][tableId][x][y]);
-        console.log("<< finished placing table x,y " + x + "," + y + " in clipboard");
+function parseTable(element_id, tab_id, x, y) {
+    let request = { action: 'PARSE_TABLE', params: { id: element_id, x: x, y: y } };
+    chrome.tabs.sendMessage(tab_id, request, function(response) {
+        console.log("[placeInClipboard] got back parsed text from content script", response.text);
+        _copy(response.text);
     });
 }
-
 
 function keyParamsToString(keyParams) {
     let keyName = keyParams.key;
@@ -86,4 +81,38 @@ function _pprint(msg) {
 
 function pprint(msg, tabIndex) {
      return _pprint(msg) + ", tab=" + tabIndex;
+}
+
+// function _copy(str, mimeType) {
+//   document.oncopy = function(event) {
+//     event.clipboardData.setData("plain/text", str);
+//     event.preventDefault();
+//   };
+//   document.execCommand("copy", false, null);
+// }
+
+function _copy(text) {
+  //Create a textbox field where we can insert text to. 
+  var copyFrom = document.createElement("textarea");
+
+  //Set the text content to be the text you wished to copy.
+  copyFrom.textContent = text;
+
+  //Append the textbox field into the body as a child. 
+  //"execCommand()" only works when there exists selected text, and the text is inside 
+  //document.body (meaning the text is part of a valid rendered HTML element).
+  document.body.appendChild(copyFrom);
+
+  //Select all the text!
+  copyFrom.select();
+
+  //Execute command
+  document.execCommand('copy');
+
+  //(Optional) De-select the text using blur(). 
+  copyFrom.blur();
+
+  //Remove the textbox field from the document.body, so no other JavaScript nor 
+  //other elements can get access to this.
+  document.body.removeChild(copyFrom);
 }

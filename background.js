@@ -20,8 +20,8 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    console.log("got", pprint(msg, sender.tab.index));
     if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
+        console.log("got user pressed stop");
         sendNativeMessage({
             event: "USER_PRESSED_STOP",
             repitions: msg.event.repitions,
@@ -33,6 +33,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
 
     if (msg.event && ["CLICK", "KEYBOARD", "SELECTION"].includes(msg.event.type)) {
+        console.log("got", pprint(msg, sender.tab.index));
         if ("keyParams" in msg.event && ["Meta", "Shift", "Control", "Alt"].includes(msg.event.keyParams.key)) {
             // console.log("ignoring loan modifier key");
             return;
@@ -62,7 +63,7 @@ function sendNativeMessage(message) {
 }
 
 function onNativeMessage(message) {
-    console.log("[HOST]", message);
+    console.log("[HOST]", JSON.stringify(message));
     if (message.event == "IM WORKING") {
         window.amiwaiting = true;
     }
@@ -75,11 +76,17 @@ function onNativeMessage(message) {
     if (message.event == "IM NOT SURE") {
         chrome.browserAction.setIcon({path: 'images/red.png'});
     }
+    if (message.event && message.event.type == "PUT_ELEMENT_IN_FOCUS") {
+        putElementInFocus(message);
+    }
     if (message.event && message.event.type == "GO_TO_TAB") {
         chrome.tabs.update(message.event.tab_id, { selected: true });
     }
     if (message.event && message.event.type == "PLACE_IN_CLIPBOARD") {
         placeInClipboard(message);
+    }
+    if (message.event && message.event.type == "CLICK_ON_ELEMENT") {
+        clickOnElement(message);
     }
 }
 
