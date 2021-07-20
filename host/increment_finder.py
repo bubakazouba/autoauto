@@ -17,6 +17,7 @@ def getIncrement(actions, log):
 	else:
 		return None, None
 
+# TODO: increment finder can return a pattern of +0
 def _getIncrements(actions, log):
 	last_index_trackers = {}
 	detected_any_pattern = False
@@ -66,7 +67,7 @@ def proposeIncrement(action1, action2):
 				d = "+" + str(d)
 			arr.append("i[{}] {}".format(j, d))
 			strarr.append(d)
-		l = l + "("+",".join(arr) + ")"
+		l = l + "["+",".join(arr) + "]"
 		return ("("+",".join(strarr)+")", eval(l))
 
 # checks if pattern applies for 2 actions on the same element

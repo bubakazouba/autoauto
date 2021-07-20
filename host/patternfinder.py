@@ -3,6 +3,7 @@ import sys
 import printutils
 import increment_finder
 import copy
+import json
 
 MAX_ERROR_RATIO_THRESHOLD = 0.2
 MIN_PATTERN_LENGTH = 3
@@ -16,16 +17,13 @@ class PatternFinder:
 		self.suspected_result_last_index = None
 		self.last_index_trackers = {}
 		
-	def _isUserConfirmingOurSuggestion(self):
+	def _isUsersLastActionConfirmingSuggestion(self):
 		if self.suspected_result is None:
 			return False
-		j = 0
-		for i in range(self.suspected_result_last_index, len(self.actions)):
-			index = j % len(self.suspected_result["pattern"])
-			if not self._actionIsEqualTo(self.suspected_result["pattern"][index], self.actions[i]):
-				return False
-			j += 1
-		return True
+		index = len(self.actions) - self.suspected_result_last_index - 1
+		index = index % len(self.suspected_result["pattern"])
+		self.log("{} - {} - 1 = {} % {} = {}".format(len(self.actions), self.suspected_result_last_index, len(self.actions) - self.suspected_result_last_index - 1, len(self.suspected_result["pattern"]), index))
+		return self._actionIsEqualTo(self.suspected_result["pattern"][index], self.actions[-1])
 	
 	def _getSureness(self):
 		len_user_confirmation = len(self.actions) - self.suspected_result_last_index
@@ -59,7 +57,7 @@ class PatternFinder:
 
 	def _suggestPattern(self):
 		if self.suspected_result is not None:
-			if self._isUserConfirmingOurSuggestion():
+			if self._isUsersLastActionConfirmingSuggestion():
 				self.log("user is confirming our suggestion")
 				return
 			else:
@@ -127,7 +125,7 @@ class PatternFinder:
 	# order is important action1 should preceed action2 since we confirm item_index patterns
 	def _actionIsEqualTo(self, action1, action2):
 		# Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
-		# in action1 since we are tightly coupling this to _isUserConfirmingOurSuggestion where the second argument is the suspected result
+		# in action1 since we are tightly coupling this to _isUsersLastActionConfirmingSuggestion where the second argument is the suspected result
 		if "increment_pattern" not in action1["action"] or "item_index" not in action1["action"] or "item_index" not in action2["action"]:
 			return action1 == action2
 		else:
