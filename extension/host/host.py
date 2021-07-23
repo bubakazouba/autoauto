@@ -77,6 +77,22 @@ def trigger_place_clipboard(action, last_index_trackers):
         }
     })
 
+def group_actions(actions):
+    grouped_actions = []
+    i = 0
+    while i < len(actions):
+        action = actions[i]
+        next_action = actions[i+1] if i+1 < len(actions) else None
+        if action["action"]["type"] == "SELECTION" and next_action is not None and next_action["action"]["type"] == "KEYBOARD" and printutils.get_keyboard_string_from_key_params(next_action["action"]["keyParams"]) == "cmd+c":
+            i += 1
+            action = copy.deepcopy(action)
+            action["action"]["type"] = "PLACE_IN_CLIPBOARD"
+            grouped_actions.append(action)
+        else:
+            grouped_actions.append(action)
+        i += 1
+    return grouped_actions
+
 def trigger_actions(actions, last_index_trackers):
      # give a chance for the user to leave the popup and go back to the page
     send_message("starting in 2...")
@@ -85,33 +101,29 @@ def trigger_actions(actions, last_index_trackers):
     time.sleep(1) 
     send_message("0.")
     disable_extension_keyboard_listener()
-    i = 0
-    last_tab_id = ""
     send_message("len(actions)=" + str(len(actions)))
-    while i < len(actions):
-        action = actions[i]
-        if last_tab_id != action["tab"]["id"]:
+    grouped_actions = group_actions(actions)
+    last_tab_id = None
+    last_element_id = None
+    for action in grouped_actions:
+        # only switch tab if we need to
+        if last_tab_id != action["tab"]["id"] and action["action"]["type"] != "PLACE_IN_CLIPBOARD":
             trigger_switching_tab(action["tab"]["id"])
-            last_tab_id = action["tab"]["id"]
-        next_action = actions[i+1] if i+1 < len(actions) else None
         if action["action"]["type"] == "KEYBOARD":
             send_message(">>>>>>>>>>>KEYBOARD<<<<<<<<"+str(printutils.get_keyboard_string_from_key_params(action["action"]["keyParams"])))
-            should_refocus = True
-            if i > 0 and actions[i-1]["action"]["element_id"] == action["action"]["element_id"]:
-                should_refocus = False
-            trigger_keyboard_command(action, should_refocus=should_refocus)
-        elif action["action"]["type"] == "SELECTION" and next_action is not None and next_action["action"]["type"] == "KEYBOARD" and printutils.get_keyboard_string_from_key_params(next_action["action"]["keyParams"]) == "cmd+c":
+            trigger_keyboard_command(action, should_refocus=last_element_id != action["action"]["element_id"])
+            last_tab_id = action["tab"]["id"]
+        elif action["action"]["type"] == "PLACE_IN_CLIPBOARD":
             send_message(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<")
-            i += 1
             trigger_place_clipboard(action, last_index_trackers)
         elif action["action"]["type"] == "CLICK":
             send_message(">>>>>>>>>>>CLICK<<<<<<<<")
             triggger_click_command(action)
-            pass
-
-        i += 1
-        time.sleep(0.3)
+            last_tab_id = action["tab"]["id"]
+        last_element_id = action["action"]["element_id"]
+        time.sleep(0.8)
     enable_extension_keyboard_listener()
+
 def _getSerializableResult(res):
     res = copy.deepcopy(res)
     for action in res["suspected_result"]["pattern"]:

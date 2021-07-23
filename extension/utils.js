@@ -19,17 +19,13 @@ function putElementInFocus(message){
 function placeInClipboard(message) {
     let element_id = message.event.element_id;
     let tab_id = message.event.tab_id;
+    let item_index = message.event.item_index;
     console.log("[placeInClipboard] element_id=" + element_id);
     if (message.event.element_type == "LIST") {
-        let item_index = message.event.item_index;
-        chrome.tabs.update(tab_id, { selected: true });
         parseList(element_id, tab_id, item_index);
     }
     else if (message.event.element_type == "TABLE") {
-        let x = message.event.item_index[0];
-        let y = message.event.item_index[1];
-        chrome.tabs.update(tab_id, { selected: true });
-        parseTable(element_id, tab_id, x, y);
+        parseTable(element_id, tab_id, item_index);
     }
 }
 
@@ -41,8 +37,8 @@ function parseList(element_id, tab_id, index) {
     });
 }
 
-function parseTable(element_id, tab_id, x, y) {
-    let request = { action: 'PARSE_TABLE', params: { id: element_id, x: x, y: y } };
+function parseTable(element_id, tab_id, index) {
+    let request = { action: 'PARSE_TABLE', params: { id: element_id, x: index[0], y: index[1] } };
     chrome.tabs.sendMessage(tab_id, request, function(response) {
         console.log("[placeInClipboard] got back parsed text from content script", response.text);
         _copy(response.text);
@@ -82,14 +78,6 @@ function _pprint(msg) {
 function pprint(msg, tabIndex) {
      return _pprint(msg) + ", tab=" + tabIndex;
 }
-
-// function _copy(str, mimeType) {
-//   document.oncopy = function(event) {
-//     event.clipboardData.setData("plain/text", str);
-//     event.preventDefault();
-//   };
-//   document.execCommand("copy", false, null);
-// }
 
 function _copy(text) {
   //Create a textbox field where we can insert text to. 
