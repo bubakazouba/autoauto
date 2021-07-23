@@ -32,10 +32,10 @@ def put_element_in_focus(element_id, tab_id):
             "tab_id": tab_id
         }
     })
-def trigger_keyboard_command(action):
-    if "element_id" in action["action"]:
+def trigger_keyboard_command(action, should_refocus=True):
+    if "element_id" in action["action"] and should_refocus:
         put_element_in_focus(action["action"]["element_id"], action["tab"]["id"])
-        time.sleep(0.8)
+        time.sleep(0.3)
     cmd = printutils.get_keyboard_string_from_key_params(action["action"]["keyParams"])
     if sys.platform == "darwin":
         Popen([KEYBOARD_LISTENER_PATH, cmd])
@@ -96,7 +96,10 @@ def trigger_actions(actions, last_index_trackers):
         next_action = actions[i+1] if i+1 < len(actions) else None
         if action["action"]["type"] == "KEYBOARD":
             send_message(">>>>>>>>>>>KEYBOARD<<<<<<<<"+str(printutils.get_keyboard_string_from_key_params(action["action"]["keyParams"])))
-            trigger_keyboard_command(action)
+            should_refocus = True
+            if i > 0 and actions[i-1]["action"]["element_id"] == action["action"]["element_id"]:
+                should_refocus = False
+            trigger_keyboard_command(action, should_refocus=should_refocus)
         elif action["action"]["type"] == "SELECTION" and next_action is not None and next_action["action"]["type"] == "KEYBOARD" and printutils.get_keyboard_string_from_key_params(next_action["action"]["keyParams"]) == "cmd+c":
             send_message(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<")
             i += 1
@@ -107,7 +110,7 @@ def trigger_actions(actions, last_index_trackers):
             pass
 
         i += 1
-        time.sleep(0.8)
+        time.sleep(0.3)
     enable_extension_keyboard_listener()
 def _getSerializableResult(res):
     res = copy.deepcopy(res)
