@@ -66,7 +66,7 @@ def proposeIncrement(action1, action2):
 			if d >= 0:
 				d = "+" + str(d)
 			arr.append("i[{}] {}".format(j, d))
-			strarr.append(d)
+			strarr.append(str(d))
 		l = l + "["+",".join(arr) + "]"
 		return ("("+",".join(strarr)+")", eval(l))
 

@@ -37,9 +37,10 @@ class PatternFinder:
 		if self.suspected_result is None:
 			return None
 		else:
-			self.log("sureness=" + str(self._getSureness()))
+			sureness = self._getSureness()
+			self.log("sureness=" + str(sureness))
 			return {
-				"sureness": self._getSureness(),
+				"sureness": sureness,
 				"suspected_result": self.suspected_result,
 				"sureness_breakdown": {
 					"len": len(self.suspected_result["pattern"]),

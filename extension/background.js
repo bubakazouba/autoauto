@@ -33,11 +33,11 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
 
     if (msg.event && ["CLICK", "KEYBOARD", "SELECTION"].includes(msg.event.type)) {
-        console.log("got", pprint(msg, sender.tab.index));
         if ("keyParams" in msg.event && ["Meta", "Shift", "Control", "Alt"].includes(msg.event.keyParams.key)) {
             // console.log("ignoring loan modifier key");
             return;
         }
+        console.log("got", pprint(msg, sender.tab.index));
         let action = {
             tab: {
                 id: sender.tab.id,
