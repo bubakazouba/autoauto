@@ -71,10 +71,10 @@ function onNativeMessage(message) {
         window.amiwaiting = false;
     }
     if (message.event == "IM SURE") {
-        chrome.browserAction.setIcon({path: 'images/green.png'});
+        chrome.browserAction.setIcon({path: 'extension/images/green.png'});
     }
     if (message.event == "IM NOT SURE") {
-        chrome.browserAction.setIcon({path: 'images/red.png'});
+        chrome.browserAction.setIcon({path: 'extension/images/red.png'});
     }
     if (message.event && message.event.type == "PUT_ELEMENT_IN_FOCUS") {
         putElementInFocus(message);

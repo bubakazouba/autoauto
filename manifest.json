@@ -5,24 +5,24 @@
     "permissions": ["nativeMessaging", "storage", "declarativeContent", "activeTab", "tabs", "<all_urls>", "contextMenus"],
     "background":
     {
-        "scripts": ["utils.js", "background.js"],
+        "scripts": ["extension/utils.js", "extension/background.js"],
         "persistent": false
     },
     
     "content_scripts": [
     {
         "matches": ["<all_urls>"],
-        "js": ["content.js"]
+        "js": ["extension/content.js"]
     }],
     "icons": {
-        "32": "images/red.png"
+        "32": "extension/images/red.png"
     },
     "manifest_version": 2,
     "browser_action": {
         "default_icon": {
-            "32": "images/red.png"
+            "32": "extension/images/red.png"
         },
         "default_title": "Google Mail",      // optional; shown in tooltip
-        "default_popup": "popup.html"        // optional
+        "default_popup": "extension/popup.html"        // optional
       }
 }
