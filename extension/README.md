@@ -1,4 +1,5 @@
 ## Installation
+* `cp manifest-template.json manifest.json`
 * `cp  host/com.my_company.my_app.json ~/Library/Application Support/Microsoft Edge/NativeMessagingHosts`
 	* If you are not using MacOS you can find the correct path [here](https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/developer-guide/native-messaging?tabs=macos).
 	* If you are using chrome copy the path from [here](https://developer.chrome.com/docs/apps/nativeMessaging/)
