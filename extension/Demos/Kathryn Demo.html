@@ -52,11 +52,11 @@
     <body>
         <h1>Kathryn Demo</h1>
         <div class="display"><h3></h3></div>
-        <label>ID:</label> <input type="text">
+        <label>ID:</label> <input id="textfield" type="text">
         <div>
             <button id ="btn">Submit</button>
         </div>
-        <div id="hamada">
+        <div id="tableparent">
         </div>
         <script type="text/javascript">
             function createTable(tableData, parentElem) {
@@ -80,7 +80,7 @@
             }
 
             document.getElementById("btn").onclick = function() {
-                let parentElem = document.getElementById("hamada");
+                let parentElem = document.getElementById("tableparent");
                 for (let child of parentElem.children) {
                   parentElem.removeChild(child);
                 }

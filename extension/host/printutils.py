@@ -33,4 +33,4 @@ def _getPrettyPrintClick(action):
 		else:
 			return "{}{}[{}]".format(action["action"]["type"][:5], action["action"]["element_id"][:5], action["action"]["item_index"])
 	else:
-		return "{}{}{}".format(action["action"]["type"][:5], action["action"]["element_type"], action["action"]["element_id"][:5])
+		return "{}{}{}".format(action["action"]["type"][:5], action["action"]["element_node"], action["action"]["element_id"][:5])

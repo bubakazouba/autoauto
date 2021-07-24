@@ -1,30 +1,30 @@
 [[
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 0, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 0, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}},
 
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 1, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 1, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}},
 
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 3, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 3, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}},
 
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 0, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 0, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}},
 
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 1, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 1, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}},
 
-{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_type": "LIST", "type": "click", "item_index": 3, "element_id": "3d1b6d5b"}},
+{"tab": {"id": 107, "index": 7}, "action": {"type": "MOUSE_CLICK", "element_node": "LIST", "type": "click", "item_index": 3, "element_id": "3d1b6d5b"}},
 {"tab": {"id": 107, "index": 7}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyC", "key": "c", "keyCode": 67, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 67}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "ArrowDown", "key": "ArrowDown", "keyCode": 40, "shiftKey": false, "ctrlKey": false, "metaKey": false, "altKey": false, "which": 40}}},
 {"tab": {"id": 108, "index": 8}, "action": {"type": "KEYBOARD", "element_id": "", "keyParams": {"code": "KeyV", "key": "v", "keyCode": 86, "shiftKey": false, "ctrlKey": false, "metaKey": true, "altKey": false, "which": 86}}}

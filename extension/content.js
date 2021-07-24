@@ -96,7 +96,7 @@ function getSelectionInfo(e) {
     for (let elem of e.path) {
         if (elem.nodeName == "LI") {
             return {
-                element_type: "LIST",
+                element_node: "LIST",
                 item_index: getListItemIndex(elem),
                 element_id: getElementId(elem.parentElement)
             };
@@ -106,7 +106,7 @@ function getSelectionInfo(e) {
     for (let elem of e.path) {
         if (elem.nodeName == "TD") {
             return {
-                element_type: "TABLE",
+                element_node: "TABLE",
                 item_index: getTableItemIndex(elem),
                 element_id: getElementId(elem.parentElement.parentElement)
             };
@@ -128,7 +128,7 @@ document.addEventListener('mouseup', (e) => {
         event: {
             type: "SELECTION",
             element_id: selectionInfo.element_id,
-            element_type: selectionInfo.element_type,
+            element_node: selectionInfo.element_node,
             item_index: selectionInfo.item_index,
             selectionParams: {
                 // TODO: fill with information around selection offsets
@@ -143,7 +143,7 @@ function getClickInfo(e) {
     let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
     if (elemIsSubmitButton || elem.nodeName == "BUTTON") {
         return {
-            element_type: "BUTTON",
+            element_node: "BUTTON",
             element_id: getElementId(elem),
         };
     }
@@ -164,7 +164,7 @@ document.addEventListener('click', (e) => {
         event: {
             type: "CLICK",
             element_id: clickInfo.element_id,
-            element_type: clickInfo.element_type,
+            element_node: clickInfo.element_node,
             clickParams: {
                 // TODO: maybe fill in later with x,y?
             }
@@ -181,13 +181,13 @@ document.onkeydown = function(e) {
     }
     let element = e.path[0];
     let element_id = getElementId(element);
-    let element_type = element.nodeName;
+    let element_node = element.nodeName;
     // TODO: hack to avoid complexity of determining patterns for copy and paste actions
     // we are just assuming here that the keydown is some keyboard shortcut to act on the selected text
     // lets check that element type isnt input because then we would be fine
-    if (isTextSelected() && element_type != "INPUT") {
+    if (isTextSelected() && element_node != "INPUT") {
         element_id = "";
-        element_type = "";
+        element_node = "";
     }
     let keyParams = {};
     for (f of FIELDS) {
@@ -199,7 +199,7 @@ document.onkeydown = function(e) {
         event: {
             type: "KEYBOARD",
             element_id: element_id,
-            element_type: element_type,
+            element_node: element_node,
             keyParams: keyParams
         }
     });

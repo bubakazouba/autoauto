@@ -73,7 +73,7 @@ def trigger_place_clipboard(action, last_index_trackers):
             "tab_id": action["tab"]["id"],
             "element_id": action["action"]["element_id"],
             "item_index": action["action"]["item_index"],
-            "element_type": action["action"]["element_type"]
+            "element_node": action["action"]["element_node"]
         }
     })
 

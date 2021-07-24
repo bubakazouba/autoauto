@@ -21,10 +21,10 @@ function placeInClipboard(message) {
     let tab_id = message.event.tab_id;
     let item_index = message.event.item_index;
     console.log("[placeInClipboard] element_id=" + element_id);
-    if (message.event.element_type == "LIST") {
+    if (message.event.element_node == "LIST") {
         parseList(element_id, tab_id, item_index);
     }
-    else if (message.event.element_type == "TABLE") {
+    else if (message.event.element_node == "TABLE") {
         parseTable(element_id, tab_id, item_index);
     }
 }
