@@ -67,16 +67,18 @@ class PatternFinder:
 		for i in range(start_index, len(self.actions)):
 			current_actions = self.actions[i:]
 			result = adhoc2.detect_repition(current_actions)
-			result["log"] = self._getResultLog(result, current_actions)
-			results.append(result)
+			if result is not None:
+				result["log"] = self._getResultLog(result, current_actions)
+				results.append(result)
 
 			current_actions_with_increment_detection, last_index_trackers = increment_finder.getIncrement(current_actions, self.log)
 			if current_actions_with_increment_detection is None:
 				continue
 			result = adhoc2.detect_repition(current_actions_with_increment_detection)
-			result["log"] = self._getResultLog(result, current_actions_with_increment_detection)
-			result["last_index_trackers"] = last_index_trackers
-			results.append(result)
+			if result is not None:
+				result["log"] = self._getResultLog(result, current_actions_with_increment_detection)
+				result["last_index_trackers"] = last_index_trackers
+				results.append(result)
 		sorted_results = sorted(results, key=lambda r: len(r["pattern"]) - r["error"])
 		final_result = sorted_results[-1] if len(sorted_results) > 0 else None
 

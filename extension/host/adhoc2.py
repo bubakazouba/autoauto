@@ -17,6 +17,8 @@ def detect_repition(actions):
 				min_eval = actions[i:]
 			min_editdistance = dis
 
+	if min_eval is None:
+		return None
 	return {
 		"error": min_editdistance,
 		"pattern": min_eval
