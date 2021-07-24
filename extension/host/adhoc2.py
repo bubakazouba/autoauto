@@ -6,7 +6,7 @@ def detect_repition(actions):
 	n = len(actions)
 	min_editdistance = 9999
 	min_eval = None
-	for i in range(n):
+	for i in range(1, n):
 		x1 = actionsstr[:i]
 		x2 = actionsstr[i:]
 		dis = editdistance.eval(x1, x2)
@@ -23,7 +23,7 @@ def detect_repition(actions):
 	}
 
 def _getActionStringToCompare(action):
-	action = copy.deepcopy(action)
 	if "increment_pattern" in action["action"] and "item_index" in action["action"]:
+		action = copy.deepcopy(action)
 		del action["action"]["item_index"]
 	return str(action)

@@ -6,8 +6,8 @@ import copy
 import json
 
 MAX_ERROR_RATIO_THRESHOLD = 0.2
-MIN_PATTERN_LENGTH = 3
 USER_CONFIRMATION_WEIGHT = 2
+MAX_ACTIONS_LENGTH = 100
 
 class PatternFinder:
 	def __init__(self, log):
@@ -52,8 +52,7 @@ class PatternFinder:
 
 	def _resultPassesErrorConstraints(self, result):
 		return len(result["pattern"]) > 0 and \
-			result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD and \
-			len(result["pattern"]) >= MIN_PATTERN_LENGTH
+			result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD
 
 	def _suggestPattern(self):
 		if self.suspected_result is not None:
@@ -64,7 +63,7 @@ class PatternFinder:
 				self.suspected_result = None
 				self.suspected_result_last_index = None
 		results = []
-		start_index = max(0, len(self.actions) - 100)
+		start_index = max(0, len(self.actions) - MAX_ACTIONS_LENGTH)
 		for i in range(start_index, len(self.actions)):
 			current_actions = self.actions[i:]
 			result = adhoc2.detect_repition(current_actions)
