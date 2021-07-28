@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         return;
     }
 
-    if (msg.event && ["CLICK", "KEYBOARD", "SELECTION"].includes(msg.event.type)) {
+    if (msg.event && ["CLICK", "KEYBOARD", "SELECTION", "FOCUS"].includes(msg.event.type)) {
         if ("keyParams" in msg.event && ["Meta", "Shift", "Control", "Alt"].includes(msg.event.keyParams.key)) {
             // console.log("ignoring loan modifier key");
             return;

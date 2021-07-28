@@ -171,6 +171,32 @@ document.addEventListener('click', (e) => {
         }
     });
 }, true);
+document.addEventListener('focusin', function(e) {
+    if (!e.isTrusted) {
+        // ignore javascript programmatic focus
+        console.log("focusin not trusted ignore");
+        return;
+    }
+    let element = e.path[0];
+    let element_id = getElementId(element);
+    let element_node = element.nodeName;
+    if (!isElementTextEditable(element)) {
+        return;
+    }
+    let event = {
+        type: "FOCUS",
+        element_id: element_id,
+        element_node: element_node,
+        input: {
+            value: element.value,
+        }
+    };
+    console.log(event);
+
+    chrome.runtime.sendMessage({
+        event: event
+    });
+});
 
 document.onkeydown = function(e) {
     const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
@@ -185,7 +211,8 @@ document.onkeydown = function(e) {
     // TODO: hack to avoid complexity of determining patterns for copy and paste actions
     // we are just assuming here that the keydown is some keyboard shortcut to act on the selected text
     // lets check that element type isnt input because then we would be fine
-    if (isTextSelected() && element_node != "INPUT") {
+    if (isTextSelected() && !isElementTextEditable(element)) {
+        // Reason we do this is cmd+c over non-editable nodes can trigger randomly on <body> or some other element
         element_id = "";
         element_node = "";
     }
@@ -193,15 +220,27 @@ document.onkeydown = function(e) {
     for (f of FIELDS) {
         keyParams[f] = e[f];
     }
-    console.log(e);
+    if (isElementTextEditable(element)) {
+        Object.assign(keyParams, {
+            input: {
+                startOffset: element.selectionStart,
+                endOffset: element.selectionEnd,
+                value: element.value,
+                // TODO: only send clipboard if this action is a paste
+                clipboard: getValueInClipboard()
+            }
+        });
+    }
+    let event = {
+        type: "KEYBOARD",
+        element_id: element_id,
+        element_node: element_node,
+        keyParams: keyParams,
+    };
+    console.log(event);
 
     chrome.runtime.sendMessage({
-        event: {
-            type: "KEYBOARD",
-            element_id: element_id,
-            element_node: element_node,
-            keyParams: keyParams
-        }
+        event: event
     });
 };
 
@@ -263,6 +302,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
+// TODO: implement
+function getValueInClipboard(){
+    return "clipboard";
+}
+
 function isTextSelected(input) {
     let selecttxt = '';
     if (window.getSelection) {
@@ -281,4 +325,9 @@ function isTextSelected(input) {
         return false;
     }
     return true;
+}
+
+// TODO: this should accept textareas too
+function isElementTextEditable(element) {
+    return element.nodeName == "INPUT";
 }
