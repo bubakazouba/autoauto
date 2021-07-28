@@ -16,7 +16,7 @@ class Part:
             return ""
         return self.text[self.start:self.raw_end]
     def __str__(self):
-        return str([self.start,self.end,self.raw_end, self.text])
+        return str([self.start,self.end,self.raw_end, self.text, self.id])
     def __eq__(self, other):
         """Overrides the default implementation"""
         if isinstance(other, Part):
@@ -54,7 +54,8 @@ class KeyGrouper:
         elif type(part) == Part:
             return part.getVal()
         return val
-    
+    def __str__(self):
+        return str(self.printParts())+"||"+str([str(p) for p in self.getParts()])
     # TODO concatenate consecutive parts if for example (0,1) (1,2) on same element
     def getParts(self):
         if len(self.parts) == 0:
