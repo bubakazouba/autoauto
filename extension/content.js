@@ -211,10 +211,16 @@ document.onkeydown = function(e) {
     // TODO: hack to avoid complexity of determining patterns for copy and paste actions
     // we are just assuming here that the keydown is some keyboard shortcut to act on the selected text
     // lets check that element type isnt input because then we would be fine
+    // Reason we do this is cmd+c over non-editable nodes can trigger randomly on <body> or some other element
     if (isTextSelected() && !isElementTextEditable(element)) {
-        // Reason we do this is cmd+c over non-editable nodes can trigger randomly on <body> or some other element
         element_id = "";
         element_node = "";
+    }
+    // Non editable fields are only allowed cmd+c / unless this is google drive
+    if (!isElementTextEditable(element) && window.location.origin != "https://docs.google.com") {
+        if (e.key.toUpperCase() != "C" || !e.metaKey) {
+            return;
+        }
     }
     let keyParams = {};
     for (f of FIELDS) {
@@ -302,11 +308,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
-// TODO: implement
-function getValueInClipboard(){
-    return "clipboard";
-}
-
 function isTextSelected(input) {
     let selecttxt = '';
     if (window.getSelection) {
@@ -330,4 +331,28 @@ function isTextSelected(input) {
 // TODO: this should accept textareas too
 function isElementTextEditable(element) {
     return element.nodeName == "INPUT";
+}
+
+function getValueInClipboard() {
+    let elementInFocus = document.activeElement;
+    //Create a textbox field where we can insert text to. 
+    var getClipboardFrom = document.createElement("textarea");
+
+    //Append the textbox field into the body as a child. 
+    //"execCommand()" only works when there exists selected text, and the text is inside 
+    //document.body (meaning the text is part of a valid rendered HTML element).
+    document.body.appendChild(getClipboardFrom);
+    getClipboardFrom.focus();
+    //Execute command
+    document.execCommand('paste');
+
+    let text = getClipboardFrom.value;
+    console.log("getClipboardFrom.textContent");
+
+    //Remove the textbox field from the document.body, so no other JavaScript nor 
+    //other elements can get access to this.
+    document.body.removeChild(getClipboardFrom);
+
+    elementInFocus.focus();
+    return text;
 }
