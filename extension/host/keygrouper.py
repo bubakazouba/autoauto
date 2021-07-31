@@ -32,6 +32,8 @@ class Part:
     def __hash__(self):
         """Overrides the default implementation"""
         return hash(tuple(sorted(self.__dict__.items())))
+    def __repr__(self):
+        return self.__str__()
 
 class KeyGrouper:
     def __init__(self, initialValue=""):
@@ -54,9 +56,9 @@ class KeyGrouper:
         elif type(part) == Part:
             return part.getVal()
         return val
-    def __str__(self):
-        return str(self.printParts())+"||"+str([str(p) for p in self.getParts()])
+    
     # TODO concatenate consecutive parts if for example (0,1) (1,2) on same element
+    # TODO later even smarter, if user removes
     def getParts(self):
         if len(self.parts) == 0:
             return []
@@ -84,7 +86,7 @@ class KeyGrouper:
     def wasInitialValueRemoved(self):
         return not any([type(p) == Part and p.id == "INITIAL_VALUE" for p in self.parts]) and \
             self.initiaValueWasSet
-    def getPartToUpdateOrIndexToInsertNewPart(self, offset):
+    def getPartToUpdateOrIndexForOffset(self, offset):
         currentOffset = 0
         for i in range(len(self.parts)):
             currentOffset += self.getLenPart(i)
@@ -98,41 +100,61 @@ class KeyGrouper:
         for c in reversed(char):
             self._appendTextAtOffset(c, offset)
     def _appendTextAtOffset(self, char, offset):
-        indexInsidePart, index = self.getPartToUpdateOrIndexToInsertNewPart(offset)
+        indexInsidePart, index = self.getPartToUpdateOrIndexForOffset(offset)
         # if indexInsidePart is 0 then its the beginning of the part, we can just append it before it
         if indexInsidePart is not None and indexInsidePart != 0:
-            initialPart = self.parts[index]
-            firstPart = Part(initialPart.start, indexInsidePart, initialPart.id, initialPart.text)
-            secondPart = Part(indexInsidePart, initialPart.end, initialPart.id, initialPart.text)
-            self.parts[index] = firstPart
+            p = self.parts[index]
+            p1 = Part(p.start, p.start + indexInsidePart, p.id, p.text)
+            p2 = Part(p.start + indexInsidePart, p.end, p.id, p.text)
+            self.parts[index] = p1
             self.parts.insert(index + 1, char)
-            self.parts.insert(index + 2, secondPart)
+            self.parts.insert(index + 2, p2)
         elif index is not None:
             self.parts.insert(index, char)
     # TODO: allow more than one paste
     def appendPasteAtOffset(self, pastedText, offset, pasteId):
-        indexInsidePart, index = self.getPartToUpdateOrIndexToInsertNewPart(offset)
+        indexInsidePart, index = self.getPartToUpdateOrIndexForOffset(offset)
         if index is not None:
             part = Part(0, "E", pasteId, pastedText)
             self.parts.insert(index, part)
     
     def deleteTextAtOffset(self, offset):
-        indexInsidePart, index = self.getPartToUpdateOrIndexToInsertNewPart(offset)
+        if len(self.parts) == 0:
+            return
+        indexInsidePart, index = self.getPartToUpdateOrIndexForOffset(offset)
         if indexInsidePart is not None:
-            initialPart = self.parts[index]
-            indexInsidePart += initialPart.start + 1
-            firstPart = Part(initialPart.start, indexInsidePart - 1, initialPart.id, initialPart.text)
-            secondPart = Part(indexInsidePart, initialPart.end, initialPart.id, initialPart.text)
-            if len(self.getValForPart(firstPart)) != 0:
-                self.parts[index] = firstPart
-            if len(self.getValForPart(secondPart)) != 0:
-                if len(self.getValForPart(firstPart)) != 0 :
-                    self.parts.insert(index+1, secondPart)
+            p = self.parts[index]
+            p1 = Part(p.start, p.start + indexInsidePart, p.id, p.text)
+            p2 = Part(p.start + indexInsidePart + 1, p.end, p.id, p.text) 
+            if len(self.getValForPart(p1)) != 0:
+                self.parts[index] = p1
+            if len(self.getValForPart(p2)) != 0:
+                if len(self.getValForPart(p1)) != 0 :
+                    self.parts.insert(index+1, p2)
                 else:
-                    self.parts[index] = secondPart
+                    self.parts[index] = p2
+            if len(self.getValForPart(p1)) == 0 and len(self.getValForPart(p2)) == 0:
+                del self.parts[index]
         elif index is not None:
             del self.parts[index]
     
     def deleteTextAtOffsetRange(self, startOffset, endOffset):
         for i in range(startOffset, endOffset):
             self.deleteTextAtOffset(startOffset)
+    
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, KeyGrouper):
+            return self.initiaValueWasSet == other.initiaValueWasSet and \
+                self.parts == other.parts
+        return False
+    
+    def __ne__(self, other):
+        """Overrides the default implementation (unnecessary in Python 3)"""
+        return not self.__eq__(other)
+
+    def __str__(self):
+        return str(self.printParts())+"||"+str([str(p) for p in self.getParts()])
+
+    def __repr__(self):
+        return self.__str__()
