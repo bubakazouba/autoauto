@@ -170,7 +170,6 @@ def main():
         if msg["event"] == "ACTION":
             actionGroup = actionsGrouper.append(msg["action"])
             if actionGroup is None:
-                send_message(">>>>>actionGroup is none")
                 continue
             res = None
             for groupedAction in actionGroup:

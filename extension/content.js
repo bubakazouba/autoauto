@@ -167,7 +167,6 @@ document.addEventListener('focusin', function(e) {
 });
 
 document.onkeydown = function(e) {
-    console.log("keydown", e.path[0].selectionStart, e.path[0].selectionEnd);
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
@@ -195,7 +194,6 @@ function textManuveringCommand(e, isKeyUp) {
 }
 
 document.onkeyup = function(e) {
-    // console.log(e);
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
