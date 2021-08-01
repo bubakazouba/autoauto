@@ -57,8 +57,8 @@ class KeyGrouper:
             return part.getVal()
         return val
     
-    # TODO concatenate consecutive parts if for example (0,1) (1,2) on same element
-    # TODO later even smarter, if user removes
+    # TODO concatenate consecutive parts if for example (0,1) (1,2) on same paste
+    # TODO later even smarter, if user removes char from paste then types it again
     def getParts(self):
         if len(self.parts) == 0:
             return []

@@ -2,6 +2,7 @@ import editdistance
 import copy
 
 def detect_repition(actions):
+	# TODO: Action should be a class with an __eq__ override
 	actionsstr = [_getActionStringToCompare(action) for action in actions]
 	n = len(actions)
 	min_editdistance = 9999
@@ -11,7 +12,6 @@ def detect_repition(actions):
 		x2 = actionsstr[i:]
 		dis = editdistance.eval(x1, x2)
 		if dis < min_editdistance:
-			# print('dis=', dis, x1,x2)
 			min_eval = actions[:i]
 			if len(x2)<len(x1):
 				min_eval = actions[i:]

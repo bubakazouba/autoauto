@@ -15,14 +15,14 @@ def get_keyboard_string_from_key_params(keyParams):
     return s
 
 def getPrettyPrintActions(actions):
-	if len(actions) == 0:
-		return "nothing"
-	# temp hack since unit tests dont conform to the same format for now
 	arr = []
 	for action in actions:
-		if action["action"]["type"] == "KEYBOARD":
-			arr.append("{}{}'{}'".format(action["action"]["type"][:5], action["action"]["element_id"], get_keyboard_string_from_key_params(action["action"]["keyParams"])))
-		elif action["action"]["type"] in ["CLICK", "SELECTION"]:
+		actionType = action["action"]["type"]
+		if actionType == "KEYBOARD":
+			arr.append(_getPrettyPrintKeyboard(action))
+		elif actionType == "KEY_GROUP_INPUT":
+			arr.append("{}{} KeyGroup='{}'".format(actionType, action["action"]["element_id"], str(action["action"]["keyGroup"])))
+		elif actionType in ["CLICK", "SELECTION"]:
 			arr.append(_getPrettyPrintClick(action))
 	return ','.join(arr)
 
@@ -34,3 +34,6 @@ def _getPrettyPrintClick(action):
 			return "{}{}[{}]".format(action["action"]["type"][:5], action["action"]["element_id"][:5], action["action"]["item_index"])
 	else:
 		return "{}{}{}".format(action["action"]["type"][:5], action["action"]["element_node"], action["action"]["element_id"][:5])
+
+def _getPrettyPrintKeyboard(action):
+	return "{}{} Key='{}'".format(action["action"]["type"][:5], action["action"]["element_id"], get_keyboard_string_from_key_params(action["action"]["keyParams"]))
