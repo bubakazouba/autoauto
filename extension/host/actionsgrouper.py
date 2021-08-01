@@ -7,11 +7,11 @@ import copy
 #   e.g dont report SELECT if not followed by copy/replace
 # Responsible for grouping actions
 #   keystrokes on the same text field are grouped together so they are returned as 1 grouped action
-#   
 class ActionsGrouper:
     def __init__(self, log):
         self.log = log
-        self.actionsCache = []
+        # we store last action of altered keygroup so we have all data like tab info..etc to submit for patternfinder
+        self.unsubmittedKeyGroupActionsDict = defaultdict(tb) # {tabId: {elementId: action}}
         self.keyGroupDict = defaultdict(t) # {tabId: {elementId: KeyGrouper}} 
         self.selectionDict = defaultdict(ts) # {tabId: {elementId: [selection start, selection end]}} 
     
@@ -33,6 +33,20 @@ class ActionsGrouper:
         else:
             self.log("im updating selection dict to nothing")
             self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = []
+    
+    def _actionOnEditableElementIsSubmitted(self, action):
+        return action["action"]["element_id"] not in self.unsubmittedKeyGroupActionsDict[action["tab"]["id"]]
+
+    def _markUnsubmittedKeyGroup(self, action):
+        self.unsubmittedKeyGroupActionsDict[action["tab"]["id"]][action["action"]["element_id"]] = action
+    
+    def _getAndSubmitUnsubmittedKeyGroupsInTab(self, tabId):
+        l = []
+        keys = list(self.unsubmittedKeyGroupActionsDict[tabId].keys())
+        for elementId in keys:
+            l.append(self.unsubmittedKeyGroupActionsDict[tabId][elementId])
+            del self.unsubmittedKeyGroupActionsDict[tabId][elementId]
+        return l
 
     def _appendKeyboardActionInKeyGroup(self, action):
         keyParams = action["action"]["keyParams"]
@@ -41,10 +55,11 @@ class ActionsGrouper:
         key = keyParams["key"] if not keyParams["isManuveringAction"] else None
 
         if not keyParams["isManuveringAction"]:
+            self._markUnsubmittedKeyGroup(action)
             # Starting here all actions are destructive ones (character or cmd+v or backspace)
             if self._getSelectionForAction(action) != []:
                 [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
-                self.log("There is selection and a nondestructive action [{},{}]".format(selectionStartOffset, selectionEndOffset))
+                self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
                 self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
             if printutils.get_keyboard_string_from_key_params(keyParams) == "cmd+v":
                 clipboard = keyGroupInput["clipboard"]
@@ -62,28 +77,6 @@ class ActionsGrouper:
 
         self._updateSelectionDict(action)
 
-    # TODO: needs to be more specific so it wouldn't capture FOCUS on element node for example
-    def lastActionWasAlteringKeyGroup(self):
-        return len(self.actionsCache) > 0 and self.actionsCache[-1]["action"]["element_node"] == "INPUT"
-
-    def lastActionWasNotAlteringSameKeyGroup(self, action):
-        if len(self.actionsCache) == 0:
-            return True
-        lastAction = self.actionsCache[-1]
-        lastTabId = lastAction["tab"]["id"]
-        lastElementId = lastAction["action"]["element_id"]
-        tabId = action["tab"]["id"]
-        elementId = action["action"]["element_id"]
-        return not (lastElementId == elementId and lastTabId == tabId)
-    
-    def didUserDoADestructiveActionOnTheSameTabAfterAlteringThisElement(self, action):
-        # TODO: this can be smarter by checking if the subsequence of actions between last time we were on the same element same tab where actions on a different element on the same tab
-        # the problem with the current logic is that if the user switched to another tab did some actions and then came back
-        # we would return true, but we should actually return false, since the user didnt do anything with what they typed in the text field
-        # 
-        # TODO: Another problem is if the user did a nondestuctive action on the same tab such as selecting some text (but not copying)
-        return self.lastActionWasNotAlteringSameKeyGroup(action)
-
     def actionIsOnEditableElement(self, action):
         return action["action"]["element_node"] == "INPUT"
 
@@ -92,27 +85,29 @@ class ActionsGrouper:
         if self.actionIsOnEditableElement(action):
             tabId = action["tab"]["id"]
             elementId = action["action"]["element_id"]
-            # TODO: only create a new one on re-focus if some action happened 
-            if action["action"]["type"] == "FOCUS" and self.didUserDoADestructiveActionOnTheSameTabAfterAlteringThisElement(action):
+            # TODO: only create a new KeyGroup on re-focus if some action happened 
+            if action["action"]["type"] == "FOCUS" and self._actionOnEditableElementIsSubmitted(action):# and self.didUserDoADestructiveActionOnTheSameTabAfterAlteringThisElement(action):
                 self.keyGroupDict[tabId][elementId] = KeyGrouper(action["action"]["keyGroupInput"]["value"])
             if action["action"]["type"] == "KEY_GROUP_INPUT":
                 self._appendKeyboardActionInKeyGroup(action)
-            self.actionsCache.append(action)
         # TODO: group select + copy here too, and discard useless selects
         # if action is clicking/selecting
         else:
-            if self.lastActionWasAlteringKeyGroup():
-                keyGroup = self._getKeyGroupForAction(self.actionsCache[-1])
-                lastAction = copy.deepcopy(self.actionsCache[-1])
-                lastAction["action"]["keyGroup"] = keyGroup
-                res = [lastAction, action]
-                self.actionsCache.append(action)
-            else:
-                self.actionsCache.append(action)
-                res = [action]
+            res = []
+            # TODO: only submit unsubmitted keygroups if a click happened (select/copy shouldnt submit)
+            unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])
+            for a in unsubmittedKeyGroupActions:
+                a = copy.deepcopy(a)
+                del a["action"]["keyParams"]
+                del a["action"]["keyGroupInput"]
+                a["action"]["keyGroup"] = self._getKeyGroupForAction(a)
+                res.append(a)
+            res.append(action)
         return res
 
 def t():
     return defaultdict(KeyGrouper)
 def ts():
     return defaultdict(list)
+def tb():
+    return defaultdict(bool)
