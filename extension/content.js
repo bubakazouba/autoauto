@@ -35,35 +35,6 @@ function getTableItemIndex(td) {
     return [x, y];
 }
 
-function generateId() {
-    let s4 = () => {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-    }
-    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
-
-function getElementId(element) {
-    function getElementIndex(elem) {
-        if (!elem.parentElement) {
-            return "0";
-        }
-        // TODO: evaluate children vs childNodes
-        for(let i = 0; i < elem.parentElement.childNodes.length; i++) {
-            if (elem.parentElement.childNodes[i] == elem) {
-                return getElementIndex(elem.parentElement) + "." + i;
-            }
-        }
-    }
-    if (!window.elements) {
-        window.elements = {};
-    }
-    let id = getElementIndex(element);
-    window.elements[id] = element;
-    return id;
-}
-
 // TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
 // simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
 function getElementById(id) {
@@ -171,23 +142,20 @@ document.addEventListener('click', (e) => {
         }
     });
 }, true);
+
 document.addEventListener('focusin', function(e) {
-    if (!e.isTrusted) {
-        // ignore javascript programmatic focus
-        console.log("focusin not trusted ignore");
+    // TODO: i guess we shouldnt be using same function for key presses here
+    let elementInfo = getElementInfoForKeyPresses(e);
+    if (!elementInfo) {
         return;
     }
-    let element = e.path[0];
-    let element_id = getElementId(element);
-    let element_node = element.nodeName;
-    if (!isElementTextEditable(element)) {
-        return;
-    }
+    let {element, element_id, element_node} = elementInfo;
+
     let event = {
         type: "FOCUS",
         element_id: element_id,
         element_node: element_node,
-        input: {
+        keyGroupInput: {
             value: element.value,
         }
     };
@@ -199,51 +167,49 @@ document.addEventListener('focusin', function(e) {
 });
 
 document.onkeydown = function(e) {
-    const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
-    if (!e.isTrusted) {
-        // ignore javascript programmatic key presses
-        console.log("keydown not trusted ignore");
+    console.log("keydown", e.path[0].selectionStart, e.path[0].selectionEnd);
+    let elementInfo = getElementInfoForKeyPresses(e);
+    if (!elementInfo) {
         return;
     }
-    let element = e.path[0];
-    let element_id = getElementId(element);
-    let element_node = element.nodeName;
-    // TODO: hack to avoid complexity of determining patterns for copy and paste actions
-    // we are just assuming here that the keydown is some keyboard shortcut to act on the selected text
-    // lets check that element type isnt input because then we would be fine
-    // Reason we do this is cmd+c over non-editable nodes can trigger randomly on <body> or some other element
-    if (isTextSelected() && !isElementTextEditable(element)) {
-        element_id = "";
-        element_node = "";
+    let {element, element_id, element_node} = elementInfo;
+    
+    // we only want these on keyup
+    if(textManuveringCommand(e, false)) {
+        return;
     }
-    // Non editable fields are only allowed cmd+c / unless this is google drive
-    if (!isElementTextEditable(element) && window.location.origin != "https://docs.google.com") {
-        if (e.key.toUpperCase() != "C" || !e.metaKey) {
-            return;
-        }
+    let event = getKeyPressEvent(e, element, element_id, element_node, false);
+    
+    console.log("keydown", event);
+
+    chrome.runtime.sendMessage({
+        event: event
+    });
+};
+
+function textManuveringCommand(e, isKeyUp) {
+    let c1 = e.key.substring(0,5).toUpperCase() == "ARROW";
+    let c2 = e.key == "a" && e.metaKey; // this will only work for isKeyDown
+    let c3 = isKeyUp && isTextSelected(e.path[0]); // we need this because isKeyUp doesnt report that "a" had metaKey = true
+    return c1 || c2 || c3;
+}
+
+document.onkeyup = function(e) {
+    // console.log(e);
+    let elementInfo = getElementInfoForKeyPresses(e);
+    if (!elementInfo) {
+        return;
     }
-    let keyParams = {};
-    for (f of FIELDS) {
-        keyParams[f] = e[f];
+    let {element, element_id, element_node} = elementInfo;
+    
+    // We only want Arrow keys or selections for keyup
+    if(!textManuveringCommand(e, true)) {
+        return;
     }
-    if (isElementTextEditable(element)) {
-        Object.assign(keyParams, {
-            input: {
-                startOffset: element.selectionStart,
-                endOffset: element.selectionEnd,
-                value: element.value,
-                // TODO: only send clipboard if this action is a paste
-                clipboard: getValueInClipboard()
-            }
-        });
-    }
-    let event = {
-        type: "KEYBOARD",
-        element_id: element_id,
-        element_node: element_node,
-        keyParams: keyParams,
-    };
-    console.log(event);
+
+    let event = getKeyPressEvent(e, element, element_id, element_node, true);
+    console.log("onkeyup selectionStart: ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
+    console.log("keyup", event);
 
     chrome.runtime.sendMessage({
         event: event
@@ -307,52 +273,3 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         sendResponse({"event": "DONE"});
     }
 });
-
-function isTextSelected(input) {
-    let selecttxt = '';
-    if (window.getSelection) {
-        if (!window.getSelection().isCollapsed) {
-            selecttxt = window.getSelection().baseNode.textContent;
-        }
-    } else if (document.getSelection) {
-        if (!document.getSelection().isCollapsed) {
-            selecttxt = document.getSelection().baseNode.textContent;
-        }
-    } else if (document.selection) {
-        selecttxt = document.selection.createRange().text;
-    }
- 
-    if (selecttxt == '') {
-        return false;
-    }
-    return true;
-}
-
-// TODO: this should accept textareas too
-function isElementTextEditable(element) {
-    return element.nodeName == "INPUT";
-}
-
-function getValueInClipboard() {
-    let elementInFocus = document.activeElement;
-    //Create a textbox field where we can insert text to. 
-    var getClipboardFrom = document.createElement("textarea");
-
-    //Append the textbox field into the body as a child. 
-    //"execCommand()" only works when there exists selected text, and the text is inside 
-    //document.body (meaning the text is part of a valid rendered HTML element).
-    document.body.appendChild(getClipboardFrom);
-    getClipboardFrom.focus();
-    //Execute command
-    document.execCommand('paste');
-
-    let text = getClipboardFrom.value;
-    console.log("getClipboardFrom.textContent");
-
-    //Remove the textbox field from the document.body, so no other JavaScript nor 
-    //other elements can get access to this.
-    document.body.removeChild(getClipboardFrom);
-
-    elementInFocus.focus();
-    return text;
-}

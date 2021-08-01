@@ -154,7 +154,7 @@ class KeyGrouper:
         return not self.__eq__(other)
 
     def __str__(self):
-        return str(self.printParts())+"||"+str([str(p) for p in self.getParts()])
+        return str(self.printParts())+"||"+self.getVal()
 
     def __repr__(self):
         return self.__str__()
