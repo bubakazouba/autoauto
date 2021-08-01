@@ -175,7 +175,7 @@ document.onkeydown = function(e) {
     let {element, element_id, element_node} = elementInfo;
     
     // we only want these on keyup
-    if(textManuveringCommand(e, false)) {
+    if(textManuveringCommand(e, false) && !areWeInDrive()) {
         return;
     }
     let event = getKeyPressEvent(e, element, element_id, element_node, false);
@@ -203,7 +203,7 @@ document.onkeyup = function(e) {
     let {element, element_id, element_node} = elementInfo;
     
     // We only want Arrow keys or selections for keyup
-    if(!textManuveringCommand(e, true)) {
+    if(!textManuveringCommand(e, true) || areWeInDrive()) {
         return;
     }
 
@@ -249,7 +249,32 @@ function clickOnElement(element_id) {
     let element = getElementById(element_id);
     element.click();
 }
-
+function keyGroupOnElement(element_id, keyGroup) {
+    console.log("keyGroupOnElement got called", keyGroup);
+    let element = getElementById(element_id);
+    let initialValue = element.value;
+    let paste = getValueInClipboard();
+    let finalValue = "";
+    for(let p of keyGroup) {
+        if (typeof p == typeof "") {
+            console.log("im appending p=", p);
+            finalValue += p;
+        }
+        else {
+            let s = "";
+            if (p.id == "INITIAL_VALUE") {
+                s = initialValue;
+            }
+            else if (p.id == "PASTE_ID_1") {
+                s = paste;
+            }
+            let raw_end = p.end == "E" ? s.length : p.end;
+            console.log("im appending s=", s, p.start, raw_end, s.substring(p.start, raw_end));
+            finalValue += s.substring(p.start, raw_end);
+        }
+    }
+    element.value = finalValue;
+}
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
     if (request.action == "PARSE_LIST") {
@@ -270,6 +295,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action == "CLICK_ON_ELEMENT") {
         console.log("I was asked to click on element: " + request.params.id);
         clickOnElement(request.params.id);
+        sendResponse({"event": "DONE"});
+    } else if (request.action == "KEY_GROUP_INPUT") {
+        console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
+        keyGroupOnElement(request.params.id, request.params.keyGroup);
         sendResponse({"event": "DONE"});
     }
 });

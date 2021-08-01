@@ -16,10 +16,14 @@ function getElementInfoForKeyPresses(e) {
         element_node = "";
     }
     // Non editable fields are only allowed cmd+c, unless this is google drive
-    if (!isElementTextEditable(element) && window.location.origin != "https://docs.google.com") {
+    if (!isElementTextEditable(element) && !areWeInDrive()) {
         if (!keyIsCopy(e)) {
             return;
         }
+    }
+    // User is just switching tabs, unfortunately key gets reported on a text editable element if its active
+    if(!!e.code && e.code.startsWith("Digit") && e.metaKey) {
+        return;
     }
     return {
         element: element,
@@ -144,4 +148,8 @@ function isTextSelected() {
         return false;
     }
     return true;
+}
+
+function areWeInDrive() {
+    return window.location.origin == "https://docs.google.com";
 }

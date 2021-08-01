@@ -8,12 +8,23 @@ from subprocess import Popen
 import patternfinder
 import printutils
 import copy
+from actionsgrouper import ActionsGrouper
 
 KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
 MIN_SURENESS_THRESHOLD = 10
 
 def send_message(s):
     nativemessaging.send_message(nativemessaging.encode_message(s))
+
+def trigger_key_group_input_command(action):
+    send_message({
+        "event": {
+            "type": "KEY_GROUP_INPUT",
+            "element_id": action["action"]["element_id"],
+            "tab_id": action["tab"]["id"],
+            "keyGroup": action["action"]["keyGroup"].jsonify()
+        }
+    })
 
 def triggger_click_command(action):
     send_message({
@@ -101,12 +112,14 @@ def trigger_actions(actions, last_index_trackers):
     time.sleep(1) 
     send_message("0.")
     disable_extension_keyboard_listener()
-    send_message("len(actions)=" + str(len(actions)))
+    send_message("len(actions) to trigger=" + str(len(actions)))
     grouped_actions = group_actions(actions)
     last_tab_id = None
     last_element_id = None
     for action in grouped_actions:
-        # only switch tab if we need to
+        # TODO: this logic makes more sense in the extension, just switch if needed there based on current tab instead of keeping state here
+        # nonsense!
+        # only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
         if last_tab_id != action["tab"]["id"] and action["action"]["type"] != "PLACE_IN_CLIPBOARD":
             trigger_switching_tab(action["tab"]["id"])
         if action["action"]["type"] == "KEYBOARD":
@@ -120,6 +133,10 @@ def trigger_actions(actions, last_index_trackers):
             send_message(">>>>>>>>>>>CLICK<<<<<<<<")
             triggger_click_command(action)
             last_tab_id = action["tab"]["id"]
+        elif action["action"]["type"] == "KEY_GROUP_INPUT":
+            send_message(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<")
+            trigger_key_group_input_command(action)
+            last_tab_id = action["tab"]["id"]
         last_element_id = action["action"]["element_id"]
         time.sleep(0.8)
     enable_extension_keyboard_listener()
@@ -131,11 +148,12 @@ def _getSerializableResult(res):
             action["action"]["increment_pattern"] = action["action"]["increment_pattern"][0]
     return res
 def main():
-    pattern_finder = patternfinder.PatternFinder(send_message)
-    msg = {}
-    results_file = open("/tmp/myresults", "a")
-    last_res = None
+    pattern_finder = patternfinder.PatternFinder(lambda s: send_message("PATTERNFINDER: "+s))
+    # results_file = open("/tmp/myresults", "a")
+    # last_res = None
+    actionsGrouper = ActionsGrouper(lambda s: send_message("ACTIONGROUPER: "+s))
     while True:
+        msg = {}
         message = nativemessaging.get_message()
         try:
             msg = json.loads(message)
@@ -150,22 +168,29 @@ def main():
             send_message("I'm alive")
             continue
         if msg["event"] == "ACTION":
-            res = pattern_finder.append(msg["action"])
+            actionGroup = actionsGrouper.append(msg["action"])
+            if actionGroup is None:
+                send_message(">>>>>actionGroup is none")
+                continue
+            res = None
+            for groupedAction in actionGroup:
+                send_message(">>>>>actionGroup im appending groupedAction.." + str(groupedAction))
+                res = pattern_finder.append(groupedAction)
             s = ""
             if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
                 send_message({"event": "IM SURE", "sureness": res["sureness"]})
             else:
                 send_message({"event": "IM NOT SURE"})
-            if res is None and last_res is None:
-                pass
-            else:
-                if res is None:
-                    results_file.write("None")
-                else:
-                    res["timestamp"] = int(time.time())
-                    res = _getSerializableResult(res)
-                    results_file.write(json.dumps(res))
-            last_res = res
+            # if res is None and last_res is None:
+            #     pass
+            # else:
+            #     if res is None:
+            #         results_file.write("None")
+            #     else:
+            #         res["timestamp"] = int(time.time())
+            #         res = _getSerializableResult(res)
+            #         results_file.write(json.dumps(res))
+            # last_res = res
             continue
         if msg["event"] == "USER_PRESSED_STOP":
             actionsToTrigger, last_index_trackers = detect_actions_to_trigger(pattern_finder, int(msg["repitions"]))

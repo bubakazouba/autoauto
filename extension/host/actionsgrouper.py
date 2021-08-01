@@ -93,6 +93,8 @@ class ActionsGrouper:
         # TODO: group select + copy here too, and discard useless selects
         # if action is clicking/selecting
         else:
+            if action["action"]["type"] == "FOCUS":
+                return res
             res = []
             # TODO: only submit unsubmitted keygroups if a click happened (select/copy shouldnt submit)
             unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])

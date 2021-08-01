@@ -28,4 +28,7 @@ def _getActionStringToCompare(action):
     if "increment_pattern" in action["action"] and "item_index" in action["action"]:
         action = copy.deepcopy(action)
         del action["action"]["item_index"]
+    if action["action"]["type"] == "KEY_GROUP_INPUT":
+        action = copy.deepcopy(action)
+        action["action"]["keyGroup"] = action["action"]["keyGroup"].jsonify()
     return str(action)

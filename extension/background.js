@@ -64,6 +64,9 @@ function sendNativeMessage(message) {
 
 function onNativeMessage(message) {
     console.log("[HOST]", JSON.stringify(message));
+    if (!message.event) {
+        return;
+    }
     if (message.event == "IM WORKING") {
         window.amiwaiting = true;
     }
@@ -76,17 +79,25 @@ function onNativeMessage(message) {
     if (message.event == "IM NOT SURE") {
         chrome.browserAction.setIcon({path: 'extension/images/red.png'});
     }
-    if (message.event && message.event.type == "PUT_ELEMENT_IN_FOCUS") {
-        putElementInFocus(message);
-    }
-    if (message.event && message.event.type == "GO_TO_TAB") {
-        chrome.tabs.update(message.event.tab_id, { selected: true });
-    }
-    if (message.event && message.event.type == "PLACE_IN_CLIPBOARD") {
-        placeInClipboard(message);
-    }
-    if (message.event && message.event.type == "CLICK_ON_ELEMENT") {
-        clickOnElement(message);
+    if (!!message.event.type) {
+        switch(message.event.type) {
+            case "PUT_ELEMENT_IN_FOCUS":
+                putElementInFocus(message);
+                break;
+            case "GO_TO_TAB":
+                chrome.tabs.update(message.event.tab_id, { selected: true });
+                break;
+            case "PLACE_IN_CLIPBOARD":
+                placeInClipboard(message);
+                break;
+            case "CLICK_ON_ELEMENT":
+                clickOnElement(message);
+                break;
+            case "KEY_GROUP_INPUT":
+                console.log("!!!!!!!!", message, message.event.keyGroup);
+                keyGroupInput(message);
+                break;
+        }
     }
 }
 

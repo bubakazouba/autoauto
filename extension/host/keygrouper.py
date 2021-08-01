@@ -15,6 +15,12 @@ class Part:
         if not self.indicesWithinBoundaries():
             return ""
         return self.text[self.start:self.raw_end]
+    def jsonify(self):
+        return {
+            "start": self.start,
+            "end": self.end,
+            "id": self.id,
+        }
     def __str__(self):
         return str([self.start,self.end,self.raw_end, self.text, self.id])
     def __eq__(self, other):
@@ -56,12 +62,21 @@ class KeyGrouper:
         elif type(part) == Part:
             return part.getVal()
         return val
-    
+    def jsonify(self):
+        parts = self.getParts()
+        jsonExport = []
+        for p in parts:
+            if type(p) == str:
+                jsonExport.append(p)
+            else:
+                jsonExport.append(p.jsonify())
+        return jsonExport
     # TODO concatenate consecutive parts if for example (0,1) (1,2) on same paste
     # TODO later even smarter, if user removes char from paste then types it again
     def getParts(self):
         if len(self.parts) == 0:
             return []
+        # Consecutive strings concatenation
         finalParts = [self.parts[0]]
         for i in range(1, len(self.parts)):
             part = self.parts[i]
