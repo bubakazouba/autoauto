@@ -88,22 +88,6 @@ def trigger_place_clipboard(action, last_index_trackers):
         }
     })
 
-def group_actions(actions):
-    grouped_actions = []
-    i = 0
-    while i < len(actions):
-        action = actions[i]
-        next_action = actions[i+1] if i+1 < len(actions) else None
-        if action["action"]["type"] == "SELECTION" and next_action is not None and next_action["action"]["type"] == "KEYBOARD" and printutils.get_keyboard_string_from_key_params(next_action["action"]["keyParams"]) == "cmd+c":
-            i += 1
-            action = copy.deepcopy(action)
-            action["action"]["type"] = "PLACE_IN_CLIPBOARD"
-            grouped_actions.append(action)
-        else:
-            grouped_actions.append(action)
-        i += 1
-    return grouped_actions
-
 def trigger_actions(actions, last_index_trackers):
      # give a chance for the user to leave the popup and go back to the page
     send_message("starting in 2...")
@@ -113,10 +97,9 @@ def trigger_actions(actions, last_index_trackers):
     send_message("0.")
     disable_extension_keyboard_listener()
     send_message("len(actions) to trigger=" + str(len(actions)))
-    grouped_actions = group_actions(actions)
     last_tab_id = None
     last_element_id = None
-    for action in grouped_actions:
+    for action in actions:
         # TODO: this logic makes more sense in the extension, just switch if needed there based on current tab instead of keeping state here
         # nonsense!
         # only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard

@@ -56,57 +56,56 @@ function getElementById(id) {
         return null;
     }
     return _getElementById(root, id.substr(i + 1));
-    // only do this if element still exists on the page. this way its more stable incase page changed over time.
+    // TODO: only do this if element still exists on the page. this way its more stable incase page changed over time.
     // Maybe i need to way to identify elements? one with indices the other without. static vs dynamic element addressing
     // return window.elements[id];
 }
 
-function getSelectionInfo(e) {
-    // TODO: Assuming for now that user is always selecting the full text in the node, this will need to change
-    // window.getSelection().getRangeAt(0).startContainer.parentNode;
-    for (let elem of e.path) {
-        if (elem.nodeName == "LI") {
-            return {
-                element_node: "LIST",
-                item_index: getListItemIndex(elem),
-                element_id: getElementId(elem.parentElement)
-            };
+function getSelectionInfo() {
+    function findParentElementOfType(elem, nodeName) {
+        while(!!elem) {
+            if (elem.nodeName == nodeName) {
+                return elem;
+            }
+            elem = elem.parentElement;
         }
     }
-
-    for (let elem of e.path) {
-        if (elem.nodeName == "TD") {
-            return {
-                element_node: "TABLE",
-                item_index: getTableItemIndex(elem),
-                element_id: getElementId(elem.parentElement.parentElement)
-            };
-        }
-    }
-}
-
-document.addEventListener('mouseup', (e) => {
-    // Make sure text was selected
     if (!isTextSelected()) {
         return;
     }
-    let selectionInfo = getSelectionInfo(e);
+    let elem = document.getSelection().focusNode;
+    
+    // TODO: Assuming for now that user is always selecting the full text in the node, this will need to change
+    // window.getSelection().getRangeAt(0).startContainer.parentNode;
+    let listElement = findParentElementOfType(elem, "LI");
+    if (!!listElement) {
+        return {
+            element_node: "LIST",
+            item_index: getListItemIndex(listElement),
+            element_id: getElementId(listElement.parentElement),
+        };
+    }
+    let tableElement = findParentElementOfType(elem, "TD");
+    return {
+        element_node: "TABLE",
+        item_index: getTableItemIndex(tableElement),
+        element_id: getElementId(tableElement.parentElement.parentElement),
+    };
+}
+
+// Call this if user asked to copy text
+function getPlaceInClipboardEvent() {
+    let selectionInfo = getSelectionInfo();
     if (!selectionInfo) {
         return;
     }
-    console.log("selectionInfo=", selectionInfo);
-    chrome.runtime.sendMessage({
-        event: {
-            type: "SELECTION",
-            element_id: selectionInfo.element_id,
-            element_node: selectionInfo.element_node,
-            item_index: selectionInfo.item_index,
-            selectionParams: {
-                // TODO: fill with information around selection offsets
-            },
-        }
-    });
-}, true);
+    return {
+        type: "PLACE_IN_CLIPBOARD",
+        element_id: selectionInfo.element_id,
+        element_node: selectionInfo.element_node,
+        item_index: selectionInfo.item_index
+    };
+}
 
 function getClickInfo(e) {
     let elem = e.path[0];
@@ -172,6 +171,19 @@ document.onkeydown = function(e) {
         return;
     }
     let {element, element_id, element_node} = elementInfo;
+
+    // If this is a PLACE_IN_CLIPBOARD event
+    if (!isElementTextEditable(element) && !areWeInDrive() && keyIsCopy(e)) {
+        let event = getPlaceInClipboardEvent();
+        if (!!event) {
+
+        }
+        console.log("PLACE_IN_CLIPBOARD", event);
+        chrome.runtime.sendMessage({
+            event: event
+        });
+        return;
+    }
     
     // we only want these on keyup
     if(textManuveringCommand(e, false) && !areWeInDrive()) {
