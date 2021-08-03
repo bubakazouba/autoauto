@@ -19,7 +19,7 @@ class TestStringMethods(unittest.TestCase):
         s.appendTextAtOffset("c", 2)
         s.appendTextAtOffset("d", 2)
         s.appendTextAtOffset("x", 0)
-        s.appendPasteAtOffset("hello", 1, "PASTE_ID_1")
+        s.appendPasteAtOffset("hello", 1)
         self.assertEqual(s.getVal(), "xhelloabdc")
     
     def test_keygrouper_appends_then_appendsPaste_then_appendsMidPaste(self):
@@ -29,11 +29,11 @@ class TestStringMethods(unittest.TestCase):
         s.appendTextAtOffset("c", 2)
         s.appendTextAtOffset("d", 2)
         s.appendTextAtOffset("x", 0)
-        s.appendPasteAtOffset("hello", 1, "PASTE_ID_1")
+        s.appendPasteAtOffset("hello", 1)
         s.appendTextAtOffset("!",2)
         
-        p1 = keygrouper.Part(0, 1, "PASTE_ID_1", "hello")
-        p2 = keygrouper.Part(1, "E", "PASTE_ID_1", "hello")
+        p1 = keygrouper.Part(0, 1, "PASTE", "hello")
+        p2 = keygrouper.Part(1, "E", "PASTE", "hello")
         self.assertEqual(s.getVal(), "xh!elloabdc")
         expectedParts = ["x", p1, "!", p2, "abdc"]
         self.assertEqual(expectedParts, s.getParts())
@@ -45,16 +45,16 @@ class TestStringMethods(unittest.TestCase):
         s.appendTextAtOffset("c", 2)
         s.appendTextAtOffset("d", 2)
         s.appendTextAtOffset("x", 0)
-        s.appendPasteAtOffset("h123ello", 1, "PASTE_ID_1")
+        s.appendPasteAtOffset("h123ello", 1)
         s.appendTextAtOffset("!",4)
         self.assertEqual(s.getVal(), "xh12!3elloabdc")
 
         s.appendTextAtOffset("!",7)
         self.assertEqual(s.getVal(), "xh12!3e!lloabdc")
         
-        p1 = keygrouper.Part(0, 3, "PASTE_ID_1", "h123ello")
-        p2 = keygrouper.Part(3, 5, "PASTE_ID_1", "h123ello")
-        p3 = keygrouper.Part(5, "E", "PASTE_ID_1", "h123ello")
+        p1 = keygrouper.Part(0, 3, "PASTE", "h123ello")
+        p2 = keygrouper.Part(3, 5, "PASTE", "h123ello")
+        p3 = keygrouper.Part(5, "E", "PASTE", "h123ello")
         expectedParts = ["x", p1, "!", p2, "!", p3, "abdc"]
         self.assertEqual(expectedParts, s.getParts())
 
@@ -74,13 +74,13 @@ class TestStringMethods(unittest.TestCase):
         s.appendTextAtOffset("c", 2)
         s.appendTextAtOffset("d", 2)
         s.appendTextAtOffset("x", 0)
-        s.appendPasteAtOffset("hello", 1, "PASTE_ID_1")
+        s.appendPasteAtOffset("hello", 1)
         s.appendTextAtOffset("!",2)
 
         self.assertEqual(s.getVal(), "xh!elloabdcinitial value")
         p0 = keygrouper.Part(0, "E", "INITIAL_VALUE", "initial value")
-        p1 = keygrouper.Part(0, 1, "PASTE_ID_1", "hello")
-        p2 = keygrouper.Part(1, "E", "PASTE_ID_1", "hello")
+        p1 = keygrouper.Part(0, 1, "PASTE", "hello")
+        p2 = keygrouper.Part(1, "E", "PASTE", "hello")
         expectedParts = ["x", p1, "!", p2, "abdc", p0]
         self.assertEqual(expectedParts, s.getParts())
 

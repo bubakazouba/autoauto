@@ -127,10 +127,10 @@ class KeyGrouper:
         elif index is not None:
             self.parts.insert(index, char)
     # TODO: allow more than one paste
-    def appendPasteAtOffset(self, pastedText, offset, pasteId):
+    def appendPasteAtOffset(self, pastedText, offset):
         indexInsidePart, index = self.getPartToUpdateOrIndexForOffset(offset)
         if index is not None:
-            part = Part(0, "E", pasteId, pastedText)
+            part = Part(0, "E", "PASTE", pastedText)
             self.parts.insert(index, part)
     
     def deleteTextAtOffset(self, offset):

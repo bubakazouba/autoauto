@@ -275,7 +275,7 @@ function keyGroupOnElement(element_id, keyGroup) {
             if (p.id == "INITIAL_VALUE") {
                 s = initialValue;
             }
-            else if (p.id == "PASTE_ID_1") {
+            else if (p.id == "PASTE") {
                 s = paste;
             }
             let raw_end = p.end == "E" ? s.length : p.end;

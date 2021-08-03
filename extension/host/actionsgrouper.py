@@ -63,8 +63,7 @@ class ActionsGrouper:
                 self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
             if printutils.get_keyboard_string_from_key_params(keyParams) == "cmd+v":
                 clipboard = keyGroupInput["clipboard"]
-                # TODO: unhardcode paste id to allow multiple pastes
-                self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset, "PASTE_ID_1")
+                self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
                 self.log("I sent paste")
             elif key == "Backspace": # also add cmd+backspace for delete
                 # if there was selection then we have already taken care of it
