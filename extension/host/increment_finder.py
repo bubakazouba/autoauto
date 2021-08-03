@@ -17,7 +17,6 @@ def getIncrement(actions, log):
     else:
         return None, None
 
-# TODO: increment finder can return a pattern of +0
 def _getIncrements(actions, log):
     last_index_trackers = {}
     detected_any_pattern = False
@@ -33,6 +32,8 @@ def _getIncrements(actions, log):
             continue
 
         proposed_pattern = proposeIncrement(actions[elementActionsIndices[0]], actions[elementActionsIndices[1]])
+        if proposed_pattern is None:
+            continue
         found_case_breaks_proposed_pattern = False
 
         # confirm proposed_pattern with next clicks
@@ -54,6 +55,8 @@ def proposeIncrement(action1, action2):
     i2 = action2["action"]["item_index"]
     if type(i2) == type(0):
         d = i2 - i1
+        if d == 0:
+            return None
         if d >= 0:
             d = "+" + str(d)
         return (str(d), eval("lambda i: i {}".format(d)))
@@ -61,12 +64,17 @@ def proposeIncrement(action1, action2):
         l = "lambda i:" 
         arr = []
         strarr = []
+        allDAreZero = True
         for j in range(len(i1)):
             d = i2[j] - i1[j]
+            if d != 0:
+                allDAreZero = False
             if d >= 0:
                 d = "+" + str(d)
             arr.append("i[{}] {}".format(j, d))
             strarr.append(str(d))
+        if allDAreZero:
+            return None
         l = l + "["+",".join(arr) + "]"
         return ("("+",".join(strarr)+")", eval(l))
 

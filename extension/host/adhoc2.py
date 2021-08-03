@@ -2,7 +2,12 @@ import editdistance
 import copy
 
 def detect_repition(actions):
-    # TODO: Action should be a class with an __eq__ override
+    # TODO: Action should be a class with an __eq__ override where it can do smart stuff like
+    # 1- checking if keyGroup guesses are equal and returning that guess
+    #   if nth char is always replaced with uppercased letter
+    #   all delimiters replaced with spaces..etc
+    # 2- checking if theres an increment pattern and using that to compare
+    # or maybe these checks should happen in another class like IncrementFinder? 
     actionsstr = [_getActionStringToCompare(action) for action in actions]
     n = len(actions)
     min_editdistance = 9999
