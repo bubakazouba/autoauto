@@ -1,0 +1,825 @@
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.06060606060606061
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.06060606060606061
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.06060606060606061
+------------------------------
+['Enter', '2']
+0.06060606060606061
+------------------------------
+['Enter', 'b']
+0.06060606060606061
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.06060606060606061
+------------------------------
+['Enter', 'c']
+0.06060606060606061
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.06060606060606061
+------------------------------
+['Enter', 'b', 'Enter', 'c']
+0.06060606060606061
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.045454545454545456
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.045454545454545456
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.045454545454545456
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.045454545454545456
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.045454545454545456
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.045454545454545456
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.045454545454545456
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.045454545454545456
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.045454545454545456
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.045454545454545456
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.045454545454545456
+------------------------------
+['Enter', '2', 'Enter', '3']
+0.045454545454545456
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.045454545454545456
+------------------------------
+['Enter', '3']
+0.045454545454545456
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.045454545454545456
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.045454545454545456
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.030303030303030304
+------------------------------
+['1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.030303030303030304
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.030303030303030304
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.030303030303030304
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.030303030303030304
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.030303030303030304
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.030303030303030304
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.030303030303030304
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.030303030303030304
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.030303030303030304
+------------------------------
+['3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.030303030303030304
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.030303030303030304
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.030303030303030304
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.030303030303030304
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.030303030303030304
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.030303030303030304
+------------------------------
+['2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter']
+0.030303030303030304
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.030303030303030304
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.030303030303030304
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.030303030303030304
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.030303030303030304
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.030303030303030304
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.030303030303030304
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.030303030303030304
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.030303030303030304
+------------------------------
+['b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter']
+0.024242424242424246
+------------------------------
+['a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.0202020202020202
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter']
+0.015151515151515152
+------------------------------
+['1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.015151515151515152
+------------------------------
+['2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b']
+0.015151515151515152
+------------------------------
+['2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1']
+0.015151515151515152
+------------------------------
+['ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter']
+0.015151515151515152
+------------------------------
+['Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a']
+0.015151515151515152
+------------------------------
+['b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter']
+0.012121212121212123
+------------------------------
+['b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter']
+0.012121212121212123
+------------------------------
+['b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter']
+0.012121212121212123
+------------------------------
+['b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter']
+0.012121212121212123
+------------------------------
+['a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.0101010101010101
+------------------------------
+['a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.0101010101010101
+------------------------------
+['a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.0101010101010101
+------------------------------
+['a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp']
+0.0101010101010101
+------------------------------
+['c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter']
+0.008658008658008658
+------------------------------
+['c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter']
+0.004329004329004329
+------------------------------
+['c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter']
+0.004329004329004329
+------------------------------
+['c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter']
+0.004329004329004329
+------------------------------
+['c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', '4', 'backspace', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter', 'c', 'Enter', 'ArrowRight', 'cmd+ArrowUp', '1', 'Enter', '2', 'Enter', '3', 'Enter', 'ArrowRight', 'cmd+ArrowUp', 'a', 'Enter', 'b', 'Enter']
+0.004329004329004329

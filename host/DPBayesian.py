@@ -65,15 +65,19 @@ class BayesianPatternFinder:
             idx_last_action = len(self.actions)-1
             history_up_to_last_action = self.actions[:idx_last_action]
             if last_action in history_up_to_last_action:
-                # idx_last_occurence_reversed = list(
-                #     reversed(history_up_to_last_action)).index(last_action)
-                # idx_last_occurence = len(
-                #     history_up_to_last_action) - idx_last_occurence_reversed - 1
-                idx_last_occurence = history_up_to_last_action.index(last_action)
-
-                cycle = SEPERATOR.join(
-                    self.actions[idx_last_occurence:idx_last_action+1])
-                self.candidate_cycles.add(cycle)
+                idx_last_occurence = -1
+                while True:
+                    try:
+                        idx_last_occurence = history_up_to_last_action.index(
+                            last_action, idx_last_occurence+1)
+                    except ValueError:
+                        break
+                    cycle = SEPERATOR.join(
+                        self.actions[idx_last_occurence:idx_last_action+1])
+                    self.candidate_cycles.add(cycle)
+    
+    def _pruneCyclesBasedOnEquivelence(self):
+        pass
 
     def _getCycleCandidacyMetric(self, cycle, cycle_prob):
         return cycle_prob

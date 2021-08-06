@@ -14,10 +14,11 @@ class TestStringMethods(unittest.TestCase):
             # pp(pattern_finder.candidate_cycles)
             pattern_finder._getCycleMetrics()
             patterns = pattern_finder.giveMePattern()
-            for pattern, metric in patterns:
-                print('------------------------------')
-                print(pattern)
-                print(metric)
+            with open('./log', 'a') as log:
+                for pattern, metric in patterns:
+                    print('------------------------------', file=log)
+                    print(pattern, file=log)
+                    print(metric, file=log)
             if idx == 0:
                 break
 
