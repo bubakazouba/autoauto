@@ -130,11 +130,25 @@ def _getSerializableResult(res):
         if "increment_pattern" in action["action"]:
             action["action"]["increment_pattern"] = action["action"]["increment_pattern"][0]
     return res
+
+pattern_finder = patternfinder.PatternFinder(lambda s: send_message("PATTERNFINDER: "+s))
+actions_grouper = ActionsGrouper(lambda s: send_message("ACTIONGROUPER: "+s))
+def handleAction(msg):
+    action_group = actions_grouper.append(msg["action"])
+    if action_group is None:
+        continue
+    res = None
+    for groupedAction in action_group:
+        send_message(">>>>>I'm appending groupedAction.." + str(groupedAction))
+        res = pattern_finder.append(groupedAction)
+    s = ""
+    if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
+        send_message({"event": "IM SURE", "sureness": res["sureness"]})
+    else:
+        send_message({"event": "IM NOT SURE"})
 def main():
-    pattern_finder = patternfinder.PatternFinder(lambda s: send_message("PATTERNFINDER: "+s))
     # results_file = open("/tmp/myresults", "a")
     # last_res = None
-    actionsGrouper = ActionsGrouper(lambda s: send_message("ACTIONGROUPER: "+s))
     while True:
         msg = {}
         message = nativemessaging.get_message()
@@ -151,18 +165,7 @@ def main():
             send_message("I'm alive")
             continue
         if msg["event"] == "ACTION":
-            actionGroup = actionsGrouper.append(msg["action"])
-            if actionGroup is None:
-                continue
-            res = None
-            for groupedAction in actionGroup:
-                send_message(">>>>>actionGroup im appending groupedAction.." + str(groupedAction))
-                res = pattern_finder.append(groupedAction)
-            s = ""
-            if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
-                send_message({"event": "IM SURE", "sureness": res["sureness"]})
-            else:
-                send_message({"event": "IM NOT SURE"})
+            handleAction(msg, actionsGrouper)
             # if res is None and last_res is None:
             #     pass
             # else:

@@ -33,11 +33,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
 
     if (msg.event && ["CLICK", "KEYBOARD", "PLACE_IN_CLIPBOARD", "FOCUS", "KEY_GROUP_INPUT"].includes(msg.event.type)) {
-        if ("keyParams" in msg.event && ["Meta", "Shift", "Control", "Alt"].includes(msg.event.keyParams.key)) {
+        // TODO: tab and enter shouldn't be ignored in textareas
+        if ("keyParams" in msg.event && "key" in msg.event.keyParams && ["meta", "shift", "control", "alt", "tab", "enter"].includes(msg.event.keyParams.key.toLowerCase())) {
             // console.log("ignoring loan modifier key");
             return;
         }
-        console.log("got", pprint(msg, sender.tab.index));
+        // console.log("got", pprint(msg, sender.tab.index));
         let action = {
             tab: {
                 id: sender.tab.id,
@@ -58,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 var port = null;
 
 function sendNativeMessage(message) {
-    console.log("sending message now", JSON.stringify(message));
+    // console.log("sending message now", JSON.stringify(message));
     port.postMessage(JSON.stringify(message));
 }
 

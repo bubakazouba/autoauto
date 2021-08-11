@@ -28,10 +28,8 @@ class ActionsGrouper:
         endOffset = keyGroupInput["endOffset"]
         self.log("_updateSelectionDict: {},{}".format(startOffset, endOffset))
         if startOffset != endOffset:
-            self.log("im updating selection dict to smth")
             self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = [startOffset, endOffset]
         else:
-            self.log("im updating selection dict to nothing")
             self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = []
     
     def _actionOnEditableElementIsSubmitted(self, action):
@@ -61,18 +59,26 @@ class ActionsGrouper:
                 [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
                 self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
                 self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
-            if printutils.get_keyboard_string_from_key_params(keyParams) == "cmd+v":
+            if key == "v" and keyParams["metaKey"]:
                 clipboard = keyGroupInput["clipboard"]
                 self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
                 self.log("I sent paste")
-            elif key == "Backspace": # also add cmd+backspace for delete
+            elif key == "Backspace" and not keyParams["metaKey"]:
                 # if there was selection then we have already taken care of it
                 if self._getSelectionForAction(action) == []:
                     self._getKeyGroupForAction(action).deleteTextAtOffset(startOffset - 1)
-                    self.log("I sent deleteTextAtOffset: "+str(startOffset-1) + ", now keygroup=" + str(self._getKeyGroupForAction(action)))
+                    self.log("I sent deleteTextAtOffset: "+str(startOffset-1))
+            elif key == "Backspace" and keyParams["metaKey"]: # TODO: add also alt+delete
+                # if there was selection then we have already taken care of it
+                if self._getSelectionForAction(action) == []:
+                    self._getKeyGroupForAction(action).deleteTextAtOffsetRange(0, startOffset)
+                    self.log("I sent deleteTextAtOffsetRange(0, : "+str(startOffset-1) + ")")
+            elif keyParams["metaKey"] or keyParams["key"] == "CapsLock": # ignore cmd+c,cmd+f,cmd+d (any browser shortcuts)
+                pass
             else:
                 self.log("im appending text")
                 self._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset)
+        self.log("now keygroup=" + str(self._getKeyGroupForAction(action)))
 
         self._updateSelectionDict(action)
 
@@ -84,27 +90,29 @@ class ActionsGrouper:
         if self.actionIsOnEditableElement(action):
             tabId = action["tab"]["id"]
             elementId = action["action"]["element_id"]
-            # TODO: only create a new KeyGroup on re-focus if some action happened 
-            if action["action"]["type"] == "FOCUS" and self._actionOnEditableElementIsSubmitted(action):# and self.didUserDoADestructiveActionOnTheSameTabAfterAlteringThisElement(action):
+            # TODO: only create a new KeyGroup on re-focus if keyGroup for element was submitted (or if it didn't exist before) 
+            if action["action"]["type"] == "FOCUS" and self._actionOnEditableElementIsSubmitted(action):
                 self.keyGroupDict[tabId][elementId] = KeyGrouper(action["action"]["keyGroupInput"]["value"])
             if action["action"]["type"] == "KEY_GROUP_INPUT":
                 self._appendKeyboardActionInKeyGroup(action)
-        # TODO: group select + copy here too, and discard useless selects
+            return None
         # if action is clicking/selecting
         else:
             if action["action"]["type"] == "FOCUS":
-                return res
+                return None
             res = []
-            # TODO: only submit unsubmitted keygroups if a click happened (select/copy shouldnt submit)
-            unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])
-            for a in unsubmittedKeyGroupActions:
-                a = copy.deepcopy(a)
-                del a["action"]["keyParams"]
-                del a["action"]["keyGroupInput"]
-                a["action"]["keyGroup"] = self._getKeyGroupForAction(a)
-                res.append(a)
-            res.append(action)
-        return res
+            if action["action"]["type"] == "CLICK":
+                # Only submit keyGroups and report them back if we clicked on a button
+                # (assuming here that clicking on this button is submitting the text in the web page)
+                unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])
+                for a in unsubmittedKeyGroupActions:
+                    a = copy.deepcopy(a)
+                    del a["action"]["keyParams"]
+                    del a["action"]["keyGroupInput"]
+                    a["action"]["keyGroup"] = self._getKeyGroupForAction(a)
+                    res.append(a)
+                res.append(action)
+                return res
 
 def t():
     return defaultdict(KeyGrouper)

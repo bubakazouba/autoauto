@@ -93,6 +93,7 @@ function getSelectionInfo() {
     };
 }
 
+// TODO(#13): also call this when we user right clicks -> copy
 // Call this if user asked to copy text
 function getPlaceInClipboardEvent() {
     let selectionInfo = getSelectionInfo();
