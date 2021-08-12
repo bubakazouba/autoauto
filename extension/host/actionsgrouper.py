@@ -98,10 +98,10 @@ class ActionsGrouper:
             return None
         # if action is clicking/selecting
         else:
-            if action["action"]["type"] == "FOCUS":
-                return None
             res = []
-            if action["action"]["type"] == "CLICK":
+            if action["action"]["type"] == "FOCUS":
+                pass
+            elif action["action"]["type"] == "CLICK":
                 # Only submit keyGroups and report them back if we clicked on a button
                 # (assuming here that clicking on this button is submitting the text in the web page)
                 unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])
@@ -112,7 +112,12 @@ class ActionsGrouper:
                     a["action"]["keyGroup"] = self._getKeyGroupForAction(a)
                     res.append(a)
                 res.append(action)
-                return res
+            # this should only run for spreadsheets
+            elif action["action"]["type"] == "KEYBOARD" and "docs.google.com" in action["tab"]["url"]:
+                res.append(action)
+
+            return res
+
 
 def t():
     return defaultdict(KeyGrouper)
