@@ -21,6 +21,7 @@ function getElementInfoForKeyPresses(e) {
             return;
         }
     }
+    // TODO: reconcile key ignoring logic (rn its fragmented here,backgorund.js and actionsgrouper.py)
     // User is just switching tabs, unfortunately key gets reported on a text editable element if its active
     if(!!e.code && e.code.startsWith("Digit") && e.metaKey) {
         return;

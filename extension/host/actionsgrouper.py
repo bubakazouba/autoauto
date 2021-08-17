@@ -22,7 +22,6 @@ class ActionsGrouper:
         return self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]]
 
     def _updateSelectionDict(self, action):
-        keyParams = action["action"]["keyParams"]
         keyGroupInput = action["action"]["keyGroupInput"]
         startOffset = keyGroupInput["startOffset"]
         endOffset = keyGroupInput["endOffset"]
@@ -93,8 +92,10 @@ class ActionsGrouper:
             # TODO: only create a new KeyGroup on re-focus if keyGroup for element was submitted (or if it didn't exist before) 
             if action["action"]["type"] == "FOCUS" and self._actionOnEditableElementIsSubmitted(action):
                 self.keyGroupDict[tabId][elementId] = KeyGrouper(action["action"]["keyGroupInput"]["value"])
-            if action["action"]["type"] == "KEY_GROUP_INPUT":
+            elif action["action"]["type"] == "KEY_GROUP_INPUT":
                 self._appendKeyboardActionInKeyGroup(action)
+            elif action["action"]["type"] == "KEY_GROUP_SELECTION":
+                self._updateSelectionDict(action)
             return None
         # if action is clicking/selecting
         else:

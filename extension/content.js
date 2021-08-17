@@ -166,14 +166,23 @@ document.addEventListener('focusin', function(e) {
     });
 });
 
+document.onkeypressed = function(e) {
+    let elementInfo = getElementInfoForKeyPresses(e);
+    if (!elementInfo) {
+        return;
+    }
+    let {element, element_id, element_node} = elementInfo;
+    console.log("onkeypressed W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");
+}
+
 document.onkeydown = function(e) {
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
     }
     let {element, element_id, element_node} = elementInfo;
-
-    // If this is a PLACE_IN_CLIPBOARD event
+    // console.log("onkeydown W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
+    // If this is a PLACE_IN_CLIPBOARD event (user is copying non text field)
     if (!isElementTextEditable(element) && !areWeInDrive() && keyIsCopy(e)) {
         let event = getPlaceInClipboardEvent();
         if (!!event) {
@@ -188,6 +197,7 @@ document.onkeydown = function(e) {
     
     // we only want these on keyup
     if(textManuveringCommand(e, false) && !areWeInDrive()) {
+        console.log("onkeydown I GO BYE W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");
         return;
     }
     let event = getKeyPressEvent(e, element, element_id, element_node, false);
@@ -206,15 +216,41 @@ function textManuveringCommand(e, isKeyUp) {
     return c1 || c2 || c3;
 }
 
+document.addEventListener('selectionchange', (e) => {
+    let element = document.activeElement;
+    console.log("element=", element);
+    if (!isElementTextEditable(element) || !isTextSelected()) {
+        return;
+    }
+    console.log('selectionchange', isTextSelected());
+    // console.log('selectionchange', getSelectionInfo());
+    // conso
+    let event = {
+        type: "KEY_GROUP_SELECTION",
+        element_id: getElementId(element),
+        element_node: element.nodeName,
+        keyGroupInput: {
+            startOffset: element.selectionStart,
+            endOffset: element.selectionEnd,
+            value: element.value,
+        },
+    };
+    chrome.runtime.sendMessage({
+        event: event
+    });
+});
+
 document.onkeyup = function(e) {
+    console.log("onkeyup i was called");
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
     }
     let {element, element_id, element_node} = elementInfo;
+    console.log("onkeyup W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
     
-    // We only want Arrow keys or selections for keyup
-    if(!textManuveringCommand(e, true) || areWeInDrive()) {
+    // We don't want any text manuvering commands (offset updates/selections)
+    if(textManuveringCommand(e, true) || areWeInDrive()) {
         return;
     }
 
