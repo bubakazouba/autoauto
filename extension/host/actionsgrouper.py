@@ -49,34 +49,33 @@ class ActionsGrouper:
         keyParams = action["action"]["keyParams"]
         keyGroupInput = action["action"]["keyGroupInput"]
         startOffset = keyGroupInput["startOffset"]
-        key = keyParams["key"] if not keyParams["isManuveringAction"] else None
+        key = keyParams["key"]
 
-        if not keyParams["isManuveringAction"]:
-            self._markUnsubmittedKeyGroup(action)
-            # Starting here all actions are destructive ones (character or cmd+v or backspace)
-            if self._getSelectionForAction(action) != []:
-                [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
-                self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
-                self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
-            if key == "v" and keyParams["metaKey"]:
-                clipboard = keyGroupInput["clipboard"]
-                self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
-                self.log("I sent paste")
-            elif key == "Backspace" and not keyParams["metaKey"]:
-                # if there was selection then we have already taken care of it
-                if self._getSelectionForAction(action) == []:
-                    self._getKeyGroupForAction(action).deleteTextAtOffset(startOffset - 1)
-                    self.log("I sent deleteTextAtOffset: "+str(startOffset-1))
-            elif key == "Backspace" and keyParams["metaKey"]: # TODO: add also alt+delete
-                # if there was selection then we have already taken care of it
-                if self._getSelectionForAction(action) == []:
-                    self._getKeyGroupForAction(action).deleteTextAtOffsetRange(0, startOffset)
-                    self.log("I sent deleteTextAtOffsetRange(0, : "+str(startOffset-1) + ")")
-            elif keyParams["metaKey"] or keyParams["key"] == "CapsLock": # ignore cmd+c,cmd+f,cmd+d (any browser shortcuts)
-                pass
-            else:
-                self.log("im appending text")
-                self._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset)
+        self._markUnsubmittedKeyGroup(action)
+        # Starting here all actions are destructive ones (character or cmd+v or backspace)
+        if self._getSelectionForAction(action) != []:
+            [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
+            self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
+            self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
+        if key == "v" and keyParams["metaKey"]:
+            clipboard = keyGroupInput["clipboard"]
+            self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
+            self.log("I sent paste")
+        elif key == "Backspace" and not keyParams["metaKey"]:
+            # if there was selection then we have already taken care of it
+            if self._getSelectionForAction(action) == []:
+                self._getKeyGroupForAction(action).deleteTextAtOffset(startOffset - 1)
+                self.log("I sent deleteTextAtOffset: "+str(startOffset-1))
+        elif key == "Backspace" and keyParams["metaKey"]: # TODO: add also alt+delete
+            # if there was selection then we have already taken care of it
+            if self._getSelectionForAction(action) == []:
+                self._getKeyGroupForAction(action).deleteTextAtOffsetRange(0, startOffset)
+                self.log("I sent deleteTextAtOffsetRange(0, : "+str(startOffset-1) + ")")
+        elif keyParams["metaKey"] or keyParams["key"] == "CapsLock": # ignore cmd+c,cmd+f,cmd+d (any browser shortcuts)
+            pass
+        else:
+            self.log("im appending text")
+            self._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset)
         self.log("now keygroup=" + str(self._getKeyGroupForAction(action)))
 
         self._updateSelectionDict(action)

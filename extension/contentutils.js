@@ -33,7 +33,7 @@ function getElementInfoForKeyPresses(e) {
     };
 }
 
-function getKeyPressEvent(e, element, element_id, element_node, isManuveringAction) {
+function getKeyPressEvent(e, element, element_id, element_node) {
     let event = {
         element_id: element_id,
         element_node: element_node,
@@ -42,10 +42,6 @@ function getKeyPressEvent(e, element, element_id, element_node, isManuveringActi
         event.type = "KEY_GROUP_INPUT";
         event.keyGroupInput = {
             startOffset: element.selectionStart,
-            // Reason we need this logic is if user has text selected then they press some char, keydown reports that there is still text selected, when that selection has been reported before
-            // TODO: consider not pre-reporting text selection
-            // TODO: consider using keyup then? 1 problem with keyup is how we handle pastes and other keyboard shortcuts
-            endOffset: isManuveringAction ? element.selectionEnd : element.selectionStart,
             value: element.value,
             // TODO: only send clipboard if this action is a paste
             clipboard: keyIsPaste(e) ? getValueInClipboard() : undefined,
@@ -55,13 +51,10 @@ function getKeyPressEvent(e, element, element_id, element_node, isManuveringActi
         event.type = "KEYBOARD";
     }
     event.keyParams = {};
-    if (!isManuveringAction) {
-        const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
-        for (f of FIELDS) {
-            event.keyParams[f] = e[f];
-        }
+    const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
+    for (f of FIELDS) {
+        event.keyParams[f] = e[f];
     }
-    event.keyParams["isManuveringAction"] = isManuveringAction;
     
     return event;
 }

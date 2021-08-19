@@ -166,15 +166,6 @@ document.addEventListener('focusin', function(e) {
     });
 });
 
-document.onkeypressed = function(e) {
-    let elementInfo = getElementInfoForKeyPresses(e);
-    if (!elementInfo) {
-        return;
-    }
-    let {element, element_id, element_node} = elementInfo;
-    console.log("onkeypressed W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");
-}
-
 document.onkeydown = function(e) {
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
@@ -188,43 +179,37 @@ document.onkeydown = function(e) {
         if (!!event) {
 
         }
-        console.log("PLACE_IN_CLIPBOARD", event);
         chrome.runtime.sendMessage({
             event: event
         });
         return;
     }
     
-    // we only want these on keyup
+    // We don't want any text manuvering commands unless we are in drive
     if(textManuveringCommand(e, false) && !areWeInDrive()) {
-        console.log("onkeydown I GO BYE W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");
         return;
     }
-    let event = getKeyPressEvent(e, element, element_id, element_node, false);
     
-    console.log("keydown", event);
-
+    let event = getKeyPressEvent(e, element, element_id, element_node);
+    
     chrome.runtime.sendMessage({
         event: event
     });
 };
 
 function textManuveringCommand(e, isKeyUp) {
+    // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
     let c1 = e.key.substring(0,5).toUpperCase() == "ARROW";
-    let c2 = e.key == "a" && e.metaKey; // this will only work for isKeyDown
-    let c3 = isKeyUp && isTextSelected(e.path[0]); // we need this because isKeyUp doesnt report that "a" had metaKey = true
-    return c1 || c2 || c3;
+    let c2 = e.key == "a" && e.metaKey;
+    return c1 || c2;
 }
 
 document.addEventListener('selectionchange', (e) => {
     let element = document.activeElement;
-    console.log("element=", element);
     if (!isElementTextEditable(element) || !isTextSelected()) {
         return;
     }
-    console.log('selectionchange', isTextSelected());
-    // console.log('selectionchange', getSelectionInfo());
-    // conso
+
     let event = {
         type: "KEY_GROUP_SELECTION",
         element_id: getElementId(element),
@@ -239,29 +224,6 @@ document.addEventListener('selectionchange', (e) => {
         event: event
     });
 });
-
-document.onkeyup = function(e) {
-    console.log("onkeyup i was called");
-    let elementInfo = getElementInfoForKeyPresses(e);
-    if (!elementInfo) {
-        return;
-    }
-    let {element, element_id, element_node} = elementInfo;
-    console.log("onkeyup W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
-    
-    // We don't want any text manuvering commands (offset updates/selections)
-    if(textManuveringCommand(e, true) || areWeInDrive()) {
-        return;
-    }
-
-    let event = getKeyPressEvent(e, element, element_id, element_node, true);
-    console.log("onkeyup selectionStart: ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
-    console.log("keyup", event);
-
-    chrome.runtime.sendMessage({
-        event: event
-    });
-};
 
 function parseList(elementId) {
     let parsedList = [];
