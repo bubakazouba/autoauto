@@ -11,19 +11,15 @@ def getIncrement(actions, log):
     actions = copy.deepcopy(actions)
     if len(actions) == 0:
         return None, None
-    interpreted_actions = []
 
-    actions, detected_any_pattern, last_index_trackers = _getIncrements(actions, log)
-    # if detected_any_pattern:
-    #     return actions, last_index_trackers
-    # else:
-    #     return None, None
+    actions, last_index_trackers = _getIncrements(actions, log)
     return actions, last_index_trackers
 
 def _getIncrements(actions, log):
     last_index_trackers = {}
-    detected_any_pattern = False
-    # TODO: allow this to work for more complex pattern (e.g click checkbox1,checkbox2 in same row then repeat across rows)
+    # TODO(#23): allow this to work for more complex pattern (e.g click checkbox1,checkbox2 in same row then repeat across rows)
+    # the solution to this is to link the increment pattern with the offset in our list of repeated actions
+    # this requires integration with adhoc2 detect_repition function
     elementTypesAndActionTypesAndTabIdsToIndices = defaultdict(list)
     for i in range(len(actions)):
         if "PLACE_IN_CLIPBOARD" == actions[i]["action"]["type"]:
@@ -46,11 +42,10 @@ def _getIncrements(actions, log):
                 found_case_breaks_proposed_pattern = True
                 break
         if not found_case_breaks_proposed_pattern:
-            detected_any_pattern = True
             for index in elementActionsIndices:
                 actions[index]["action"]["increment_pattern"] = proposed_pattern
             last_index_trackers[actions[index]["tab"]["id"]] = actions[elementActionsIndices[-1]]["action"]["element_id"]
-    return actions, detected_any_pattern, last_index_trackers
+    return actions, last_index_trackers
 
 def proposeIncrement(action1, action2):
     i1 = action1["action"]["element_id"]

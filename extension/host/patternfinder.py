@@ -16,7 +16,8 @@ class PatternFinder:
         self.actions = []
         self.suspected_result = None
         self.suspected_result_last_index = None
-        # TODO: this needs to be smarter
+        # TODO: this needs to be smarter, one tab can contain multiple increment patterns where
+        # we would want to track the last index
         self.last_index_trackers = {} # map from tab id to element_id
         self.incrementFinderLog = lambda s : self.log("    INCREMENTFINDER: " + s)
 
