@@ -22,15 +22,15 @@ def handleAction(msg):
     action_group = actions_grouper.append(msg["action"])
     if action_group is None:
         return
-    res = None
+    
     for groupedAction in action_group:
         send_message(">>>>>I'm appending groupedAction.." + str(groupedAction))
         res = pattern_finder.append(groupedAction)
-    s = ""
-    if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
-        send_message({"event": "IM SURE", "sureness": res["sureness"]})
-    else:
-        send_message({"event": "IM NOT SURE"})
+
+        if res is not None and res["sureness"] >= MIN_SURENESS_THRESHOLD:
+            send_message({"event": "IM SURE", "sureness": res["sureness"]})
+        else:
+            send_message({"event": "IM NOT SURE"})
 
 def main():
     # results_file = open("/tmp/myresults", "a")

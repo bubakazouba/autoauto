@@ -24,9 +24,9 @@ class ActionsGrouper:
     def _updateSelectionDict(self, action):
         keyGroupInput = action["action"]["keyGroupInput"]
         startOffset = keyGroupInput["startOffset"]
-        endOffset = keyGroupInput["endOffset"]
+        endOffset = keyGroupInput["endOffset"] if "endOffset" in keyGroupInput else None
         self.log("_updateSelectionDict: {},{}".format(startOffset, endOffset))
-        if startOffset != endOffset:
+        if endOffset is not None and startOffset != endOffset:
             self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = [startOffset, endOffset]
         else:
             self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = []
@@ -114,6 +114,8 @@ class ActionsGrouper:
                 res.append(action)
             # this should only run for spreadsheets
             elif action["action"]["type"] == "KEYBOARD" and "docs.google.com" in action["tab"]["url"]:
+                res.append(action)
+            elif action["action"]["type"] == "PLACE_IN_CLIPBOARD":
                 res.append(action)
 
             return res

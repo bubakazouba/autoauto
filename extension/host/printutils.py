@@ -15,16 +15,18 @@ def get_keyboard_string_from_key_params(keyParams):
     return s
 
 def getPrettyPrintActions(actions):
-    arr = []
-    for action in actions:
-        actionType = action["action"]["type"]
-        if actionType == "KEYBOARD":
-            arr.append(_getPrettyPrintKeyboard(action))
-        elif actionType == "KEY_GROUP_INPUT":
-            arr.append("{}{} KeyGroup='{}'".format(actionType, action["action"]["element_id"], str(action["action"]["keyGroup"])))
-        elif actionType in ["CLICK", "PLACE_IN_CLIPBOARD"]:
-            arr.append(_getPrettyPrintClick(action))
-    return ','.join(arr)
+    return ','.join([getPrettyPrintAction(action) for action in actions])
+
+def getPrettyPrintAction(action):
+    if action is None:
+        return "None"
+    actionType = action["action"]["type"]
+    if actionType == "KEYBOARD":
+        return _getPrettyPrintKeyboard(action)
+    elif actionType == "KEY_GROUP_INPUT":
+        return "{}{} KeyGroup='{}'".format(actionType, action["action"]["element_id"], str(action["action"]["keyGroup"]))
+    elif actionType in ["CLICK", "PLACE_IN_CLIPBOARD"]:
+        return _getPrettyPrintClick(action)
 
 def _getPrettyPrintClick(action):
     if "item_index" in action["action"]:

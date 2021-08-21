@@ -16,13 +16,17 @@ class PatternFinder:
         self.suspected_result = None
         self.suspected_result_last_index = None
         self.last_index_trackers = {}
-        
-    def _isUsersLastActionConfirmingSuggestion(self):
+
+    def _getExpectedActionAccordingToOurSuspectedResult(self):
         if self.suspected_result is None:
-            return False
+            return None
         index = len(self.actions) - self.suspected_result_last_index - 1
         index = index % len(self.suspected_result["pattern"])
-        return self._actionIsEqualTo(self.suspected_result["pattern"][index], self.actions[-1])
+        return self.suspected_result["pattern"][index]
+        
+    def _isUsersLastActionConfirmingSuggestion(self):
+        expectedAction = self._getExpectedActionAccordingToOurSuspectedResult()
+        return self._actionIsEqualTo(expectedAction, self.actions[-1])
     
     def _getSureness(self):
         len_user_confirmation = len(self.actions) - self.suspected_result_last_index
@@ -55,11 +59,16 @@ class PatternFinder:
             result["error"] / len(result["pattern"]) <= MAX_ERROR_RATIO_THRESHOLD
 
     def _suggestPattern(self):
+        action = self.actions[-1]
         if self.suspected_result is not None:
             if self._isUsersLastActionConfirmingSuggestion():
                 self.log("user is confirming our suggestion")
                 return
             else:
+                expectedAction = self._getExpectedActionAccordingToOurSuspectedResult()
+                expectedActionStr = printutils.getPrettyPrintAction(expectedAction)
+                actionStr = printutils.getPrettyPrintAction(action)
+                self.log("User didnt confirm our suggestion expected: {}, {}".format(expectedActionStr, actionStr))
                 self.suspected_result = None
                 self.suspected_result_last_index = None
         results = []
@@ -128,9 +137,7 @@ class PatternFinder:
     def _actionIsEqualTo(self, action1, action2):
         # Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
         # in action1 since we are tightly coupling this to _isUsersLastActionConfirmingSuggestion where the second argument is the suspected result
-        if "increment_pattern" not in action1["action"] or "item_index" not in action1["action"] or "item_index" not in action2["action"]:
-            return action1 == action2
-        else:
+        if "increment_pattern" in action1["action"] and "item_index" in action1["action"] and "item_index" in action2["action"]:
             element_id = action1["action"]["element_id"]
             i1 = action1["action"]["item_index"]
             i2 = action2["action"]["item_index"]
@@ -143,10 +150,18 @@ class PatternFinder:
             del action1["action"]["item_index"]
             del action1["action"]["increment_pattern"]
             del action2["action"]["item_index"]
-            res = does_action_2_follow_predicted_pattern and action1 == action2
+            does_it_follow_and_are_they_equal = does_action_2_follow_predicted_pattern and action1 == action2
             # TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object
             # so it doesnt fail if we just check for equality
-            if res:
+            if does_it_follow_and_are_they_equal:
                 # Only update if user is still confirming the pattern
                 self.last_index_trackers[element_id] = i2
-            return res
+            return does_it_follow_and_are_they_equal
+        elif action1["action"]["type"] == "KEY_GROUP_INPUT" and action2["action"]["type"] == "KEY_GROUP_INPUT":
+            action1 = copy.deepcopy(action1)
+            action2 = copy.deepcopy(action2)
+            action1["action"]["keyGroup"] = action1["action"]["keyGroup"].jsonify()
+            action2["action"]["keyGroup"] = action2["action"]["keyGroup"].jsonify()
+            return str(action1) == str(action2)
+        else:
+            return action1 == action2

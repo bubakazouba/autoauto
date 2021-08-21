@@ -22,7 +22,7 @@ chrome.runtime.onInstalled.addListener(function() {
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
         console.log("got user pressed stop");
-        sendNativeMessage({
+        return sendNativeMessage({
             event: "USER_PRESSED_STOP",
             repitions: msg.event.repitions,
         });
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         return;
     }
 
-    if (msg.event && ["CLICK", "KEYBOARD", "PLACE_IN_CLIPBOARD", "FOCUS", "KEY_GROUP_INPUT", "KEY_GROUP_SELECTION"].includes(msg.event.type)) {
+    if (msg.event) {
         // TODO: tab and enter shouldn't be ignored in textareas
         if ("keyParams" in msg.event && "key" in msg.event.keyParams && ["meta", "shift", "control", "alt", "tab", "enter"].includes(msg.event.keyParams.key.toLowerCase())) {
             // console.log("ignoring loan modifier key");

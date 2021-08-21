@@ -172,16 +172,16 @@ document.onkeydown = function(e) {
         return;
     }
     let {element, element_id, element_node} = elementInfo;
-    // console.log("onkeydown W/E ", element.selectionStart, "selectionEnd: ", element.selectionEnd, "");    
+
     // If this is a PLACE_IN_CLIPBOARD event (user is copying non text field)
     if (!isElementTextEditable(element) && !areWeInDrive() && keyIsCopy(e)) {
         let event = getPlaceInClipboardEvent();
-        if (!!event) {
 
+        if (!!event) {
+            chrome.runtime.sendMessage({
+                event: event
+            });
         }
-        chrome.runtime.sendMessage({
-            event: event
-        });
         return;
     }
     
