@@ -174,3 +174,29 @@ function _copy(text) {
   //other elements can get access to this.
   document.body.removeChild(copyFrom);
 }
+
+// TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
+// simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
+function getElementById(id) {
+    function _getElementById(node, id) {
+        let i = id.indexOf(".");
+        let x;
+        if (i==-1) {
+            x = parseInt(id);
+            return node.childNodes[x];
+        }
+        else {
+            let x = parseInt(id.substr(0, i));
+            return _getElementById(node.childNodes[x], id.substr(i+1));
+        }
+    }
+    let root = document.documentElement;
+    let i = id.indexOf(".");
+    if (i == -1) {
+        return null;
+    }
+    return _getElementById(root, id.substr(i + 1));
+    // TODO: only do this if element still exists on the page. this way its more stable incase page changed over time.
+    // Maybe i need to way to identify elements? one with indices the other without. static vs dynamic element addressing
+    // return window.elements[id];
+}

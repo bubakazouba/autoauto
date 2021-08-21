@@ -3,32 +3,6 @@ function getCurrentTab() {
     return chrome.tabs.query(queryOptions);
 }
 
-// TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
-// simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
-function getElementById(id) {
-    function _getElementById(node, id) {
-        let i = id.indexOf(".");
-        let x;
-        if (i==-1) {
-            x = parseInt(id);
-            return node.childNodes[x];
-        }
-        else {
-            let x = parseInt(id.substr(0, i));
-            return _getElementById(node.childNodes[x], id.substr(i+1));
-        }
-    }
-    let root = document.documentElement;
-    let i = id.indexOf(".");
-    if (i == -1) {
-        return null;
-    }
-    return _getElementById(root, id.substr(i + 1));
-    // TODO: only do this if element still exists on the page. this way its more stable incase page changed over time.
-    // Maybe i need to way to identify elements? one with indices the other without. static vs dynamic element addressing
-    // return window.elements[id];
-}
-
 function getSelectionInfo() {
     if (!isTextSelected()) {
         return;
@@ -148,7 +122,7 @@ document.onkeydown = function(e) {
     }
     
     // We don't want any text manuvering commands unless we are in drive
-    if(textManuveringCommand(e, false) && !areWeInDrive()) {
+    if(isTextManuveringCommand(e, false) && !areWeInDrive()) {
         return;
     }
     
@@ -159,7 +133,7 @@ document.onkeydown = function(e) {
     });
 };
 
-function textManuveringCommand(e, isKeyUp) {
+function isTextManuveringCommand(e, isKeyUp) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
     let c1 = e.key.substring(0,5).toUpperCase() == "ARROW";
     let c2 = e.key == "a" && e.metaKey;
@@ -186,48 +160,6 @@ document.addEventListener('selectionchange', (e) => {
         event: event
     });
 });
-
-function putElementInFocus(element_id) {
-    let element = getElementById(element_id);
-    element.focus();
-}
-
-function clickOnElement(element_id) {
-    let element = getElementById(element_id);
-    element.click();
-}
-function keyGroupOnElement(element_id, keyGroup) {
-    console.log("keyGroupOnElement got called", keyGroup);
-    let element = getElementById(element_id);
-    let initialValue = element.value;
-    let paste = getValueInClipboard();
-    let finalValue = "";
-    for(let p of keyGroup) {
-        if (typeof p == typeof "") {
-            console.log("im appending p=", p);
-            finalValue += p;
-        }
-        else {
-            let s = "";
-            if (p.id == "INITIAL_VALUE") {
-                s = initialValue;
-            }
-            else if (p.id == "PASTE") {
-                s = paste;
-            }
-            let raw_end = p.end == "E" ? s.length : p.end;
-            console.log("im appending s=", s, p.start, raw_end, s.substring(p.start, raw_end));
-            finalValue += s.substring(p.start, raw_end);
-        }
-    }
-    element.value = finalValue;
-}
-
-function placeElementInClipboard(element_id) {
-    let element = getElementById(element_id);
-    // TODO: we will need to use different accessors (e.g textfields use .value)
-    _copy(element.textContent);
-}
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
