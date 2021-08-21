@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Button List Demo</title>
+</head>
+<body>
+    <div>
+        <textarea style="height: 300px;" id="output"></textarea>
+    </div>
+    <div>
+        1: <input type="checkbox" id="1" class="checkbox"><br>
+        2: <input type="checkbox" id="2" class="checkbox"><br>
+        3: <input type="checkbox" id="3" class="checkbox"><br>
+        4: <input type="checkbox" id="4" class="checkbox"><br>
+        5: <input type="checkbox" id="5" class="checkbox"><br>
+        6: <input type="checkbox" id="6" class="checkbox"><br>
+        7: <input type="checkbox" id="7" class="checkbox"><br>
+        8: <input type="checkbox" id="8" class="checkbox"><br>
+        9: <input type="checkbox" id="9" class="checkbox"><br>
+        10: <input type="checkbox" id="10" class="checkbox"><br>
+        11: <input type="checkbox" id="11" class="checkbox"><br>
+        12: <input type="checkbox" id="12" class="checkbox"><br>
+        13: <input type="checkbox" id="13" class="checkbox"><br>
+        14: <input type="checkbox" id="14" class="checkbox"><br>
+        15: <input type="checkbox" id="15" class="checkbox"><br>
+        16: <input type="checkbox" id="16" class="checkbox"><br>
+        17: <input type="checkbox" id="17" class="checkbox"><br>
+        18: <input type="checkbox" id="18" class="checkbox"><br>
+        19: <input type="checkbox" id="19" class="checkbox"><br>
+        20: <input type="checkbox" id="20" class="checkbox"><br>
+        21: <input type="checkbox" id="21" class="checkbox"><br>
+        22: <input type="checkbox" id="22" class="checkbox"><br>
+        23: <input type="checkbox" id="23" class="checkbox"><br>
+        24: <input type="checkbox" id="24" class="checkbox"><br>
+        25: <input type="checkbox" id="25" class="checkbox"><br>
+    </div>
+</body>
+<script type="text/javascript">
+    var elements = document.getElementsByClassName("checkbox");
+
+    var onBtnClick = function() {
+        let id = this.id;
+        let textarea = document.getElementById("output");
+        textarea.value += "you checked " + id+"\n";
+        textarea.scrollTop = textarea.scrollHeight;
+    };
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', onBtnClick, false);
+    }
+</script>
+</html>

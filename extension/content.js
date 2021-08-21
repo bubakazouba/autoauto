@@ -65,7 +65,26 @@ function getClickInfo(e) {
         };
     }
 }
-
+document.addEventListener("change", (e) => {
+    if (!e.isTrusted) {
+        // ignore javascript programmatic clicks
+        console.log("click not trusted ignore");
+        return;
+    }
+    let element = e.path[0];
+    if (element.nodeName != "INPUT" || element.type.toLowerCase() != "checkbox") {
+        return;
+    }
+    let event = {
+        type: "CLICK",
+        element_id: getElementId(element),
+        element_node: "CHECKBOX",
+    };
+    console.log("checkInfo=", event);
+    chrome.runtime.sendMessage({
+        event: event
+    });
+});
 document.addEventListener('click', (e) => {
     if (!e.isTrusted) {
         // ignore javascript programmatic clicks
@@ -82,9 +101,6 @@ document.addEventListener('click', (e) => {
             type: "CLICK",
             element_id: clickInfo.element_id,
             element_node: clickInfo.element_node,
-            clickParams: {
-                // TODO: maybe fill in later with x,y?
-            }
         }
     });
 }, true);
