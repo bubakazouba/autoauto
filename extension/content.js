@@ -3,38 +3,6 @@ function getCurrentTab() {
     return chrome.tabs.query(queryOptions);
 }
 
-function getListItemIndex(li) {
-    let list = li.parentElement;
-    let listItems = list.getElementsByTagName("li");
-    for (let i = 0; i < listItems.length; i++) {
-        if (listItems[i] == li) {
-            return i;
-        }
-    }
-}
-
-function getTableItemIndex(td) {
-    let tableRow = td.parentElement;
-    let tableRowCells = tableRow.getElementsByTagName("td");
-    let x;
-    for (let i = 0; i < tableRowCells.length; i++) {
-        if (tableRowCells[i] == td) {
-            x = i;
-            break;
-        }
-    }
-    let table = tableRow.parentElement;
-    let tableRows = table.getElementsByTagName("tr");
-    let y;
-    for (let i = 0; i < tableRows.length; i++) {
-        if (tableRows[i] == tableRow) {
-            y = i;
-            break;
-        }
-    }
-    return [x, y];
-}
-
 // TODO: this will need to be changed in the future if we are opening new pages (e.g coarse grained user clicks on nth button in page after loading)
 // simple way to do it is to traverse DOM by indices, obviously websites are prone to change in ordering so we would require some smarter matching (e.g text/attributes/class name/id..etc)
 function getElementById(id) {
@@ -62,34 +30,13 @@ function getElementById(id) {
 }
 
 function getSelectionInfo() {
-    function findParentElementOfType(elem, nodeName) {
-        while(!!elem) {
-            if (elem.nodeName == nodeName) {
-                return elem;
-            }
-            elem = elem.parentElement;
-        }
-    }
     if (!isTextSelected()) {
         return;
     }
     let elem = document.getSelection().focusNode;
-    
-    // TODO: Assuming for now that user is always selecting the full text in the node, this will need to change
-    // window.getSelection().getRangeAt(0).startContainer.parentNode;
-    let listElement = findParentElementOfType(elem, "LI");
-    if (!!listElement) {
-        return {
-            element_node: "LIST",
-            item_index: getListItemIndex(listElement),
-            element_id: getElementId(listElement.parentElement),
-        };
-    }
-    let tableElement = findParentElementOfType(elem, "TD");
     return {
-        element_node: "TABLE",
-        item_index: getTableItemIndex(tableElement),
-        element_id: getElementId(tableElement.parentElement.parentElement),
+        element_id: getElementId(elem),
+        element_node: elem.nodeName,
     };
 }
 
@@ -103,8 +50,7 @@ function getPlaceInClipboardEvent() {
     return {
         type: "PLACE_IN_CLIPBOARD",
         element_id: selectionInfo.element_id,
-        element_node: selectionInfo.element_node,
-        item_index: selectionInfo.item_index
+        element_node: selectionInfo.element_node
     };
 }
 
@@ -225,30 +171,6 @@ document.addEventListener('selectionchange', (e) => {
     });
 });
 
-function parseList(elementId) {
-    let parsedList = [];
-    let list = getElementById(elementId);
-    for(let li of list.getElementsByTagName('li')) {
-        parsedList.push(li.textContent);
-    }
-    return parsedList;
-}
-
-function parseTable(elementId) {
-    let table = getElementById(elementId);
-    let parsedTable = [];
-        let list = getElementById(elementId);
-        for(let tr of list.getElementsByTagName('tr')) {
-            let parsedRow = [];
-            parsedTable.push(parsedRow);
-            for(let td of tr.getElementsByTagName('td')) {
-                parsedRow.push(td.textContent);
-            }
-        }
-    console.log("i parsed the table=", parsedTable);
-    return parsedTable;
-}
-
 function putElementInFocus(element_id) {
     let element = getElementById(element_id);
     element.focus();
@@ -284,19 +206,19 @@ function keyGroupOnElement(element_id, keyGroup) {
     }
     element.value = finalValue;
 }
+
+function placeElementInClipboard(element_id) {
+    let element = getElementById(element_id);
+    // TODO: we will need to use different accessors (e.g textfields use .value)
+    _copy(element.textContent);
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
-    if (request.action == "PARSE_LIST") {
-        console.log("I was asked to parse list: " + request.params.id);
-        parsedList = parseList(request.params.id);
-        let index = request.params.index;
-        sendResponse({ "text": parsedList[index] });
-    } else if (request.action == "PARSE_TABLE") {
-        console.log("I was asked to parse table: " + request.params.id);
-        parsedTable = parseTable(request.params.id);
-        let x = request.params.x;
-        let y = request.params.y;
-        sendResponse({ "text": parsedTable[y][x] });
+    if (request.action == "PLACE_IN_CLIPBOARD") {
+        console.log("I was asked to place element in clipboard element_id: " + request.params.id);
+        let text = placeElementInClipboard(request.params.id);
+        sendResponse({ "text": text });
     } else if (request.action == "PUT_ELEMENT_IN_FOCUS") {
         console.log("I was asked to put element in focus: " + request.params.id);
         putElementInFocus(request.params.id);

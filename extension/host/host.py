@@ -6,17 +6,14 @@ from actionsgrouper import ActionsGrouper
 from browserio import send_message, get_message
 from automation import detect_actions_to_trigger, trigger_actions
 
-MIN_SURENESS_THRESHOLD = 10
+MIN_SURENESS_THRESHOLD = 5
 
 def _getSerializableResult(res):
     res = copy.deepcopy(res)
-    for action in res["suspected_result"]["pattern"]:
-        if "increment_pattern" in action["action"]:
-            action["action"]["increment_pattern"] = action["action"]["increment_pattern"][0]
     return res
 
 pattern_finder = patternfinder.PatternFinder(lambda s: send_message("PATTERNFINDER: "+s))
-actions_grouper = ActionsGrouper(lambda s: send_message("ACTIONGROUPER: "+s))
+actions_grouper = ActionsGrouper(lambda s: send_message("    ACTIONGROUPER: "+s))
 
 def handleAction(msg):
     action_group = actions_grouper.append(msg["action"])

@@ -4,6 +4,7 @@ import printutils
 import increment_finder
 import copy
 import json
+import patternutils
 
 MAX_ERROR_RATIO_THRESHOLD = 0.2
 USER_CONFIRMATION_WEIGHT = 2
@@ -15,7 +16,9 @@ class PatternFinder:
         self.actions = []
         self.suspected_result = None
         self.suspected_result_last_index = None
-        self.last_index_trackers = {}
+        # TODO: this needs to be smarter
+        self.last_index_trackers = {} # map from tab id to element_id
+        self.incrementFinderLog = lambda s : self.log("    INCREMENTFINDER: " + s)
 
     def _getExpectedActionAccordingToOurSuspectedResult(self):
         if self.suspected_result is None:
@@ -75,12 +78,7 @@ class PatternFinder:
         start_index = max(0, len(self.actions) - MAX_ACTIONS_LENGTH)
         for i in range(start_index, len(self.actions)):
             current_actions = self.actions[i:]
-            result = adhoc2.detect_repition(current_actions)
-            if result is not None:
-                result["log"] = self._getResultLog(result, current_actions)
-                results.append(result)
-
-            current_actions_with_increment_detection, last_index_trackers = increment_finder.getIncrement(current_actions, self.log)
+            current_actions_with_increment_detection, last_index_trackers = increment_finder.getIncrement(current_actions, self.incrementFinderLog)
             if current_actions_with_increment_detection is None:
                 continue
             result = adhoc2.detect_repition(current_actions_with_increment_detection)
@@ -133,29 +131,31 @@ class PatternFinder:
             return "error > threshold =" + s
 
     # checks if 2 actions are "equal"
-    # order is important action1 should preceed action2 since we confirm item_index patterns
+    # order is important action1 should preceed action2 since we confirm increment patterns
     def _actionIsEqualTo(self, action1, action2):
         # Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
         # in action1 since we are tightly coupling this to _isUsersLastActionConfirmingSuggestion where the second argument is the suspected result
-        if "increment_pattern" in action1["action"] and "item_index" in action1["action"] and "item_index" in action2["action"]:
+        if "increment_pattern" in action1["action"] and "PLACE_IN_CLIPBOARD" == action1["action"]["type"] and "PLACE_IN_CLIPBOARD" == action2["action"]["type"]:
             element_id = action1["action"]["element_id"]
-            i1 = action1["action"]["item_index"]
-            i2 = action2["action"]["item_index"]
+            i1 = action1["action"]["element_id"]
+            i2 = action2["action"]["element_id"]
+            tab_id = action1["tab"]["id"]
             pattern = action1["action"]["increment_pattern"]
-            if element_id not in self.last_index_trackers:
-                self.last_index_trackers[element_id] = i1
-            does_action_2_follow_predicted_pattern = i2 == pattern[1](self.last_index_trackers[element_id])
+            if tab_id not in self.last_index_trackers:
+                self.last_index_trackers[tab_id] = i1
+
+            does_action_2_follow_predicted_pattern = i2 == patternutils.addIds(pattern, self.last_index_trackers[tab_id])
             action1 = copy.deepcopy(action1)
             action2 = copy.deepcopy(action2)
-            del action1["action"]["item_index"]
+            del action1["action"]["element_id"]
             del action1["action"]["increment_pattern"]
-            del action2["action"]["item_index"]
+            del action2["action"]["element_id"]
             does_it_follow_and_are_they_equal = does_action_2_follow_predicted_pattern and action1 == action2
             # TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object
             # so it doesnt fail if we just check for equality
             if does_it_follow_and_are_they_equal:
                 # Only update if user is still confirming the pattern
-                self.last_index_trackers[element_id] = i2
+                self.last_index_trackers[tab_id] = i2
             return does_it_follow_and_are_they_equal
         elif action1["action"]["type"] == "KEY_GROUP_INPUT" and action2["action"]["type"] == "KEY_GROUP_INPUT":
             action1 = copy.deepcopy(action1)

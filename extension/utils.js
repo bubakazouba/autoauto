@@ -30,29 +30,11 @@ function putElementInFocus(message) {
 function placeInClipboard(message) {
     let element_id = message.event.element_id;
     let tab_id = message.event.tab_id;
-    let item_index = message.event.item_index;
     console.log("[placeInClipboard] element_id=" + element_id);
-    if (message.event.element_node == "LIST") {
-        parseList(element_id, tab_id, item_index);
-    }
-    else if (message.event.element_node == "TABLE") {
-        parseTable(element_id, tab_id, item_index);
-    }
-}
-
-function parseList(element_id, tab_id, index) {
-    let request = { action: 'PARSE_LIST', params: { id: element_id, index: index } };
+    
+    let request = { action: 'PLACE_IN_CLIPBOARD', params: { id: element_id} };
     chrome.tabs.sendMessage(tab_id, request, function(response) {
-        console.log("[placeInClipboard] got back parsed list from content script", response.text);
-        _copy(response.text);
-    });
-}
-
-function parseTable(element_id, tab_id, index) {
-    let request = { action: 'PARSE_TABLE', params: { id: element_id, x: index[0], y: index[1] } };
-    chrome.tabs.sendMessage(tab_id, request, function(response) {
-        console.log("[placeInClipboard] got back parsed text from content script", response.text);
-        _copy(response.text);
+        console.log("[placeInClipboard] got back from content script", response.text);
     });
 }
 
@@ -88,30 +70,4 @@ function _pprint(msg) {
 
 function pprint(msg, tabIndex) {
      return _pprint(msg) + ", tab=" + tabIndex;
-}
-
-function _copy(text) {
-  //Create a textbox field where we can insert text to. 
-  var copyFrom = document.createElement("textarea");
-
-  //Set the text content to be the text you wished to copy.
-  copyFrom.textContent = text;
-
-  //Append the textbox field into the body as a child. 
-  //"execCommand()" only works when there exists selected text, and the text is inside 
-  //document.body (meaning the text is part of a valid rendered HTML element).
-  document.body.appendChild(copyFrom);
-
-  //Select all the text!
-  copyFrom.select();
-
-  //Execute command
-  document.execCommand('copy');
-
-  //(Optional) De-select the text using blur(). 
-  copyFrom.blur();
-
-  //Remove the textbox field from the document.body, so no other JavaScript nor 
-  //other elements can get access to this.
-  document.body.removeChild(copyFrom);
 }

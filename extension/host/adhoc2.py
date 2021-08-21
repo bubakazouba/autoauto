@@ -30,9 +30,9 @@ def detect_repition(actions):
     }
 
 def _getActionStringToCompare(action):
-    if "increment_pattern" in action["action"] and "item_index" in action["action"]:
+    if "increment_pattern" in action["action"]:
         action = copy.deepcopy(action)
-        del action["action"]["item_index"]
+        del action["action"]["element_id"]
     if action["action"]["type"] == "KEY_GROUP_INPUT":
         action = copy.deepcopy(action)
         action["action"]["keyGroup"] = action["action"]["keyGroup"].jsonify()

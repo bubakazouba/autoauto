@@ -5,6 +5,7 @@ import sys
 from subprocess import Popen
 from browserio import send_message
 import printutils
+import patternutils
 
 KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
 
@@ -64,14 +65,14 @@ def _trigger_place_clipboard(action, last_index_trackers):
     action = copy.deepcopy(action)
 
     if "increment_pattern" in action["action"]:
-        action["action"]["item_index"] = action["action"]["increment_pattern"][1](last_index_trackers[action["action"]["element_id"]])
-        last_index_trackers[action["action"]["element_id"]] = action["action"]["item_index"]
+        tab_id = action["tab"]["id"]
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[tab_id])
+        last_index_trackers[tab_id] = action["action"]["element_id"]
     send_message({
         "event": {
             "type": "PLACE_IN_CLIPBOARD",
             "tab_id": action["tab"]["id"],
             "element_id": action["action"]["element_id"],
-            "item_index": action["action"]["item_index"],
             "element_node": action["action"]["element_node"]
         }
     })

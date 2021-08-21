@@ -1,9 +1,11 @@
 from collections import defaultdict
 import copy
+import patternutils
 # Gets interpretations of user patterns such as incrementing/decrementing numbers
+# This currently only works for PLACE_IN_CLIPBOARD action types
 # selecting/clicking list indices if user is going up or down the list
 # * List/Table API:
-#     * Input: add "itemIndex" (int or list(int)) to action["action"]
+#     * Input: only "element_id" is needed for computations in action["action"]
 #     * returns ["action"]["increment_pattern"]
 def getIncrement(actions, log):
     actions = copy.deepcopy(actions)
@@ -12,22 +14,22 @@ def getIncrement(actions, log):
     interpreted_actions = []
 
     actions, detected_any_pattern, last_index_trackers = _getIncrements(actions, log)
-    if detected_any_pattern:
-        return actions, last_index_trackers
-    else:
-        return None, None
+    # if detected_any_pattern:
+    #     return actions, last_index_trackers
+    # else:
+    #     return None, None
+    return actions, last_index_trackers
 
 def _getIncrements(actions, log):
     last_index_trackers = {}
     detected_any_pattern = False
-    # TODO: separate this by action type (click vs selection)
-    # e.g user could click a checkbox in the list then select some field. these 2 should be tracked separately
-    elementIdsToIndices = defaultdict(list)
+    # TODO: allow this to work for more complex pattern (e.g click checkbox1,checkbox2 in same row then repeat across rows)
+    elementTypesAndActionTypesAndTabIdsToIndices = defaultdict(list)
     for i in range(len(actions)):
-        if "item_index" in actions[i]["action"]:
-            elementIdsToIndices[actions[i]["action"]["element_id"]].append(i)
-    for elementId in elementIdsToIndices.keys():
-        elementActionsIndices = elementIdsToIndices[elementId]
+        if "PLACE_IN_CLIPBOARD" == actions[i]["action"]["type"]:
+            elementTypesAndActionTypesAndTabIdsToIndices[actions[i]["action"]["element_node"]+actions[i]["action"]["type"]+str(actions[i]["tab"]["id"])].append(i)
+    for key in elementTypesAndActionTypesAndTabIdsToIndices.keys():
+        elementActionsIndices = elementTypesAndActionTypesAndTabIdsToIndices[key]
         if len(elementActionsIndices) < 2:
             continue
 
@@ -36,7 +38,7 @@ def _getIncrements(actions, log):
             continue
         found_case_breaks_proposed_pattern = False
 
-        # confirm proposed_pattern with next clicks
+        # confirm proposed_pattern with next actions
         for i in range(1, len(elementActionsIndices) - 1):
             firstIndex = elementActionsIndices[i]
             secondIndex = elementActionsIndices[i + 1]
@@ -47,39 +49,16 @@ def _getIncrements(actions, log):
             detected_any_pattern = True
             for index in elementActionsIndices:
                 actions[index]["action"]["increment_pattern"] = proposed_pattern
-            last_index_trackers[elementId] = actions[elementActionsIndices[-1]]["action"]["item_index"]
+            last_index_trackers[actions[index]["tab"]["id"]] = actions[elementActionsIndices[-1]]["action"]["element_id"]
     return actions, detected_any_pattern, last_index_trackers
 
 def proposeIncrement(action1, action2):
-    i1 = action1["action"]["item_index"]
-    i2 = action2["action"]["item_index"]
-    if type(i2) == type(0):
-        d = i2 - i1
-        if d == 0:
-            return None
-        if d >= 0:
-            d = "+" + str(d)
-        return (str(d), eval("lambda i: i {}".format(d)))
-    if type(i2) == type([]):
-        l = "lambda i:" 
-        arr = []
-        strarr = []
-        allDAreZero = True
-        for j in range(len(i1)):
-            d = i2[j] - i1[j]
-            if d != 0:
-                allDAreZero = False
-            if d >= 0:
-                d = "+" + str(d)
-            arr.append("i[{}] {}".format(j, d))
-            strarr.append(str(d))
-        if allDAreZero:
-            return None
-        l = l + "["+",".join(arr) + "]"
-        return ("("+",".join(strarr)+")", eval(l))
+    i1 = action1["action"]["element_id"]
+    i2 = action2["action"]["element_id"]
+    return patternutils.subtractIds(i2, i1)
 
 # checks if pattern applies for 2 actions on the same element
 def incrementApplies(pattern, action1, action2):
-    i1 = action1["action"]["item_index"]
-    i2 = action2["action"]["item_index"]
-    return i2 == pattern[1](i1)
+    i1 = action1["action"]["element_id"]
+    i2 = action2["action"]["element_id"]
+    return i2 == patternutils.addIds(pattern, i1)
