@@ -134,9 +134,10 @@ class PatternFinder:
     # checks if 2 actions are "equal"
     # order is important action1 should preceed action2 since we confirm increment patterns
     def _actionIsEqualTo(self, action1, action2):
-        # Ideally "pattern" is in both action1 and action2, unfortunately we will only use the pattern
-        # in action1 since we are tightly coupling this to _isUsersLastActionConfirmingSuggestion where the second argument is the suspected result
-        if "increment_pattern" in action1["action"] and "PLACE_IN_CLIPBOARD" == action1["action"]["type"] and "PLACE_IN_CLIPBOARD" == action2["action"]["type"]:
+        # Ideally "increment_pattern" is in both action1 and action2, unfortunately we will only
+        # use the pattern in action1 since we are tightly coupling this to 
+        # _isUsersLastActionConfirmingSuggestion where the first argument is the suspected result
+        if "increment_pattern" in action1["action"]:
             element_id = action1["action"]["element_id"]
             i1 = action1["action"]["element_id"]
             i2 = action2["action"]["element_id"]

@@ -19,7 +19,14 @@ def trigger_key_group_input_command(action):
         }
     })
 
-def triggger_click_command(action):
+def triggger_click_command(action, last_index_trackers):
+    action = copy.deepcopy(action)
+
+    if "increment_pattern" in action["action"]:
+        tab_id = action["tab"]["id"]
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[tab_id])
+        last_index_trackers[tab_id] = action["action"]["element_id"]
+
     send_message({
         "event": {
             "type": "CLICK_ON_ELEMENT",
@@ -103,7 +110,7 @@ def trigger_actions(actions, last_index_trackers):
             _trigger_place_clipboard(action, last_index_trackers)
         elif action["action"]["type"] == "CLICK":
             send_message(">>>>>>>>>>>CLICK<<<<<<<<")
-            triggger_click_command(action)
+            triggger_click_command(action, last_index_trackers)
             last_tab_id = action["tab"]["id"]
         elif action["action"]["type"] == "KEY_GROUP_INPUT":
             send_message(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<")

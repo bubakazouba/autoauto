@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Button List Demo</title>
+</head>
+<body>
+    <div>
+        <textarea style="height: 300px;" id="output"></textarea>
+    </div>
+    <div>
+        <button id="1" class="btn">1</button><br>
+        <button id="2" class="btn">2</button><br>
+        <button id="3" class="btn">3</button><br>
+        <button id="4" class="btn">4</button><br>
+        <button id="5" class="btn">5</button><br>
+        <button id="6" class="btn">6</button><br>
+        <button id="7" class="btn">7</button><br>
+        <button id="8" class="btn">8</button><br>
+        <button id="9" class="btn">9</button><br>
+        <button id="10" class="btn">10</button><br>
+        <button id="11" class="btn">11</button><br>
+        <button id="12" class="btn">12</button><br>
+        <button id="13" class="btn">13</button><br>
+        <button id="14" class="btn">14</button><br>
+        <button id="15" class="btn">15</button><br>
+        <button id="16" class="btn">16</button><br>
+        <button id="17" class="btn">17</button><br>
+        <button id="18" class="btn">18</button><br>
+        <button id="19" class="btn">19</button><br>
+        <button id="20" class="btn">20</button><br>
+        <button id="21" class="btn">21</button><br>
+        <button id="22" class="btn">22</button><br>
+        <button id="23" class="btn">23</button><br>
+        <button id="24" class="btn">24</button><br>
+        <button id="25" class="btn">25</button><br>
+    </div>
+</body>
+<script type="text/javascript">
+    var elements = document.getElementsByClassName("btn");
+
+    var onBtnClick = function() {
+        let id = this.id;
+        let textarea = document.getElementById("output");
+        textarea.value += "you clicked on id=" + id+"\n";
+        textarea.scrollTop = textarea.scrollHeight 
+
+    };
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', onBtnClick, false);
+    }
+</script>
+</html>

@@ -1,9 +1,8 @@
 from collections import defaultdict
 import copy
 import patternutils
-# Gets interpretations of user patterns such as incrementing/decrementing numbers
-# This currently only works for PLACE_IN_CLIPBOARD action types
-# selecting/clicking list indices if user is going up or down the list
+# Gets interpretations of user patterns such as incrementing/decrementing element ids
+# This works for selecting/copying/clicking if user is going up or down a list of elements
 # * List/Table API:
 #     * Input: only "element_id" is needed for computations in action["action"]
 #     * returns ["action"]["increment_pattern"]
@@ -22,8 +21,7 @@ def _getIncrements(actions, log):
     # this requires integration with adhoc2 detect_repition function
     elementTypesAndActionTypesAndTabIdsToIndices = defaultdict(list)
     for i in range(len(actions)):
-        if "PLACE_IN_CLIPBOARD" == actions[i]["action"]["type"]:
-            elementTypesAndActionTypesAndTabIdsToIndices[actions[i]["action"]["element_node"]+actions[i]["action"]["type"]+str(actions[i]["tab"]["id"])].append(i)
+        elementTypesAndActionTypesAndTabIdsToIndices[actions[i]["action"]["element_node"]+actions[i]["action"]["type"]+str(actions[i]["tab"]["id"])].append(i)
     for key in elementTypesAndActionTypesAndTabIdsToIndices.keys():
         elementActionsIndices = elementTypesAndActionTypesAndTabIdsToIndices[key]
         if len(elementActionsIndices) < 2:
