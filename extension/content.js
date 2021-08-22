@@ -30,11 +30,11 @@ function getPlaceInClipboardEvent() {
 
 function getClickInfo(e) {
     let elem = e.path[0];
-    // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
     let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
-    if (elemIsSubmitButton || elem.nodeName == "BUTTON") {
+    let elemIsAnchorTag = elem.nodeName == "A";
+    if (elemIsSubmitButton || elem.nodeName == "BUTTON" || elemIsAnchorTag) {
         return {
-            element_node: "BUTTON",
+            element_node: elem.nodeName,
             element_id: getElementId(elem),
         };
     }

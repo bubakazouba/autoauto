@@ -4,6 +4,7 @@ function putElementInFocus(element_id) {
 }
 
 function clickOnElement(element_id) {
+    // TODO: when clicking on links i need to know if user was holding cmd
     let element = getElementById(element_id);
     element.click();
 }
