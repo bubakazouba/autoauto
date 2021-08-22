@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Button List Demo</title>
+</head>
+<body>
+    <div>
+        <textarea style="height: 300px;" id="output"></textarea>
+    </div>
+    <div>
+        <button id="btn1" class="btn">1</button> 1: <input type="checkbox" id="Check1" class="checkbox"><a href="http://google.com" id="link1" class="anchortag">Link 1</a><br>
+        <button id="btn2" class="btn">2</button> 2: <input type="checkbox" id="Check2" class="checkbox"><a href="http://google.com" id="link2" class="anchortag">Link 2</a><br>
+        <button id="btn3" class="btn">3</button> 3: <input type="checkbox" id="Check3" class="checkbox"><a href="http://google.com" id="link3" class="anchortag">Link 3</a><br>
+        <button id="btn4" class="btn">4</button> 4: <input type="checkbox" id="Check4" class="checkbox"><a href="http://google.com" id="link4" class="anchortag">Link 4</a><br>
+        <button id="btn5" class="btn">5</button> 5: <input type="checkbox" id="Check5" class="checkbox"><a href="http://google.com" id="link5" class="anchortag">Link 5</a><br>
+        <button id="btn6" class="btn">6</button> 6: <input type="checkbox" id="Check6" class="checkbox"><a href="http://google.com" id="link6" class="anchortag">Link 6</a><br>
+        <button id="btn7" class="btn">7</button> 7: <input type="checkbox" id="Check7" class="checkbox"><a href="http://google.com" id="link7" class="anchortag">Link 7</a><br>
+        <button id="btn8" class="btn">8</button> 8: <input type="checkbox" id="Check8" class="checkbox"><a href="http://google.com" id="link8" class="anchortag">Link 8</a><br>
+        <button id="btn9" class="btn">9</button> 9: <input type="checkbox" id="Check9" class="checkbox"><a href="http://google.com" id="link9" class="anchortag">Link 9</a><br>
+        <button id="btn10" class="btn">10</button> 10: <input type="checkbox" id="Check10" class="checkbox"><a href="http://google.com" id="link10" class="anchortag">Link 10</a><br>
+        <button id="btn11" class="btn">11</button> 11: <input type="checkbox" id="Check11" class="checkbox"><a href="http://google.com" id="link11" class="anchortag">Link 11</a><br>
+        <button id="btn12" class="btn">12</button> 12: <input type="checkbox" id="Check12" class="checkbox"><a href="http://google.com" id="link12" class="anchortag">Link 12</a><br>
+        <button id="btn13" class="btn">13</button> 13: <input type="checkbox" id="Check13" class="checkbox"><a href="http://google.com" id="link13" class="anchortag">Link 13</a><br>
+        <button id="btn14" class="btn">14</button> 14: <input type="checkbox" id="Check14" class="checkbox"><a href="http://google.com" id="link14" class="anchortag">Link 14</a><br>
+        <button id="btn15" class="btn">15</button> 15: <input type="checkbox" id="Check15" class="checkbox"><a href="http://google.com" id="link15" class="anchortag">Link 15</a><br>
+        <button id="btn16" class="btn">16</button> 16: <input type="checkbox" id="Check16" class="checkbox"><a href="http://google.com" id="link16" class="anchortag">Link 16</a><br>
+        <button id="btn17" class="btn">17</button> 17: <input type="checkbox" id="Check17" class="checkbox"><a href="http://google.com" id="link17" class="anchortag">Link 17</a><br>
+        <button id="btn18" class="btn">18</button> 18: <input type="checkbox" id="Check18" class="checkbox"><a href="http://google.com" id="link18" class="anchortag">Link 18</a><br>
+        <button id="btn19" class="btn">19</button> 19: <input type="checkbox" id="Check19" class="checkbox"><a href="http://google.com" id="link19" class="anchortag">Link 19</a><br>
+        <button id="btn20" class="btn">20</button> 20: <input type="checkbox" id="Check20" class="checkbox"><a href="http://google.com" id="link20" class="anchortag">Link 20</a><br>
+        <button id="btn21" class="btn">21</button> 21: <input type="checkbox" id="Check21" class="checkbox"><a href="http://google.com" id="link21" class="anchortag">Link 21</a><br>
+        <button id="btn22" class="btn">22</button> 22: <input type="checkbox" id="Check22" class="checkbox"><a href="http://google.com" id="link22" class="anchortag">Link 22</a><br>
+        <button id="btn23" class="btn">23</button> 23: <input type="checkbox" id="Check23" class="checkbox"><a href="http://google.com" id="link23" class="anchortag">Link 23</a><br>
+        <button id="btn24" class="btn">24</button> 24: <input type="checkbox" id="Check24" class="checkbox"><a href="http://google.com" id="link24" class="anchortag">Link 24</a><br>
+        <button id="btn25" class="btn">25</button> 25: <input type="checkbox" id="Check25" class="checkbox"><a href="http://google.com" id="link25" class="anchortag">Link 25</a><br>
+    </div>
+</body>
+<script type="text/javascript">
+    var onCheckClick = function() {
+        let id = this.id;
+        let textarea = document.getElementById("output");
+        textarea.value += "you checked " + id+"\n";
+        textarea.scrollTop = textarea.scrollHeight;
+    };
+
+    var onBtnClick = function() {
+        let id = this.id;
+        let textarea = document.getElementById("output");
+        textarea.value += "you clicked on id=" + id+"\n";
+        textarea.scrollTop = textarea.scrollHeight 
+    };
+
+    var elements = document.getElementsByClassName("checkbox");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', onCheckClick, false);
+    }
+
+    elements = document.getElementsByClassName("btn");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', onBtnClick, false);
+    }
+
+    var elements = document.getElementsByClassName("anchortag");
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', onBtnClick, false);
+    }
+</script>
+</html>
