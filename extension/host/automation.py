@@ -6,8 +6,7 @@ from subprocess import Popen
 from browserio import send_message
 import printutils
 import patternutils
-
-KEYBOARD_LISTENER_PATH = os.path.abspath(os.path.dirname(__file__)) + "/keyboard_listener.py"
+import keyboard
 
 def trigger_key_group_input_command(action):
     send_message({
@@ -49,10 +48,7 @@ def trigger_keyboard_command(action, should_refocus=True):
         put_element_in_focus(action["action"]["element_id"], action["tab"]["id"])
         time.sleep(0.3)
     cmd = printutils.get_keyboard_string_from_key_params(action["action"]["keyParams"])
-    if sys.platform == "darwin":
-        Popen([KEYBOARD_LISTENER_PATH, cmd])
-    else:
-        Popen(["sudo", KEYBOARD_LISTENER_PATH, cmd])
+    keyboard.press_and_release(cmd)
 
 def trigger_switching_tab(tab_id):
     send_message({

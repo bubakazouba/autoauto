@@ -1,7 +1,7 @@
 {
     "name": "com.my_company.my_app",
     "description": "My App",
-    "path": "/home/sultan/personal/autoautu/host/host.py",
+    "path": "/home/sultan/personal/autoauto/host/host.py",
     "type": "stdio",
     "allowed_origins": [
         "chrome-extension://alpfbijjbgdjopbmajdodidnpdnekkgi/"
