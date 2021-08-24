@@ -8,6 +8,9 @@ import printutils
 import patternutils
 import keyboard
 
+def log(s):
+    send_message("    AUTOMATION: "+s)
+
 def trigger_key_group_input_command(action):
     send_message({
         "event": {
@@ -23,8 +26,9 @@ def triggger_click_command(action, last_index_trackers):
 
     if "increment_pattern" in action["action"]:
         tab_id = action["tab"]["id"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[tab_id])
-        last_index_trackers[tab_id] = action["action"]["element_id"]
+        element_node = action["action"]["element_node"]
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
+        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
 
     send_message({
         "event": {
@@ -69,8 +73,10 @@ def _trigger_place_clipboard(action, last_index_trackers):
 
     if "increment_pattern" in action["action"]:
         tab_id = action["tab"]["id"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[tab_id])
-        last_index_trackers[tab_id] = action["action"]["element_id"]
+        element_node = action["action"]["element_node"]
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
+        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
+
     send_message({
         "event": {
             "type": "PLACE_IN_CLIPBOARD",
