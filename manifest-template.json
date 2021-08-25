@@ -5,7 +5,7 @@
     "permissions": ["nativeMessaging", "storage", "declarativeContent", "activeTab", "tabs", "<all_urls>", "contextMenus"],
     "background":
     {
-        "scripts": ["extension/utils.js", "extension/background.js"],
+        "scripts": ["extension/backgroundutils.js", "extension/background.js"],
         "persistent": false
     },
     
