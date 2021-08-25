@@ -3,6 +3,7 @@
 * `cp  host/com.my_company.my_app.json ~/Library/Application Support/Microsoft Edge/NativeMessagingHosts`
     * If you are not using MacOS you can find the correct path [here](https://docs.microsoft.com/en-us/microsoft-edge/extensions-chromium/developer-guide/native-messaging?tabs=macos).
     * If you are using chrome copy the path from [here](https://developer.chrome.com/docs/apps/nativeMessaging/)
+    * for windows run from admin powershell `REG ADD "HKEY_LOCAL_MACHINE\Software\Google\Chrome\NativeMessagingHosts\com.my_company.my_app" /ve /t REG_SZ /d "D:\GitHub\autoauto\extension\host\com.my_company.my_app.json" /f`
 * Modify `host.py` path in `com.my_company.my_app.json` if needed
 * Open `edge://extensions` or `chrome://extensions`
 * Enable developer mode (if you are on chrome)
