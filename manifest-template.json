@@ -5,14 +5,14 @@
     "permissions": ["nativeMessaging", "storage", "declarativeContent", "activeTab", "tabs", "<all_urls>", "contextMenus"],
     "background":
     {
-        "scripts": ["extension/automation.js", "extension/utils.js", "extension/background.js"],
+        "scripts": ["extension/backgroundutils.js", "extension/background.js"],
         "persistent": false
     },
     
     "content_scripts": [
     {
         "matches": ["<all_urls>"],
-        "js": ["extension/content.js"]
+        "js": ["extension/contentutils.js", "extension/automation.js", "extension/content.js"]
     }],
     "icons": {
         "32": "extension/images/red.png"

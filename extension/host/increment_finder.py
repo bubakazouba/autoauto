@@ -42,7 +42,9 @@ def _getIncrements(actions, log):
         if not found_case_breaks_proposed_pattern:
             for index in elementActionsIndices:
                 actions[index]["action"]["increment_pattern"] = proposed_pattern
-            last_index_trackers[actions[index]["tab"]["id"]] = actions[elementActionsIndices[-1]]["action"]["element_id"]
+            tab_id = actions[index]["tab"]["id"]
+            element_node = actions[index]["action"]["element_node"]
+            last_index_trackers[str(tab_id)+element_node] = actions[elementActionsIndices[-1]]["action"]["element_id"]
     return actions, last_index_trackers
 
 def proposeIncrement(action1, action2):

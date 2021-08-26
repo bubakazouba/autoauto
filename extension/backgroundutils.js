@@ -1,9 +1,19 @@
+function paste(message) {
+    let element_id = message.event.element_id;
+    let tab_id = message.event.tab_id;
+    let request = { action: 'PASTE', params: { id: element_id, keyGroup: keyGroup } };
+    console.log("PASTE request=", request, "tab_id=", tab_id);
+    chrome.tabs.sendMessage(tab_id, request, function(response) {
+        
+    });
+}
+
 function keyGroupInput(message) {
     let element_id = message.event.element_id;
     let tab_id = message.event.tab_id;
     let keyGroup = message.event.keyGroup;
     let request = { action: 'KEY_GROUP_INPUT', params: { id: element_id, keyGroup: keyGroup } };
-    console.log("request=", request, "tab_id=", tab_id);
+    console.log("keyGroupInput request=", request, "tab_id=", tab_id);
     chrome.tabs.sendMessage(tab_id, request, function(response) {
         
     });

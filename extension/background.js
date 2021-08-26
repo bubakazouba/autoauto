@@ -95,7 +95,6 @@ function onNativeMessage(message) {
                 clickOnElement(message);
                 break;
             case "KEY_GROUP_INPUT":
-                console.log("!!!!!!!!", message, message.event.keyGroup);
                 keyGroupInput(message);
                 break;
         }

@@ -7,7 +7,8 @@ function getSelectionInfo() {
     if (!isTextSelected()) {
         return;
     }
-    let elem = document.getSelection().focusNode;
+    // TODO: this doesnt work on text input
+    let elem = window.getSelection().anchorNode.parentElement;
     return {
         element_id: getElementId(elem),
         element_node: elem.nodeName,

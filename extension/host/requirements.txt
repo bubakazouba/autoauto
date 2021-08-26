@@ -2,3 +2,4 @@ networkx
 numpy
 nativemessaging
 keyboard
+editdistance
