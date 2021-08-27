@@ -60,7 +60,7 @@ def main():
             #         results_file.write(json.dumps(res))
             # last_res = res
             continue
-        if msg["event"] == "USER_PRESSED_STOP":
+        if msg["event"] == "USER_PRESSED_START":
             actionsToTrigger, last_index_trackers = detect_actions_to_trigger(pattern_finder, int(msg["repitions"]))
             trigger_actions(actionsToTrigger, last_index_trackers)
             continue

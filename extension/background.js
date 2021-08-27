@@ -37,10 +37,10 @@ chrome.runtime.onInstalled.addListener(function() {
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
-    if (msg.event && msg.event.type == "USER_PRESSED_STOP") {
-        console.log("got user pressed stop");
+    if (msg.event && msg.event.type == "USER_PRESSED_START") {
+        console.log("got user pressed start");
         return sendNativeMessage({
-            event: "USER_PRESSED_STOP",
+            event: "USER_PRESSED_START",
             repitions: msg.event.repitions,
         });
     }
