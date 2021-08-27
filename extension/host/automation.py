@@ -11,6 +11,18 @@ import keyboard
 def log(s):
     send_message("    AUTOMATION: "+s)
 
+def get_action_with_incremented_element_id(action, last_index_trackers):
+    if "increment_pattern" in action["action"]:
+        action = copy.deepcopy(action)
+        tab_id = action["tab"]["id"]
+        element_node = action["action"]["element_node"]
+        actionType = action["action"]["type"]
+        key = str(tab_id)+element_node+actionType
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[key])
+        last_index_trackers[key] = action["action"]["element_id"]
+
+    return action
+
 def trigger_key_group_input_command(action):
     send_message({
         "event": {
@@ -22,13 +34,7 @@ def trigger_key_group_input_command(action):
     })
 
 def triggger_click_command(action, last_index_trackers):
-    action = copy.deepcopy(action)
-
-    if "increment_pattern" in action["action"]:
-        tab_id = action["tab"]["id"]
-        element_node = action["action"]["element_node"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
-        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
 
     send_message({
         "event": {
@@ -69,13 +75,7 @@ def enable_extension_keyboard_listener():
     send_message({"event": "IM DONE"})
 
 def _trigger_place_clipboard(action, last_index_trackers):
-    action = copy.deepcopy(action)
-
-    if "increment_pattern" in action["action"]:
-        tab_id = action["tab"]["id"]
-        element_node = action["action"]["element_node"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
-        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
 
     send_message({
         "event": {

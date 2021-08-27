@@ -21,7 +21,12 @@ def _getIncrements(actions, log):
     # this requires integration with adhoc2 detect_repition function
     elementTypesAndActionTypesAndTabIdsToIndices = defaultdict(list)
     for i in range(len(actions)):
-        elementTypesAndActionTypesAndTabIdsToIndices[actions[i]["action"]["element_node"]+actions[i]["action"]["type"]+str(actions[i]["tab"]["id"])].append(i)
+        tab_id = actions[i]["tab"]["id"]
+        element_node = actions[i]["action"]["element_node"]
+        actionType = actions[i]["action"]["type"]
+        # key has to match format of last_index_trackers key (TODO: make this more stable)
+        key = str(tab_id) + element_node + actionType
+        elementTypesAndActionTypesAndTabIdsToIndices[key].append(i)
     for key in elementTypesAndActionTypesAndTabIdsToIndices.keys():
         elementActionsIndices = elementTypesAndActionTypesAndTabIdsToIndices[key]
         if len(elementActionsIndices) < 2:
@@ -42,9 +47,7 @@ def _getIncrements(actions, log):
         if not found_case_breaks_proposed_pattern:
             for index in elementActionsIndices:
                 actions[index]["action"]["increment_pattern"] = proposed_pattern
-            tab_id = actions[index]["tab"]["id"]
-            element_node = actions[index]["action"]["element_node"]
-            last_index_trackers[str(tab_id)+element_node] = actions[elementActionsIndices[-1]]["action"]["element_id"]
+            last_index_trackers[key] = actions[elementActionsIndices[-1]]["action"]["element_id"]
     return actions, last_index_trackers
 
 def proposeIncrement(action1, action2):
