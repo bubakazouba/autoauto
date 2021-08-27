@@ -53,6 +53,16 @@ def put_element_in_focus(element_id, tab_id):
         }
     })
 
+def trigger_sheets_paste(action, last_index_trackers):
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
+    send_message({
+        "event": {
+            "type": "SHEETS_PASTE",
+            "element_id": action["action"]["element_id"],
+            "tab_id": action["tab"]["id"],
+        }
+    })
+
 def trigger_keyboard_command(action, should_refocus=True):
     if "element_id" in action["action"] and should_refocus:
         put_element_in_focus(action["action"]["element_id"], action["tab"]["id"])
@@ -117,6 +127,10 @@ def trigger_actions(actions, last_index_trackers):
         elif action["action"]["type"] == "KEY_GROUP_INPUT":
             send_message(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<")
             trigger_key_group_input_command(action)
+            last_tab_id = action["tab"]["id"]
+        elif action["action"]["type"] == "SHEETS_PASTE":
+            send_message(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<")
+            trigger_sheets_paste(action, last_index_trackers)
             last_tab_id = action["tab"]["id"]
         last_element_id = action["action"]["element_id"]
         time.sleep(0.8)

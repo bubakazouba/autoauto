@@ -115,7 +115,7 @@ class ActionsGrouper:
             # this should only run for spreadsheets
             elif action["action"]["type"] == "KEYBOARD" and "docs.google.com" in action["tab"]["url"]:
                 res.append(action)
-            elif action["action"]["type"] == "PLACE_IN_CLIPBOARD":
+            elif action["action"]["type"] in ["PLACE_IN_CLIPBOARD", "SHEETS_PASTE"]:
                 res.append(action)
 
             return res
