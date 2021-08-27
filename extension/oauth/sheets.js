@@ -42,7 +42,7 @@ function writeSheet(spreadsheetId, range = "A1", values = [ ["hi"] ]) {
         spreadsheetId: spreadsheetId,
         range: range,
         includeValuesInResponse: true,
-        valueInputOption: VALUE_INPUT_OPTIONS.USER_ENTERED
+        valueInputOption: VALUE_INPUT_OPTIONS.USER_ENTERED,
         resource: { "values": values, "majorDimension": "ROWS" },
     }).then(function(response) {
         console.log("I wrote stuff", response);

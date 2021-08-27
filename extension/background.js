@@ -3,7 +3,7 @@
 const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
-// function onGAPILoad() {
+function onGAPILoad() {
 //     gapi.client.init({
 //         // Don't pass client nor scope as these will init auth2, which we don't want
 //         apiKey: API_KEY,
@@ -12,7 +12,7 @@ const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v
 //         console.log('gapi initialized, now logging in..');
 //         doLogin();
 //     });
-// }
+}
 
 
 chrome.runtime.onInstalled.addListener(function() {
