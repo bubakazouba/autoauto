@@ -1,3 +1,20 @@
+// Any function in this file can be referenced elsewhere by using chrome.extension.getBackgroundPage().myFunction()
+// 
+const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
+const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+// function onGAPILoad() {
+//     gapi.client.init({
+//         // Don't pass client nor scope as these will init auth2, which we don't want
+//         apiKey: API_KEY,
+//         discoveryDocs: DISCOVERY_DOCS,
+//     }).then(function() {
+//         console.log('gapi initialized, now logging in..');
+//         doLogin();
+//     });
+// }
+
+
 chrome.runtime.onInstalled.addListener(function() {
     window.imparsinglist = false;
     window.amiwaiting = false;
@@ -31,8 +48,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         console.log("ignoring because amiwaiting = true");
         return;
     }
-
-    if (msg.event) {
+    if (msg.event.isSheetsStuff) {
+        if (msg.event.type == "write") {
+            writeSheet(sheetId, msg.event.range, msg.event.values);
+        }
+    }
+    else if (msg.event) {
         // TODO: tab and enter shouldn't be ignored in textareas
         if ("keyParams" in msg.event && "key" in msg.event.keyParams && ["meta", "shift", "control", "alt", "tab", "enter"].includes(msg.event.keyParams.key.toLowerCase())) {
             // console.log("ignoring loan modifier key");
@@ -75,10 +96,10 @@ function onNativeMessage(message) {
         window.amiwaiting = false;
     }
     if (message.event == "IM SURE") {
-        chrome.browserAction.setIcon({path: 'extension/images/green.png'});
+        chrome.browserAction.setIcon({path: 'images/green.png'});
     }
     if (message.event == "IM NOT SURE") {
-        chrome.browserAction.setIcon({path: 'extension/images/red.png'});
+        chrome.browserAction.setIcon({path: 'images/red.png'});
     }
     if (!!message.event.type) {
         switch(message.event.type) {
