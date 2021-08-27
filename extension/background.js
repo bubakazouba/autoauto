@@ -118,6 +118,9 @@ function onNativeMessage(message) {
             case "KEY_GROUP_INPUT":
                 keyGroupInput(message);
                 break;
+            case "SHEETS_PASTE":
+                sheetsPaste(message);
+                break;
         }
     }
 }

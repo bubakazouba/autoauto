@@ -126,6 +126,10 @@ document.onkeydown = function(e) {
     if(isTextManuveringCommand(e, false) && !areWeInDrive()) {
         return;
     }
+
+    if (areWeInDrive()) {
+        return handleDriveKeyDown(e, element_id, element_node);
+    }
     
     let event = getKeyPressEvent(e, element, element_id, element_node);
     
@@ -133,6 +137,31 @@ document.onkeydown = function(e) {
         event: event
     });
 };
+
+function handleDriveKeyDown(e, element_id, element_node) {
+    console.log("we are in handleDriveKeyDown");
+    if (!areWeInSpreadsheets()) {
+        return;
+    }
+    let isCopy = e.key == "c" && e.metaKey;
+    let isPaste = e.key == "v" && e.metaKey;
+    if (!isCopy && !isPaste) {
+        console.log("not copy and not paste");
+        return;
+    }
+    let activeCell = document.getElementById("t-name-box").value;
+    let element_id_with_cell_info = element_id + "." + cellToColAndRow(activeCell);
+
+    let event = {
+        type: isCopy ? "PLACE_IN_CLIPBOARD" : "SHEETS_PASTE",
+        element_id: element_id_with_cell_info,
+        element_node: element_node,
+    };
+
+    chrome.runtime.sendMessage({
+        event: event
+    });
+}
 
 function isTextManuveringCommand(e, isKeyUp) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
@@ -179,6 +208,10 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     } else if (request.action == "KEY_GROUP_INPUT") {
         console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
         keyGroupOnElement(request.params.id, request.params.keyGroup);
+        sendResponse({"event": "DONE"});
+    } else if (request.action == "SHEETS_PASTE") {
+        console.log("I was asked to paste on element: " + request.params.id);
+        handleSheetsPaste(request.params.id, request.params.cell);
         sendResponse({"event": "DONE"});
     }
 });
