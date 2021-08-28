@@ -147,7 +147,7 @@ class PatternFinder:
             pattern = action1["action"]["increment_pattern"]
             actionType = action1["action"]["type"]
             last_index_trackers_key = str(tab_id)+element_node+actionType
-            if tab_id not in self.last_index_trackers:
+            if last_index_trackers_key not in self.last_index_trackers:
                 self.last_index_trackers[last_index_trackers_key] = i1
 
             does_action_2_follow_predicted_pattern = i2 == patternutils.addIds(pattern, self.last_index_trackers[last_index_trackers_key])
