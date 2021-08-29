@@ -1,3 +1,6 @@
+const SHEET_ELEM_NODE = "SHEET";
+const SHEET_ELEM_ID = "0"; // It has to be a number
+
 function getCurrentTab() {
     let queryOptions = { active: true, currentWindow: true };
     return chrome.tabs.query(queryOptions);
@@ -29,17 +32,6 @@ function getPlaceInClipboardEvent() {
     };
 }
 
-function getClickInfo(e) {
-    let elem = e.path[0];
-    // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
-    let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
-    if (elemIsSubmitButton || elem.nodeName == "BUTTON") {
-        return {
-            element_node: "BUTTON",
-            element_id: getElementId(elem),
-        };
-    }
-}
 document.addEventListener("change", (e) => {
     if (!e.isTrusted) {
         // ignore javascript programmatic clicks
@@ -55,7 +47,7 @@ document.addEventListener("change", (e) => {
         element_id: getElementId(element),
         element_node: "CHECKBOX",
     };
-    console.log("checkInfo=", event);
+    console.log("clickEvent=", event);
     chrome.runtime.sendMessage({
         event: event
     });
@@ -66,18 +58,59 @@ document.addEventListener('click', (e) => {
         console.log("click not trusted ignore");
         return;
     }
-    let clickInfo = getClickInfo(e);
-    if (!clickInfo) {
-        return;
+    let elem = e.path[0];
+    // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
+    let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
+    let elemIsAnyTypeOfButton = elemIsSubmitButton || elem.nodeName == "BUTTON";
+    
+    if (elemIsAnyTypeOfButton) {
+        chrome.runtime.sendMessage({
+            event: {
+                type: "CLICK",
+                element_id: getElementId(elem),
+                element_node: "BUTTON",
+            }
+        });
     }
-    console.log("clickInfo=", clickInfo);
-    chrome.runtime.sendMessage({
-        event: {
-            type: "CLICK",
-            element_id: clickInfo.element_id,
-            element_node: clickInfo.element_node,
+
+    if (areWeInSpreadsheets()) {
+        const COPY_TEXT = "COPY⌘C";
+        const PASTE_TEXT = "PASTE⌘V";
+        const RAW_PASTE_TEXT = "PASTE⌘+SHIFT+V";
+        function _getText(elem) {
+            if (["goog-menuitem apps-menuitem", "goog-menuitem-content"].indexOf(elem.className) != -1) {
+                return elem.textContent;
+            }
+            else if (["goog-menuitem-label", "goog-menuitem-accel", "docs-icon goog-inline-block goog-menuitem-icon"].indexOf(elem.className) != -1) {
+                return elem.parentElement.textContent;
+            }
+            else if (["docs-icon-img-container docs-icon-img docs-icon-copy"].indexOf(elem.className) != -1) {
+                return COPY_TEXT;
+            }
+            else if (["docs-icon-img-container docs-icon-img docs-icon-paste"].indexOf(elem.className) != -1) {
+                return PASTE_TEXT;
+            }
         }
-    });
+        let elemText = _getText(e.path[0]);
+        if (!!elemText) {
+            let actionType;
+            if (elemText.toUpperCase() == COPY_TEXT) {
+                actionType = "PLACE_IN_CLIPBOARD";
+            }
+            else if (elemText.toUpperCase() == PASTE_TEXT || elemText.toUpperCase() == RAW_PASTE_TEXT) {
+                actionType = "SHEETS_PASTE";
+            }
+            if (!!actionType) {
+                chrome.runtime.sendMessage({
+                    event: {
+                        type: actionType,
+                        element_id: getElementIdWithCellInfo(),
+                        element_node: SHEET_ELEM_NODE,
+                    }
+                });
+            }
+        }
+    }
 }, true);
 
 document.addEventListener('focusin', function(e) {
@@ -103,7 +136,7 @@ document.addEventListener('focusin', function(e) {
     });
 });
 
-document.onkeydown = function(e) {
+document.addEventListener("keydown", e => {
     let elementInfo = getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
@@ -111,7 +144,7 @@ document.onkeydown = function(e) {
     let {element, element_id, element_node} = elementInfo;
 
     // If this is a PLACE_IN_CLIPBOARD event (user is copying non text field)
-    if (!isElementTextEditable(element) && !areWeInDrive() && keyIsCopy(e)) {
+    if (!isElementTextEditable(element) && !areWeInSpreadsheets() && keyIsCopy(e)) {
         let event = getPlaceInClipboardEvent();
 
         if (!!event) {
@@ -123,12 +156,12 @@ document.onkeydown = function(e) {
     }
     
     // We don't want any text manuvering commands unless we are in drive
-    if(isTextManuveringCommand(e, false) && !areWeInDrive()) {
+    if(isTextManuveringCommand(e, false) && !areWeInSpreadsheets()) {
         return;
     }
 
-    if (areWeInDrive()) {
-        return handleDriveKeyDown(e, element_id, element_node);
+    if (areWeInSpreadsheets()) {
+        return handleSheetsKeyDown(e, element_node);
     }
     
     let event = getKeyPressEvent(e, element, element_id, element_node);
@@ -136,26 +169,28 @@ document.onkeydown = function(e) {
     chrome.runtime.sendMessage({
         event: event
     });
-};
+});
 
-function handleDriveKeyDown(e, element_id, element_node) {
-    console.log("we are in handleDriveKeyDown");
+function getElementIdWithCellInfo() {
+    let element_id = SHEET_ELEM_ID;
+    let activeCell = document.getElementById("t-name-box").value;
+    return element_id + "." + cellToColAndRow(activeCell);
+}
+
+function handleSheetsKeyDown(e, element_node) {
     if (!areWeInSpreadsheets()) {
         return;
     }
     let isCopy = e.key == "c" && e.metaKey;
     let isPaste = e.key == "v" && e.metaKey;
     if (!isCopy && !isPaste) {
-        console.log("not copy and not paste");
         return;
     }
-    let activeCell = document.getElementById("t-name-box").value;
-    let element_id_with_cell_info = element_id + "." + cellToColAndRow(activeCell);
 
     let event = {
         type: isCopy ? "PLACE_IN_CLIPBOARD" : "SHEETS_PASTE",
-        element_id: element_id_with_cell_info,
-        element_node: element_node,
+        element_id: getElementIdWithCellInfo(),
+        element_node: SHEET_ELEM_NODE,
     };
 
     chrome.runtime.sendMessage({

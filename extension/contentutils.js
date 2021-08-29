@@ -16,7 +16,7 @@ function getElementInfoForKeyPresses(e) {
         element_node = "";
     }
     // Non editable fields are only allowed cmd+c, unless this is google drive
-    if (!isElementTextEditable(element) && !areWeInDrive()) {
+    if (!isElementTextEditable(element) && !areWeInSpreadsheets()) {
         if (!keyIsCopy(e)) {
             return;
         }
@@ -144,12 +144,8 @@ function isTextSelected() {
     return true;
 }
 
-function areWeInDrive() {
-    return window.location.origin == "https://docs.google.com";
-}
-
 function areWeInSpreadsheets() {
-    return areWeInDrive() && window.location.pathname.split("/")[1] == "spreadsheets";
+    return window.location.origin == "https://docs.google.com" && window.location.pathname.split("/")[1] == "spreadsheets";
 }
 
 // Should be able to copy images/links/formatting too
