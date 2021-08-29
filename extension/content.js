@@ -182,7 +182,8 @@ function handleSheetsKeyDown(e, element_node) {
         return;
     }
     let isCopy = e.key == "c" && e.metaKey;
-    let isPaste = e.key == "v" && e.metaKey;
+    // TODO: separate paste from raw paste
+    let isPaste = (e.key == "v" && e.metaKey) || (e.key == "v" && e.metaKey && e.shiftKey);
     if (!isCopy && !isPaste) {
         return;
     }
