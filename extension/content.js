@@ -206,6 +206,16 @@ function isTextManuveringCommand(e, isKeyUp) {
     return c1 || c2;
 }
 
+window.addEventListener('beforeunload', function(event) {
+    chrome.runtime.sendMessage({
+        event: {
+            type: "UNLOAD",
+            element_id: "NA",
+            element_node: "NA",
+        },
+    });
+});
+
 document.addEventListener('selectionchange', (e) => {
     let element = document.activeElement;
     if (!isElementTextEditable(element) || !isTextSelected()) {

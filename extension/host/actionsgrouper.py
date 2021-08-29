@@ -20,6 +20,12 @@ class ActionsGrouper:
 
     def _getSelectionForAction(self, action):
         return self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]]
+    
+    def _clearAllDictsForTab(self, tab_id):
+        if tab_id in self.keyGroupDict[tab_id]:
+            del self.keyGroupDict[tab_id]
+        if tab_id in self.selectionDict[tab_id]:
+            del self.selectionDict[tab_id]
 
     def _updateSelectionDict(self, action):
         keyGroupInput = action["action"]["keyGroupInput"]
@@ -117,6 +123,8 @@ class ActionsGrouper:
                 res.append(action)
             elif action["action"]["type"] in ["PLACE_IN_CLIPBOARD", "SHEETS_PASTE"]:
                 res.append(action)
+            elif action["action"]["type"] == "UNLOAD":
+                self._clearAllDictsForTab(action["tab"]["id"])
 
             return res
 
