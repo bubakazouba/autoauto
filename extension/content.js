@@ -74,7 +74,6 @@ document.addEventListener('click', (e) => {
     }
 
     if (areWeInSpreadsheets()) {
-        const COPY_TEXT = "COPY⌘C";
         const PASTE_TEXT = "PASTE⌘V";
         const RAW_PASTE_TEXT = "PASTE⌘+SHIFT+V";
         function _getText(elem) {
@@ -84,9 +83,6 @@ document.addEventListener('click', (e) => {
             else if (["goog-menuitem-label", "goog-menuitem-accel", "docs-icon goog-inline-block goog-menuitem-icon"].indexOf(elem.className) != -1) {
                 return elem.parentElement.textContent;
             }
-            else if (["docs-icon-img-container docs-icon-img docs-icon-copy"].indexOf(elem.className) != -1) {
-                return COPY_TEXT;
-            }
             else if (["docs-icon-img-container docs-icon-img docs-icon-paste"].indexOf(elem.className) != -1) {
                 return PASTE_TEXT;
             }
@@ -94,10 +90,7 @@ document.addEventListener('click', (e) => {
         let elemText = _getText(e.path[0]);
         if (!!elemText) {
             let actionType;
-            if (elemText.toUpperCase() == COPY_TEXT) {
-                actionType = "PLACE_IN_CLIPBOARD";
-            }
-            else if (elemText.toUpperCase() == PASTE_TEXT || elemText.toUpperCase() == RAW_PASTE_TEXT) {
+            if (elemText.toUpperCase() == PASTE_TEXT || elemText.toUpperCase() == RAW_PASTE_TEXT) {
                 actionType = "SHEETS_PASTE";
             }
             if (!!actionType) {
@@ -142,26 +135,18 @@ document.addEventListener("keydown", e => {
         return;
     }
     let {element, element_id, element_node} = elementInfo;
+    if (areWeInSpreadsheets()) {
+        return handleSheetsKeyDown(e, element_node);
+    }
 
-    // If this is a PLACE_IN_CLIPBOARD event (user is copying non text field)
-    if (!isElementTextEditable(element) && !areWeInSpreadsheets() && keyIsCopy(e)) {
-        let event = getPlaceInClipboardEvent();
-
-        if (!!event) {
-            chrome.runtime.sendMessage({
-                event: event
-            });
-        }
+    // Copy and Pastes are handled in 'copy' and 'paste' event listeners
+    if (keyIsCopy(e) || keyIsPaste(e)) {
         return;
     }
     
-    // We don't want any text manuvering commands unless we are in drive
-    if(isTextManuveringCommand(e, false) && !areWeInSpreadsheets()) {
+    // We are not interesting in  any text manuvering commands
+    if(isTextManuveringCommand(e, false)) {
         return;
-    }
-
-    if (areWeInSpreadsheets()) {
-        return handleSheetsKeyDown(e, element_node);
     }
     
     let event = getKeyPressEvent(e, element, element_id, element_node);
@@ -178,18 +163,13 @@ function getElementIdWithCellInfo() {
 }
 
 function handleSheetsKeyDown(e, element_node) {
-    if (!areWeInSpreadsheets()) {
-        return;
-    }
-    let isCopy = e.key == "c" && e.metaKey;
-    // TODO: separate paste from raw paste
     let isPaste = (e.key == "v" && e.metaKey) || (e.key == "v" && e.metaKey && e.shiftKey);
-    if (!isCopy && !isPaste) {
+    if (!isPaste) {
         return;
     }
 
     let event = {
-        type: isCopy ? "PLACE_IN_CLIPBOARD" : "SHEETS_PASTE",
+        type: "SHEETS_PASTE",
         element_id: getElementIdWithCellInfo(),
         element_node: SHEET_ELEM_NODE,
     };
@@ -236,6 +216,50 @@ document.addEventListener('selectionchange', (e) => {
         event: event
     });
 });
+
+document.addEventListener('copy', e => {
+    let elem = e.path[0];
+    let element_id = getElementId(elem);
+    let element_node = elem.nodeName;
+    if (areWeInSpreadsheets()) {
+        element_id = getElementIdWithCellInfo();
+        element_node = SHEET_ELEM_NODE;
+    }
+    let event = {
+        type: "PLACE_IN_CLIPBOARD",
+        element_id: element_id,
+        element_node: element_node,
+    };
+    chrome.runtime.sendMessage({
+        event: event
+    });
+});
+
+document.addEventListener('paste', e => {
+    // We don't want to handle sheets paste here, since we want to differentiate between paste and raw paste
+    if (areWeInSpreadsheets()) {
+        return;
+    }
+    let elem = e.path[0];
+    // Not sure how this would happen but better be safe
+    if (!isElementTextEditable(elem)) {
+        return;
+    }
+    let event = {
+        type: "KEY_GROUP_PASTE",
+        element_id: getElementId(elem),
+        element_node: elem.nodeName,
+        keyGroupInput: {
+            startOffset: elem.selectionStart,
+            value: elem.value,
+            clipboard: getValueInClipboard(),
+        },
+    };
+    chrome.runtime.sendMessage({
+        event: event
+    });
+});
+
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);

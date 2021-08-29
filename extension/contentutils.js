@@ -43,8 +43,6 @@ function getKeyPressEvent(e, element, element_id, element_node) {
         event.keyGroupInput = {
             startOffset: element.selectionStart,
             value: element.value,
-            // TODO: only send clipboard if this action is a paste
-            clipboard: keyIsPaste(e) ? getValueInClipboard() : undefined,
         }
     }
     else {

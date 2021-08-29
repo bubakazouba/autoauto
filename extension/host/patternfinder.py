@@ -139,6 +139,7 @@ class PatternFinder:
         # use the pattern in action1 since we are tightly coupling this to 
         # _isUsersLastActionConfirmingSuggestion where the first argument is the suspected result
         if "increment_pattern" in action1["action"]:
+            self.log(">>>>theres increment_pattern")
             element_id = action1["action"]["element_id"]
             i1 = action1["action"]["element_id"]
             i2 = action2["action"]["element_id"]
@@ -151,6 +152,8 @@ class PatternFinder:
                 self.last_index_trackers[last_index_trackers_key] = i1
 
             does_action_2_follow_predicted_pattern = i2 == patternutils.addIds(pattern, self.last_index_trackers[last_index_trackers_key])
+            if not does_action_2_follow_predicted_pattern:
+                return False
             action1 = copy.deepcopy(action1)
             action2 = copy.deepcopy(action2)
             del action1["action"]["element_id"]
@@ -162,8 +165,7 @@ class PatternFinder:
             if does_it_follow_and_are_they_equal:
                 # Only update if user is still confirming the pattern
                 self.last_index_trackers[last_index_trackers_key] = i2
-            return does_it_follow_and_are_they_equal
-        elif action1["action"]["type"] == "KEY_GROUP_INPUT" and action2["action"]["type"] == "KEY_GROUP_INPUT":
+        if action1["action"]["type"] == action2["action"]["type"] == "KEY_GROUP_INPUT":
             action1 = copy.deepcopy(action1)
             action2 = copy.deepcopy(action2)
             action1["action"]["keyGroup"] = action1["action"]["keyGroup"].jsonify()
