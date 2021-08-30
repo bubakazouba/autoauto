@@ -16,7 +16,7 @@ function getElementInfoForKeyPresses(e) {
         element_node = "";
     }
     // Non editable fields are only allowed cmd+c, unless this is google drive
-    if (!isElementTextEditable(element) && !areWeInDrive()) {
+    if (!isElementTextEditable(element) && !areWeInSpreadsheets()) {
         if (!keyIsCopy(e)) {
             return;
         }
@@ -43,8 +43,6 @@ function getKeyPressEvent(e, element, element_id, element_node) {
         event.keyGroupInput = {
             startOffset: element.selectionStart,
             value: element.value,
-            // TODO: only send clipboard if this action is a paste
-            clipboard: keyIsPaste(e) ? getValueInClipboard() : undefined,
         }
     }
     else {
@@ -144,8 +142,8 @@ function isTextSelected() {
     return true;
 }
 
-function areWeInDrive() {
-    return window.location.origin == "https://docs.google.com";
+function areWeInSpreadsheets() {
+    return window.location.origin == "https://docs.google.com" && window.location.pathname.split("/")[1] == "spreadsheets";
 }
 
 // Should be able to copy images/links/formatting too
@@ -199,4 +197,31 @@ function getElementById(id) {
     // TODO: only do this if element still exists on the page. this way its more stable incase page changed over time.
     // Maybe i need to way to identify elements? one with indices the other without. static vs dynamic element addressing
     // return window.elements[id];
+}
+
+function cellToColAndRow(cell) {
+    // basically a base 26 calculation
+    function _colToNum(col) {
+        let num = 0;
+        for (let i in col) {
+            let charCode = col[i].charCodeAt(0);
+            const A_CODE = "A".charCodeAt(0);
+            num += Math.pow(26, col.length - i - 1) * (1 + charCode - A_CODE);
+        }
+        return num;
+    }
+    let col = cell.match(/([A-Z]+)/)[0];
+    let row = cell.match(/([0-9]+)/)[0];
+    let col_in_num = _colToNum(col);
+    return col_in_num+"."+row;
+}
+
+function colNumAndRowToCell(colNumAndRow) {
+    // TODO: this only works for A->Z
+    function _numToCol(colNum) {
+        return String.fromCharCode(colNum + "A".charCodeAt(0) - 1);
+    }
+    colNum = parseInt(colNumAndRow[0]);
+    row = parseInt(colNumAndRow[1]);
+    return _numToCol(colNum)+row;
 }

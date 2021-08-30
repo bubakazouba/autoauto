@@ -11,6 +11,18 @@ import keyboard
 def log(s):
     send_message("    AUTOMATION: "+s)
 
+def get_action_with_incremented_element_id(action, last_index_trackers):
+    if "increment_pattern" in action["action"]:
+        action = copy.deepcopy(action)
+        tab_id = action["tab"]["id"]
+        element_node = action["action"]["element_node"]
+        actionType = action["action"]["type"]
+        key = str(tab_id)+element_node+actionType
+        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[key])
+        last_index_trackers[key] = action["action"]["element_id"]
+
+    return action
+
 def trigger_key_group_input_command(action):
     send_message({
         "event": {
@@ -22,13 +34,7 @@ def trigger_key_group_input_command(action):
     })
 
 def triggger_click_command(action, last_index_trackers):
-    action = copy.deepcopy(action)
-
-    if "increment_pattern" in action["action"]:
-        tab_id = action["tab"]["id"]
-        element_node = action["action"]["element_node"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
-        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
 
     send_message({
         "event": {
@@ -44,6 +50,16 @@ def put_element_in_focus(element_id, tab_id):
             "type": "PUT_ELEMENT_IN_FOCUS",
             "element_id": element_id,
             "tab_id": tab_id
+        }
+    })
+
+def trigger_sheets_paste(action, last_index_trackers):
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
+    send_message({
+        "event": {
+            "type": "SHEETS_PASTE",
+            "element_id": action["action"]["element_id"],
+            "tab_id": action["tab"]["id"],
         }
     })
 
@@ -69,13 +85,7 @@ def enable_extension_keyboard_listener():
     send_message({"event": "IM DONE"})
 
 def _trigger_place_clipboard(action, last_index_trackers):
-    action = copy.deepcopy(action)
-
-    if "increment_pattern" in action["action"]:
-        tab_id = action["tab"]["id"]
-        element_node = action["action"]["element_node"]
-        action["action"]["element_id"] = patternutils.addIds(action["action"]["increment_pattern"], last_index_trackers[str(tab_id)+element_node])
-        last_index_trackers[str(tab_id)+element_node] = action["action"]["element_id"]
+    action = get_action_with_incremented_element_id(action, last_index_trackers)
 
     send_message({
         "event": {
@@ -117,6 +127,10 @@ def trigger_actions(actions, last_index_trackers):
         elif action["action"]["type"] == "KEY_GROUP_INPUT":
             send_message(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<")
             trigger_key_group_input_command(action)
+            last_tab_id = action["tab"]["id"]
+        elif action["action"]["type"] == "SHEETS_PASTE":
+            send_message(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<")
+            trigger_sheets_paste(action, last_index_trackers)
             last_tab_id = action["tab"]["id"]
         last_element_id = action["action"]["element_id"]
         time.sleep(0.8)

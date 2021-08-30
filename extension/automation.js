@@ -35,7 +35,61 @@ function keyGroupOnElement(element_id, keyGroup) {
 }
 
 function placeElementInClipboard(element_id) {
-    let element = getElementById(element_id);
-    // TODO: we will need to use different accessors (e.g textfields use .value)
-    _copy(element.textContent);
+    if (areWeInSpreadsheets()) {
+        // update selector
+        console.log("[placeElementInClipboard] changing cell");
+        changeCellWithElementId(element_id);
+        console.log("[placeElementInClipboard] done now copying cell content");
+        setTimeout(() => {
+            _copy(document.getElementsByClassName("cell-input")[0].textContent);
+        }, 400);
+    }
+    else {
+        let element = getElementById(element_id);
+        // TODO: we will need to use different accessors (e.g textfields use .value)
+        _copy(element.textContent);
+    }
+}
+
+////////////////////////////////////////
+// Sheets stuff
+
+function getCellFromSheetsElementId(element_id) {
+    return colNumAndRowToCell(element_id.split(".").slice(-2));
+}
+
+function getSheetId() {
+    // assuming we are in a spreadsheet tab
+    return window.location.pathname.split("/")[3];
+}
+
+function changeCellWithElementId(element_id) {
+    let cell = getCellFromSheetsElementId(element_id);
+    console.log("[changeCellWithElementId] got cell=", cell);
+    // Change Cell
+    document.getElementById("t-name-box").value = cell;
+
+    const ENTER_EVENT = new window.KeyboardEvent("keydown", {key: "Enter", keyCode: 13});
+    document.getElementById("t-name-box").dispatchEvent(ENTER_EVENT);
+    document.dispatchEvent(ENTER_EVENT);    
+}
+
+
+function handleSheetsPaste(element_id) {
+    // If we want to use sheets API
+    // let event = {
+    //     isSheetsStuff: true,
+    //     type: "write",
+    //     range: cell,
+    //     values: [[getValueInClipboard()]],
+    //     sheetId: getSheetId(),
+    // }
+    // chrome.runtime.sendMessage({
+    //     event: event
+    // });
+
+    changeCellWithElementId(element_id);
+
+    // Now Paste
+    document.execCommand("paste");
 }

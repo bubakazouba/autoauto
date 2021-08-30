@@ -20,6 +20,10 @@ class ActionsGrouper:
 
     def _getSelectionForAction(self, action):
         return self.selectionDict[action["tab"]["id"]][action["action"]["element_id"]]
+    
+    def _clearAllDictsForTab(self, tab_id):
+        self.keyGroupDict.pop(tab_id, None)
+        self.selectionDict.pop(tab_id, None)    
 
     def _updateSelectionDict(self, action):
         keyGroupInput = action["action"]["keyGroupInput"]
@@ -45,11 +49,11 @@ class ActionsGrouper:
             del self.unsubmittedKeyGroupActionsDict[tabId][elementId]
         return l
 
-    def _appendKeyboardActionInKeyGroup(self, action):
-        keyParams = action["action"]["keyParams"]
-        keyGroupInput = action["action"]["keyGroupInput"]
-        startOffset = keyGroupInput["startOffset"]
-        key = keyParams["key"]
+    def _appendKeyGroupAction(self, action):
+        actionType = action["action"]["type"]
+
+        if actionType == "KEY_GROUP_SELECTION":
+            return self._updateSelectionDict(action)
 
         self._markUnsubmittedKeyGroup(action)
         # Starting here all actions are destructive ones (character or cmd+v or backspace)
@@ -57,11 +61,27 @@ class ActionsGrouper:
             [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
             self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
             self._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset)
-        if key == "v" and keyParams["metaKey"]:
-            clipboard = keyGroupInput["clipboard"]
-            self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
-            self.log("I sent paste")
-        elif key == "Backspace" and not keyParams["metaKey"]:
+        if actionType == "KEY_GROUP_INPUT":
+            self._appendInputActionInKeyGroup(action)
+        elif actionType == "KEY_GROUP_PASTE":
+            self._appendPasteActionInKeyGroup(action)
+
+        self.log("now keygroup=" + str(self._getKeyGroupForAction(action)))
+        self._updateSelectionDict(action)
+
+    def _appendPasteActionInKeyGroup(self, action):
+        keyGroupInput = action["action"]["keyGroupInput"]
+        startOffset = keyGroupInput["startOffset"]
+        clipboard = keyGroupInput["clipboard"]
+        self._getKeyGroupForAction(action).appendPasteAtOffset(clipboard, startOffset)
+
+    def _appendInputActionInKeyGroup(self, action):
+        keyParams = action["action"]["keyParams"]
+        keyGroupInput = action["action"]["keyGroupInput"]
+        startOffset = keyGroupInput["startOffset"]
+        key = keyParams["key"]
+
+        if key == "Backspace" and not keyParams["metaKey"]:
             # if there was selection then we have already taken care of it
             if self._getSelectionForAction(action) == []:
                 self._getKeyGroupForAction(action).deleteTextAtOffset(startOffset - 1)
@@ -76,9 +96,6 @@ class ActionsGrouper:
         else:
             self.log("im appending text")
             self._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset)
-        self.log("now keygroup=" + str(self._getKeyGroupForAction(action)))
-
-        self._updateSelectionDict(action)
 
     def actionIsOnEditableElement(self, action):
         return action["action"]["element_node"] == "INPUT"
@@ -91,10 +108,8 @@ class ActionsGrouper:
             # TODO: only create a new KeyGroup on re-focus if keyGroup for element was submitted (or if it didn't exist before) 
             if action["action"]["type"] == "FOCUS" and self._actionOnEditableElementIsSubmitted(action):
                 self.keyGroupDict[tabId][elementId] = KeyGrouper(action["action"]["keyGroupInput"]["value"])
-            elif action["action"]["type"] == "KEY_GROUP_INPUT":
-                self._appendKeyboardActionInKeyGroup(action)
-            elif action["action"]["type"] == "KEY_GROUP_SELECTION":
-                self._updateSelectionDict(action)
+            elif action["action"]["type"] in ["KEY_GROUP_INPUT", "KEY_GROUP_PASTE", "KEY_GROUP_SELECTION"]:
+                self._appendKeyGroupAction(action)
             return None
         # if action is clicking/selecting
         else:
@@ -107,16 +122,20 @@ class ActionsGrouper:
                 unsubmittedKeyGroupActions = self._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"])
                 for a in unsubmittedKeyGroupActions:
                     a = copy.deepcopy(a)
-                    del a["action"]["keyParams"]
-                    del a["action"]["keyGroupInput"]
+                    a["action"].pop("keyParams", None)
+                    a["action"].pop("keyGroupInput", None)
+                    # standardize to KEY_GROUP_INPUT, havent found a need to differentiate after this point
+                    a["action"]["type"] = "KEY_GROUP_INPUT"
                     a["action"]["keyGroup"] = self._getKeyGroupForAction(a)
                     res.append(a)
                 res.append(action)
             # this should only run for spreadsheets
             elif action["action"]["type"] == "KEYBOARD" and "docs.google.com" in action["tab"]["url"]:
                 res.append(action)
-            elif action["action"]["type"] == "PLACE_IN_CLIPBOARD":
+            elif action["action"]["type"] in ["PLACE_IN_CLIPBOARD", "SHEETS_PASTE"]:
                 res.append(action)
+            elif action["action"]["type"] == "UNLOAD":
+                self._clearAllDictsForTab(action["tab"]["id"])
 
             return res
 

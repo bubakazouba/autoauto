@@ -18,7 +18,7 @@ class PatternFinder:
         self.suspected_result_last_index = None
         # TODO: this needs to be smarter, one tab can contain multiple increment patterns where
         # we would want to track the last index
-        self.last_index_trackers = {} # map from "tab_id+element_node" to element_id
+        self.last_index_trackers = {} # map from "tab_id+element_node+action_type" to element_id
         self.incrementFinderLog = lambda s : self.log("    INCREMENTFINDER: " + s)
 
     def _getExpectedActionAccordingToOurSuspectedResult(self):
@@ -139,16 +139,21 @@ class PatternFinder:
         # use the pattern in action1 since we are tightly coupling this to 
         # _isUsersLastActionConfirmingSuggestion where the first argument is the suspected result
         if "increment_pattern" in action1["action"]:
+            self.log(">>>>theres increment_pattern")
             element_id = action1["action"]["element_id"]
             i1 = action1["action"]["element_id"]
             i2 = action2["action"]["element_id"]
             tab_id = action1["tab"]["id"]
             element_node = action1["action"]["element_node"]
             pattern = action1["action"]["increment_pattern"]
-            if tab_id not in self.last_index_trackers:
-                self.last_index_trackers[str(tab_id)+element_node] = i1
+            actionType = action1["action"]["type"]
+            last_index_trackers_key = str(tab_id)+element_node+actionType
+            if last_index_trackers_key not in self.last_index_trackers:
+                self.last_index_trackers[last_index_trackers_key] = i1
 
-            does_action_2_follow_predicted_pattern = i2 == patternutils.addIds(pattern, self.last_index_trackers[str(tab_id)+element_node])
+            does_action_2_follow_predicted_pattern = i2 == patternutils.addIds(pattern, self.last_index_trackers[last_index_trackers_key])
+            if not does_action_2_follow_predicted_pattern:
+                return False
             action1 = copy.deepcopy(action1)
             action2 = copy.deepcopy(action2)
             del action1["action"]["element_id"]
@@ -159,9 +164,8 @@ class PatternFinder:
             # so it doesnt fail if we just check for equality
             if does_it_follow_and_are_they_equal:
                 # Only update if user is still confirming the pattern
-                self.last_index_trackers[str(tab_id)+element_node] = i2
-            return does_it_follow_and_are_they_equal
-        elif action1["action"]["type"] == "KEY_GROUP_INPUT" and action2["action"]["type"] == "KEY_GROUP_INPUT":
+                self.last_index_trackers[last_index_trackers_key] = i2
+        if action1["action"]["type"] == action2["action"]["type"] == "KEY_GROUP_INPUT":
             action1 = copy.deepcopy(action1)
             action2 = copy.deepcopy(action2)
             action1["action"]["keyGroup"] = action1["action"]["keyGroup"].jsonify()
