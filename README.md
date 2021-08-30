@@ -20,5 +20,13 @@
 * Reload extension (from `chrome://extensions`)
 * Open background page, check console to make sure you have no errors
 
+## Running
+Launch Chrome/Edge using the command line so you can see errors from the host process.
+### Mac
+* `/Applications/Microsoft\ Edge.app/Contents/MacOS/Microsoft\ Edge`
+* `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome`
+### Windows
+* https://support.google.com/chrome/a/answer/6271282?hl=en#zippy=%2Cwindows
+
 ## Tests
 Run `./host/runtests.sh`
