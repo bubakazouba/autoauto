@@ -48,9 +48,12 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         console.log("ignoring because amiwaiting = true");
         return;
     }
-    if (msg.event.isSheetsStuff) {
-        if (msg.event.type == "write") {
+    if (msg.request) {
+        if (msg.request.type == "WRITE_SHEET") {
             writeSheet(sheetId, msg.event.range, msg.event.values);
+        }
+        else if (msg.request.type == "GET_CLIPBOARD") {
+            sendResponse(getValueInClipboard());
         }
     }
     else if (msg.event) {

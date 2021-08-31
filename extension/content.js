@@ -245,18 +245,20 @@ document.addEventListener('paste', e => {
     if (!isElementTextEditable(elem)) {
         return;
     }
-    let event = {
-        type: "KEY_GROUP_PASTE",
-        element_id: getElementId(elem),
-        element_node: elem.nodeName,
-        keyGroupInput: {
-            startOffset: elem.selectionStart,
-            value: elem.value,
-            clipboard: getValueInClipboard(),
-        },
-    };
-    chrome.runtime.sendMessage({
-        event: event
+    getValueInClipboard().then(clipboard => {
+        let event = {
+            type: "KEY_GROUP_PASTE",
+            element_id: getElementId(elem),
+            element_node: elem.nodeName,
+            keyGroupInput: {
+                startOffset: elem.selectionStart,
+                value: elem.value,
+                clipboard: clipboard,
+            },
+        };
+        chrome.runtime.sendMessage({
+            event: event
+        });
     });
 });
 

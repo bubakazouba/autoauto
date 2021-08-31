@@ -77,26 +77,16 @@ function keyIsPaste(e) {
 }
 
 function getValueInClipboard() {
-    let elementInFocus = document.activeElement;
-    //Create a textbox field where we can insert text to. 
-    var getClipboardFrom = document.createElement("textarea");
-
-    //Append the textbox field into the body as a child. 
-    //"execCommand()" only works when there exists selected text, and the text is inside 
-    //document.body (meaning the text is part of a valid rendered HTML element).
-    document.body.appendChild(getClipboardFrom);
-    getClipboardFrom.focus();
-    //Execute command
-    document.execCommand('paste');
-
-    let text = getClipboardFrom.value;
-
-    //Remove the textbox field from the document.body, so no other JavaScript nor 
-    //other elements can get access to this.
-    document.body.removeChild(getClipboardFrom);
-
-    elementInFocus.focus();
-    return text;
+    let request = {
+        type: "GET_CLIPBOARD",
+    };
+    return new Promise((resolve) => {
+        chrome.runtime.sendMessage({
+            request: request
+        }, response => {
+            resolve(response);
+        });
+    });
 }
 
 function getElementId(element) {
