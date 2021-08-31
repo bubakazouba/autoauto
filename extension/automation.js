@@ -77,20 +77,22 @@ function changeCellWithElementId(element_id) {
 
 
 function handleSheetsPaste(element_id) {
-    // If we want to use sheets API
-    // let request = {
-    //     type: "WRITE_SHEET",
-    //     isSheetsStuff: true,
-    //     range: cell,
-    //     values: [[getValueInClipboard()]],
-    //     sheetId: getSheetId(),
-    // }
-    // chrome.runtime.sendMessage({
-    //     request: request
-    // });
-
+    let cell = getCellFromSheetsElementId(element_id);
+    getValueInClipboard().then(value => {
+        // If we want to use sheets API
+        let request = {
+            type: "WRITE_SHEET",
+            range: cell,
+            values: [[value]],
+            sheetId: getSheetId(),
+        }
+        chrome.runtime.sendMessage({
+            request: request
+        });
+    });
+    
     changeCellWithElementId(element_id);
 
     // Now Paste
-    document.execCommand("paste");
+    // document.execCommand("paste");
 }

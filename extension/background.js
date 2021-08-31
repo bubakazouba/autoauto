@@ -1,28 +1,24 @@
 // Any function in this file can be referenced elsewhere by using chrome.extension.getBackgroundPage().myFunction()
-// 
 const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
 function onGAPILoad() {
-//     gapi.client.init({
-//         // Don't pass client nor scope as these will init auth2, which we don't want
-//         apiKey: API_KEY,
-//         discoveryDocs: DISCOVERY_DOCS,
-//     }).then(function() {
-//         console.log('gapi initialized, now logging in..');
-//         doLogin();
-//     });
+    gapi.client.init({
+        // Don't pass client nor scope as these will init auth2, which we don't want
+        apiKey: API_KEY,
+        discoveryDocs: DISCOVERY_DOCS,
+    }).then(function() {
+        console.log('gapi initialized, now logging in..');
+        doLogin();
+    });
 }
 
 
 chrome.runtime.onInstalled.addListener(function() {
-    window.imparsinglist = false;
     window.amiwaiting = false;
-    window.lists = {};
-    window.tables = {};
-    window.lastRepition = [];
-    console.log("lets go lets connect");
+    console.log("Let's go let's connect!");
     connect();
+    console.log("Sending heart beat!");
     sendNativeMessage({"event": "HEARTBEAT"});
 
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -44,19 +40,20 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             repitions: msg.event.repitions,
         });
     }
-    if (window.amiwaiting) {
-        console.log("ignoring because amiwaiting = true");
-        return;
-    }
     if (msg.request) {
         if (msg.request.type == "WRITE_SHEET") {
-            writeSheet(sheetId, msg.event.range, msg.event.values);
+            writeSheet(msg.request.sheetId, msg.request.range, msg.request.values);
         }
         else if (msg.request.type == "GET_CLIPBOARD") {
             sendResponse(getValueInClipboard());
         }
+        return;
     }
-    else if (msg.event) {
+    if (window.amiwaiting) {
+        console.log("ignoring because amiwaiting = true");
+        return;
+    }
+    if (msg.event) {
         // TODO: tab and enter shouldn't be ignored in textareas
         if ("keyParams" in msg.event && "key" in msg.event.keyParams && ["meta", "shift", "control", "alt", "tab", "enter"].includes(msg.event.keyParams.key.toLowerCase())) {
             // console.log("ignoring loan modifier key");
