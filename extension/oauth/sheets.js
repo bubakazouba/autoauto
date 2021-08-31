@@ -23,7 +23,6 @@ function getSheet(spreadsheetId, range = "Sheet1") {
 // https://stackoverflow.com/questions/46256676/google-sheets-api-v4-method-spreadsheets-values-append
 // Example writing multiple ranges: https://developers.google.com/sheets/api/guides/values#javascript_1
 function appendSheet(spreadsheetId, range = "A1", values = [ ["hi"] ]) {
-    console.log("hi1");
     gapi.client.sheets.spreadsheets.values.append({
         spreadsheetId: spreadsheetId,
         range: "Sheet1",
@@ -32,7 +31,7 @@ function appendSheet(spreadsheetId, range = "A1", values = [ ["hi"] ]) {
         includeValuesInResponse: true,
         resource: { /*"range": range,*/ "values": values, "majorDimension": "ROWS" },
     }).then(function(response) {
-        console.log("I wrote stuff", response);
+        console.log("I wrote data to sheet", response);
     });
 }
 
@@ -42,9 +41,9 @@ function writeSheet(spreadsheetId, range = "A1", values = [ ["hi"] ]) {
         spreadsheetId: spreadsheetId,
         range: range,
         includeValuesInResponse: true,
-        valueInputOption: VALUE_INPUT_OPTIONS.USER_ENTERED,
+        valueInputOption: VALUE_INPUT_OPTIONS.RAW,
         resource: { "values": values, "majorDimension": "ROWS" },
     }).then(function(response) {
-        console.log("I wrote stuff", response);
+        console.log("I wrote data to sheet", response);
     });
 }
