@@ -41,9 +41,10 @@ function placeElementInClipboard(element_id) {
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
         console.log("[placeElementInClipboard] done changing cell copying cell content");
+        // TODO: not sure if timeout is necessary
         setTimeout(() => {
             copy(document.getElementsByClassName("cell-input")[0].textContent);
-        }, 400);
+        }, 100);
     }
     else {
         let element = getElementById(element_id);
