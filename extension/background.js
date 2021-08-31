@@ -57,11 +57,6 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         return;
     }
     if (msg.event) {
-        // TODO: tab and enter shouldn't be ignored in textareas
-        if ("keyParams" in msg.event && "key" in msg.event.keyParams && ["meta", "shift", "control", "alt", "tab", "enter"].includes(msg.event.keyParams.key.toLowerCase())) {
-            // console.log("ignoring loan modifier key");
-            return;
-        }
         // console.log("got", pprint(msg, sender.tab.index));
         let action = {
             tab: {
