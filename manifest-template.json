@@ -1,5 +1,5 @@
 {
-    "name": "Getting Started Example",
+    "name": "Auto Auto",
     "version": "1.0",
     "description": "Build an Extension!",
     "permissions": ["nativeMessaging", "storage", "declarativeContent", "activeTab", "tabs", "<all_urls>", "contextMenus", "clipboardWrite", "clipboardRead", "identity", "identity.email"],
