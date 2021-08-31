@@ -14,7 +14,7 @@ function onGAPILoad() {
 }
 
 
-chrome.runtime.onInstalled.addListener(function() {
+window.onload = function() {
     window.amiwaiting = false;
     console.log("Let's go let's connect!");
     connect();
@@ -29,7 +29,7 @@ chrome.runtime.onInstalled.addListener(function() {
             actions: [new chrome.declarativeContent.ShowPageAction()]
         }]);
     });
-});
+};
 
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
