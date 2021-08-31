@@ -47,6 +47,9 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         else if (msg.request.type == "GET_CLIPBOARD") {
             sendResponse(getValueInClipboard());
         }
+        else if (msg.request.type == "PLACE_IN_CLIPBOARD") {
+            sendResponse(copy(msg.request.text));
+        }
         return;
     }
     if (window.amiwaiting) {

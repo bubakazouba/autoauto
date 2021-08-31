@@ -40,15 +40,15 @@ function placeElementInClipboard(element_id) {
         // update selector
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
-        console.log("[placeElementInClipboard] done now copying cell content");
+        console.log("[placeElementInClipboard] done changing cell copying cell content");
         setTimeout(() => {
-            _copy(document.getElementsByClassName("cell-input")[0].textContent);
+            copy(document.getElementsByClassName("cell-input")[0].textContent);
         }, 400);
     }
     else {
         let element = getElementById(element_id);
         // TODO: we will need to use different accessors (e.g textfields use .value)
-        _copy(element.textContent);
+        copy(element.textContent);
     }
 }
 
@@ -79,7 +79,6 @@ function changeCellWithElementId(element_id) {
 function handleSheetsPaste(element_id) {
     let cell = getCellFromSheetsElementId(element_id);
     getValueInClipboard().then(value => {
-        // If we want to use sheets API
         let request = {
             type: "WRITE_SHEET",
             range: cell,
