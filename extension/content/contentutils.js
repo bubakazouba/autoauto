@@ -23,7 +23,7 @@ function getElementInfoForKeyPresses(e) {
     }
     // TODO: reconcile key ignoring logic (rn its fragmented here,backgorund.js and actionsgrouper.py)
     // User is just switching tabs, unfortunately key gets reported on a text editable element if its active
-    if(!!e.code && e.code.startsWith("Digit") && (e.metaKey || e.ctrlKey)) {
+    if(!!e.code && e.code.startsWith("Digit") && ((e.metaKey && isOS("Mac")) || (e.ctrlKey && isOS("Win")))) {
         return;
     }
     return {
@@ -66,14 +66,14 @@ function keyIsCopy(e) {
     if (!e.key) {
         return false;
     }
-    return e.key.toUpperCase() == "C" && (e.metaKey || e.ctrlKey);
+    return e.key.toUpperCase() == "C" && ((e.metaKey && isOS("Mac")) || (e.ctrlKey && isOS("Win")));
 }
 
 function keyIsPaste(e) {
     if (!e.key) {
         return false;
     }
-    return e.key.toUpperCase() == "V" && (e.metaKey || e.ctrlKey);
+    return e.key.toUpperCase() == "V" && ((e.metaKey && isOS("Mac")) || (e.ctrlKey && isOS("Win")));
 }
 
 function getValueInClipboard() {
@@ -202,4 +202,11 @@ function colNumAndRowToCell(colNumAndRow) {
     colNum = parseInt(colNumAndRow[0]);
     row = parseInt(colNumAndRow[1]);
     return _numToCol(colNum)+row;
+}
+
+function isOS(operatingSystem) {
+    return (operatingSystem === "Win" && navigator.appVersion.indexOf("Win") != -1) ||
+    (operatingSystem === "Mac" && navigator.appVersion.indexOf("Mac") != -1) ||
+    (operatingSystem === "Unix" && navigator.appVersion.indexOf("X11") != -1) ||
+    (operatingSystem === "Linux" && navigator.appVersion.indexOf("Linux") != -1)
 }
