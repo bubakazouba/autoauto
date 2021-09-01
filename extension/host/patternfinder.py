@@ -9,7 +9,13 @@ import patternutils
 MAX_ERROR_RATIO_THRESHOLD = 0.2
 USER_CONFIRMATION_WEIGHT = 2
 MAX_ACTIONS_LENGTH = 100
-
+ACTIONS_TYPE_SCORE_WEIGHT = {
+    "KEYBOARD": 1,
+    "KEY_GROUP_INPUT": 1,
+    "CLICK": 1,
+    "SHEETS_PASTE": 1,
+    "PLACE_IN_CLIPBOARD": 2,
+}
 class PatternFinder:
     def __init__(self, log):
         self.log = log
@@ -34,8 +40,16 @@ class PatternFinder:
     
     def _getSureness(self):
         len_user_confirmation = len(self.actions) - self.suspected_result_last_index
-        sureness = len(self.suspected_result["pattern"]) - self.suspected_result["error"] + len_user_confirmation * USER_CONFIRMATION_WEIGHT
-        self.log("<<<len={}, error={}, confirmation={}".format(len(self.suspected_result["pattern"]), self.suspected_result["error"], len_user_confirmation))
+        pattern_score = 0
+        len_pattern = len(self.suspected_result["pattern"])
+        for i in range(len_pattern):
+            action = self.suspected_result["pattern"][i]
+            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] 
+            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * (len_user_confirmation // len_pattern) * USER_CONFIRMATION_WEIGHT
+            if(i < len_user_confirmation % len_pattern):
+                pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * USER_CONFIRMATION_WEIGHT
+        sureness = pattern_score - self.suspected_result["error"]
+        self.log("<<<len={}, error={}, confirmation={}, score={}".format(len_pattern, self.suspected_result["error"], len_user_confirmation, pattern_score))
         return sureness
 
     def append(self, action):
