@@ -1,9 +1,9 @@
 {
     "name": "com.my_company.my_app",
     "description": "My App",
-    "path": "D:\\GitHub\\autoauto\\extension\\host\\host.py",
+    "path": "D:\\Repos\\autoauto\\extension\\host\\host.bat",
     "type": "stdio",
     "allowed_origins": [
-        "chrome-extension://cejaoigiabgpknhibkifkcjgilaicomc/"
+        "chrome-extension://lobcmaafhlkdndfgpmhaplbgpmjhniil/"
     ]
 }

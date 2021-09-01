@@ -52,7 +52,7 @@ function markTokenAsExpired() {
 
 function clearalltokens() {
     chrome.storage.sync.set({
-        [IS_TOKEN_EXPIRED_KEY]: undefined
+        [TOKEN_EXPIRATION_TIME_KEY]: 0
     }, function(result) {
         console.log('[Storage] [Clear] Cleared token expired key');
     });
