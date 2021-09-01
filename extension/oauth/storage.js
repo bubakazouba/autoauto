@@ -51,7 +51,7 @@ function storeToken(token, expiresSeconds) {
 
 function clearalltokens() {
     chrome.storage.sync.set({
-        [TOKEN_EXPIRATION_TIME_KEY]: undefined
+        [TOKEN_EXPIRATION_TIME_KEY]: 0
     }, function(result) {
         console.log('[Storage] [Clear] Cleared token expired key');
     });

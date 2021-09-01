@@ -163,7 +163,7 @@ function getElementIdWithCellInfo() {
 }
 
 function handleSheetsKeyDown(e, element_node) {
-    let isPaste = (e.key == "v" && e.metaKey) || (e.key == "v" && e.metaKey && e.shiftKey);
+    let isPaste = (e.key == "v" && getModifierKey(e)) || (e.key == "v" && getModifierKey(e) && e.shiftKey);
     if (!isPaste) {
         return;
     }
@@ -182,7 +182,7 @@ function handleSheetsKeyDown(e, element_node) {
 function isTextManuveringCommand(e, isKeyUp) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
     let c1 = e.key.substring(0,5).toUpperCase() == "ARROW";
-    let c2 = e.key == "a" && e.metaKey;
+    let c2 = e.key == "a" && getModifierKey(e);
     return c1 || c2;
 }
 

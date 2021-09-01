@@ -1,9 +1,9 @@
 {
     "name": "com.my_company.my_app",
     "description": "My App",
-    "path": "/home/sultan/personal/autoauto/host/host.py",
+    "path": "D:\\Repos\\autoauto\\extension\\host\\host.bat",
     "type": "stdio",
     "allowed_origins": [
-        "chrome-extension://alpfbijjbgdjopbmajdodidnpdnekkgi/"
+        "chrome-extension://lobcmaafhlkdndfgpmhaplbgpmjhniil/"
     ]
 }
