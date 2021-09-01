@@ -45,7 +45,7 @@ function doLogin() {
                     if (err) {
                         console.log('[doLogin] OAuth2: Token failed validation');
                     } else {
-                        storeToken(token);
+                        storeToken(token, expiresSeconds);
                         startTimer(expiresSeconds);
                         console.log('[doLogin] OAuth2: Success');
                         return true;
@@ -89,7 +89,6 @@ function startTimer(seconds) {
     if (seconds > LOGOUT_WARNING_SECONDS) {
         expiresTimerId = setTimeout(function() {
             console.log("Automatic re-login initiating");
-            markTokenAsExpired();
             doLogin();
         }, (seconds - LOGOUT_WARNING_SECONDS) * 1000); // seconds * 1000
 

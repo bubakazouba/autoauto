@@ -1,5 +1,5 @@
 const TOKEN_KEY = "TOKEN";
-const IS_TOKEN_EXPIRED_KEY = "IS_TOKEN_EXPIRED";
+const TOKEN_EXPIRATION_TIME_KEY = "TOKEN_EXPIRATION_TIME_KEY";
 
 function getToken() {
     return new Promise((resolve) => {
@@ -12,9 +12,12 @@ function getToken() {
 
 function isTokenExpired() {
     return new Promise((resolve) => {
-        chrome.storage.sync.get([IS_TOKEN_EXPIRED_KEY], function(result) {
-            console.log('[Storage][Get] Is Token Expired Value currently is ' + result[IS_TOKEN_EXPIRED_KEY]);
-            resolve(!!result[IS_TOKEN_EXPIRED_KEY]);
+        chrome.storage.sync.get([TOKEN_EXPIRATION_TIME_KEY], function(result) {
+            console.log('[Storage][Get] Is Token Expired Value currently is ' + result[TOKEN_EXPIRATION_TIME_KEY]);
+            if (!result[TOKEN_EXPIRATION_TIME_KEY]) {
+                return resolve(true);
+            }
+            resolve((new Date()).getTime() >= result[TOKEN_EXPIRATION_TIME_KEY] + 10 * 1000);
         });
     });
 }
@@ -25,7 +28,7 @@ function isTokenStillValid() {
     });
 }
 
-function storeToken(token) {
+function storeToken(token, expiresSeconds) {
     gapi.auth.setToken({
         'access_token': token,
     });
@@ -35,20 +38,16 @@ function storeToken(token) {
         console.log('[Storage][Set] Token value is set to ' + token);
     });
 
+    let expires = new Date();
+    expires.setSeconds(expires.getSeconds() + expiresSeconds);
+
     chrome.storage.sync.set({
-        [IS_TOKEN_EXPIRED_KEY]: false
+        [TOKEN_EXPIRATION_TIME_KEY]: expires.getTime()
     }, function(result) {
         console.log('[Storage][Set] Is Token Expired value is set to ' + false);
     });
 }
 
-function markTokenAsExpired() {
-    chrome.storage.sync.set({
-        [IS_TOKEN_EXPIRED_KEY]: true
-    }, function(result) {
-        console.log('[Storage][Set] Is Token Expired value is set to ' + true, 'result=', result);
-    });
-}
 
 function clearalltokens() {
     chrome.storage.sync.set({

@@ -8,30 +8,31 @@ function clickOnElement(element_id) {
     element.click();
 }
 function keyGroupOnElement(element_id, keyGroup) {
-    console.log("keyGroupOnElement got called", keyGroup);
+    console.log("[keyGroupOnElement] keyGroup=", keyGroup);
     let element = getElementById(element_id);
     let initialValue = element.value;
-    let paste = getValueInClipboard();
-    let finalValue = "";
-    for(let p of keyGroup) {
-        if (typeof p == typeof "") {
-            console.log("im appending p=", p);
-            finalValue += p;
-        }
-        else {
-            let s = "";
-            if (p.id == "INITIAL_VALUE") {
-                s = initialValue;
+    getValueInClipboard().then(paste => {
+        let finalValue = "";
+        for(let p of keyGroup) {
+            if (typeof p == typeof "") {
+                console.log("im appending p=", p);
+                finalValue += p;
             }
-            else if (p.id == "PASTE") {
-                s = paste;
+            else {
+                let s = "";
+                if (p.id == "INITIAL_VALUE") {
+                    s = initialValue;
+                }
+                else if (p.id == "PASTE") {
+                    s = paste;
+                }
+                let raw_end = p.end == "E" ? s.length : p.end;
+                console.log("[keyGroupOnElement] appending s=", s, p.start, raw_end, s.substring(p.start, raw_end));
+                finalValue += s.substring(p.start, raw_end);
             }
-            let raw_end = p.end == "E" ? s.length : p.end;
-            console.log("im appending s=", s, p.start, raw_end, s.substring(p.start, raw_end));
-            finalValue += s.substring(p.start, raw_end);
         }
-    }
-    element.value = finalValue;
+        element.value = finalValue;
+    });
 }
 
 function placeElementInClipboard(element_id) {
@@ -39,15 +40,16 @@ function placeElementInClipboard(element_id) {
         // update selector
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
-        console.log("[placeElementInClipboard] done now copying cell content");
+        console.log("[placeElementInClipboard] done changing cell copying cell content");
+        // TODO: not sure if timeout is necessary
         setTimeout(() => {
-            _copy(document.getElementsByClassName("cell-input")[0].textContent);
-        }, 400);
+            copy(document.getElementsByClassName("cell-input")[0].textContent);
+        }, 100);
     }
     else {
         let element = getElementById(element_id);
         // TODO: we will need to use different accessors (e.g textfields use .value)
-        _copy(element.textContent);
+        copy(element.textContent);
     }
 }
 
@@ -76,20 +78,21 @@ function changeCellWithElementId(element_id) {
 
 
 function handleSheetsPaste(element_id) {
-    // If we want to use sheets API
-    // let event = {
-    //     isSheetsStuff: true,
-    //     type: "write",
-    //     range: cell,
-    //     values: [[getValueInClipboard()]],
-    //     sheetId: getSheetId(),
-    // }
-    // chrome.runtime.sendMessage({
-    //     event: event
-    // });
-
+    let cell = getCellFromSheetsElementId(element_id);
+    getValueInClipboard().then(value => {
+        let request = {
+            type: "WRITE_SHEET",
+            range: cell,
+            values: [[value]],
+            sheetId: getSheetId(),
+        }
+        chrome.runtime.sendMessage({
+            request: request
+        });
+    });
+    
     changeCellWithElementId(element_id);
 
     // Now Paste
-    document.execCommand("paste");
+    // document.execCommand("paste");
 }

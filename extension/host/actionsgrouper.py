@@ -55,8 +55,19 @@ class ActionsGrouper:
         if actionType == "KEY_GROUP_SELECTION":
             return self._updateSelectionDict(action)
 
-        self._markUnsubmittedKeyGroup(action)
+        # Check for no-ops first
+        if actionType == "KEY_GROUP_INPUT":
+            keyParams = action["action"]["keyParams"]
+            is_loan_modifier_key = keyParams["key"].lower() in ["meta", "shift", "control", "alt", "tab", "enter", "capslock"]
+            # We don't care about:
+            #   * (cmd|ctrl)+(shift)+a (text manuvering/selections) since they are handled by "KEY_GROUP_SELECTION"
+            #   * (cmd+ctrl)+(c|v) since they are handled by PLACE_IN_CLIPBOARD and KEY_GROUP_PASTE
+            #   * (cmd|ctrl)+f,(cmd|ctrl)+d (any browser shortcuts)
+            if is_loan_modifier_key or keyParams["ctrlKey"] or keyParams["metaKey"]:
+                return
+        
         # Starting here all actions are destructive ones (character or cmd+v or backspace)
+        self._markUnsubmittedKeyGroup(action)
         if self._getSelectionForAction(action) != []:
             [selectionStartOffset, selectionEndOffset] = self._getSelectionForAction(action)
             self.log("There is selection and a destructive action deleting selected range [{},{}] ".format(selectionStartOffset, selectionEndOffset))
@@ -91,8 +102,6 @@ class ActionsGrouper:
             if self._getSelectionForAction(action) == []:
                 self._getKeyGroupForAction(action).deleteTextAtOffsetRange(0, startOffset)
                 self.log("I sent deleteTextAtOffsetRange(0, : "+str(startOffset-1) + ")")
-        elif keyParams["metaKey"] or keyParams["key"] == "CapsLock": # ignore cmd+c,cmd+f,cmd+d (any browser shortcuts)
-            pass
         else:
             self.log("im appending text")
             self._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset)
