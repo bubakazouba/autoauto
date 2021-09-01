@@ -163,7 +163,6 @@ function getElementIdWithCellInfo() {
 }
 
 function handleSheetsKeyDown(e, element_node) {
-    console.log(navigator);
     let isPaste = (e.key == "v" && getModifierKey(e)) || (e.key == "v" && getModifierKey(e) && e.shiftKey);
     if (!isPaste) {
         return;
