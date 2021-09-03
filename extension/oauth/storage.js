@@ -13,7 +13,9 @@ function getToken() {
 function isTokenExpired() {
     return new Promise((resolve) => {
         chrome.storage.sync.get([TOKEN_EXPIRATION_TIME_KEY], function(result) {
-            console.log('[Storage][Get] Is Token Expired Value currently is ' + result[TOKEN_EXPIRATION_TIME_KEY]);
+            console.log('[Storage][Get] Is Token Expired Value currently is ' + 
+                result[TOKEN_EXPIRATION_TIME_KEY] + " which is " + 
+                secondsFromNow(result[TOKEN_EXPIRATION_TIME_KEY]) + " seconds from now");
             if (!result[TOKEN_EXPIRATION_TIME_KEY]) {
                 return resolve(true);
             }
@@ -44,7 +46,7 @@ function storeToken(token, expiresSeconds) {
     chrome.storage.sync.set({
         [TOKEN_EXPIRATION_TIME_KEY]: expires.getTime()
     }, function(result) {
-        console.log('[Storage][Set] Is Token Expired value is set to ' + false);
+        console.log('[Storage][Set] Token expiration time value is set to ' + expires.getTime());
     });
 }
 
@@ -53,12 +55,17 @@ function clearalltokens() {
     chrome.storage.sync.set({
         [TOKEN_EXPIRATION_TIME_KEY]: 0
     }, function(result) {
-        console.log('[Storage] [Clear] Cleared token expired key');
+        console.log('[Storage] [Clear] Cleared token expiration time');
     });
 
     chrome.storage.sync.set({
-        [TOKEN_KEY]: undefined
+        [TOKEN_KEY]: ""
     }, function(result) {
         console.log('[Storage] [Clear] Cleared token');
     });
+}
+
+function secondsFromNow(time) {
+    let delta = time - (new Date()).getTime();
+    return parseInt(delta / 1000);
 }

@@ -1,7 +1,8 @@
 let expiresTimerId = null;
 const LOGOUT_WARNING_SECONDS = 60;
 
-function login(isImmediate) {
+function login(isImmediate=false) {
+    isImmediate = false; // overriding isImmediate since its failing right now with true
     const config = {
         implicitGrantUrl: "https://accounts.google.com/o/oauth2/auth",
         clientId: "965647531879-ul5u1moe1as7b96p2rmi6qpt79m4lpos.apps.googleusercontent.com",
@@ -19,7 +20,7 @@ function login(isImmediate) {
     console.log("authUrl=", authUrl);
 
     return new Promise(resolve => {
-        chrome.identity.launchWebAuthFlow({ 'url': authUrl, 'interactive': true }, function(redirectUrl) {
+        chrome.identity.launchWebAuthFlow({ 'url': authUrl, 'interactive': !isImmediate }, function(redirectUrl) {
             if (redirectUrl) {
                 console.log('[DEBUG] launchWebAuthFlow login successful: ', redirectUrl);
             } else {
@@ -63,7 +64,6 @@ function doLogin() {
         let token = values[0];
         let doWeHaveToken = !!token;
         let isStillValid = values[1];
-        console.log("[oauthutils] all booleans=", doWeHaveToken, isStillValid);
         if (doWeHaveToken && isStillValid) {
             gapi.auth.setToken({
                 'access_token': token,
@@ -71,7 +71,7 @@ function doLogin() {
             return true;
         }
         let isImmediate;
-        if (doWeHaveToken && !isTokenStillValid) {
+        if (doWeHaveToken && !isStillValid) {
             isImmediate = true;
         } else if (!doWeHaveToken) {
             isImmediate = false;
