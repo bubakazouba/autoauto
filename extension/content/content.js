@@ -19,7 +19,7 @@ document.addEventListener("change", (e) => {
         element_id: contentutils.getElementId(element),
         element_node: "CHECKBOX",
     };
-    console.log("clickEvent=", event);
+    console.log("changeEvent=", event);
     chrome.runtime.sendMessage({
         event: event
     });
@@ -30,17 +30,31 @@ document.addEventListener('click', (e) => {
         console.log("click not trusted ignore");
         return;
     }
-    let elem = e.path[0];
-    // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
-    let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
-    let elemIsAnyTypeOfButton = elemIsSubmitButton || elem.nodeName == "BUTTON";
-
-    if (elemIsAnyTypeOfButton) {
+    function _isElemAButton(elem) {
+        let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
+        return elemIsSubmitButton || elem.nodeName == "BUTTON";
+    }
+    function _isElemClickable(elem) {
+        let elemHasClickHandler = false; // TODO: implement this
+        // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
+        return _isElemAButton(elem) || elem.nodeName == "A" || elemHasClickHandler;
+    }
+    let elem;
+    let elemIsClickable = false;
+    // walk down the parents of the element until we find one thats clickable (if any)
+    for (let i = 0; i < e.path.length; i++) {
+        elem = e.path[i];
+        elemIsClickable = _isElemClickable(elem);
+        if (elemIsClickable) {
+            break;
+        }
+    }
+    if (elemIsClickable) {
         chrome.runtime.sendMessage({
             event: {
                 type: "CLICK",
                 element_id: contentutils.getElementId(elem),
-                element_node: "BUTTON",
+                element_node: _isElemAButton(elem) ? "BUTTON" : elem.nodeName,
             }
         });
     }
@@ -133,7 +147,7 @@ function getElementIdWithCellInfo() {
 }
 
 function handleSheetsKeyDown(e) {
-    let isPaste = (e.key == "v" && contentutils.getModifierKey(e)) || (e.key == "v" && contentutils.getModifierKey(e) && e.shiftKey);
+    let isPaste = (e.key == "v" && e[contentutils.getModifierKey()]) || (e.key == "v" && e[contentutils.getModifierKey()] && e.shiftKey);
     if (!isPaste) {
         return;
     }
@@ -152,7 +166,7 @@ function handleSheetsKeyDown(e) {
 function isTextManuveringCommand(e) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
     let c1 = e.key.substring(0, 5).toUpperCase() == "ARROW";
-    let c2 = e.key == "a" && contentutils.getModifierKey(e);
+    let c2 = e.key == "a" && e[contentutils.getModifierKey()];
     return c1 || c2;
 }
 

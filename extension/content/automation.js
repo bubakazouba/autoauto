@@ -2,7 +2,13 @@ const contentutils = require("./contentutils.js");
 
 function clickOnElement(element_id) {
     let element = contentutils.getElementById(element_id);
-    element.click();
+    // In case that's a link that opens another page, we want to open in a new page not in the same one
+    if (element.nodeName == "A") {
+        element.dispatchEvent(new MouseEvent('click', {
+            [contentutils.getModifierKey()]: true }));
+    } else {
+        element.click();
+    }
 }
 
 function keyGroupOnElement(element_id, keyGroup) {

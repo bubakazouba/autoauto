@@ -107,7 +107,7 @@ class PatternFinder {
                 let expectedAction = this._getExpectedActionAccordingToOurSuspectedResult();
                 let expectedActionStr = printutils.getPrettyPrintAction(expectedAction);
                 let actionStr = printutils.getPrettyPrintAction(action);
-                log(`User didnt confirm our suggestion expected: ${expectedActionStr}, ${actionStr}`);
+                log(`User didnt confirm our suggestion expected: ${expectedActionStr}, "but got", ${actionStr}`);
                 this.suspected_result = null;
                 this.suspected_result_last_index = null;
             }
@@ -201,7 +201,7 @@ class PatternFinder {
             delete action1["action"]["element_id"];
             delete action1["action"]["increment_pattern"];
             delete action2["action"]["element_id"];
-            let does_it_follow_and_are_they_equal = does_action_2_follow_predicted_pattern && action1 == action2;
+            let does_it_follow_and_are_they_equal = does_action_2_follow_predicted_pattern && JSON.stringify(action1) == JSON.stringify(action2);
             // TODO: this is super hacky and we need a more rigid way of checking and updating the last_index_trackers object
             // so it doesnt fail if we just check for equality
             if (does_it_follow_and_are_they_equal) {
@@ -214,9 +214,9 @@ class PatternFinder {
             action2 = cloneDeep(action2);
             action1["action"]["keyGroup"] = action1["action"]["keyGroup"].jsonify();
             action2["action"]["keyGroup"] = action2["action"]["keyGroup"].jsonify();
-            return action1 == action2;
+            return JSON.stringify(action1) == JSON.stringify(action2);
         } else {
-            return action1 == action2;
+            return JSON.stringify(action1) == JSON.stringify(action2);
         }
     }
 }

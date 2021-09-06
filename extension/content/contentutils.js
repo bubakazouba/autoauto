@@ -23,7 +23,7 @@ function getElementInfoForKeyPresses(e) {
     }
     // TODO: reconcile key ignoring logic (rn its fragmented here,backgorund.js and actionsgrouper.py)
     // User is just switching tabs, unfortunately key gets reported on a text editable element if its active
-    if (!!e.code && e.code.startsWith("Digit") && getModifierKey(e)) {
+    if (!!e.code && e.code.startsWith("Digit") && e[getModifierKey()]) {
         return;
     }
     return {
@@ -65,14 +65,14 @@ function keyIsCopy(e) {
     if (!e.key) {
         return false;
     }
-    return e.key.toUpperCase() == "C" && getModifierKey(e);
+    return e.key.toUpperCase() == "C" && e[getModifierKey()];
 }
 
 function keyIsPaste(e) {
     if (!e.key) {
         return false;
     }
-    return e.key.toUpperCase() == "V" && getModifierKey(e);
+    return e.key.toUpperCase() == "V" && e[getModifierKey()];
 }
 
 function getValueInClipboard() {
@@ -209,11 +209,11 @@ function colNumAndRowToCell(colNumAndRow) {
     return _numToCol(colNum) + row;
 }
 
-function getModifierKey(e) {
+function getModifierKey() {
     if (navigator.appVersion.indexOf("Win") != -1 || navigator.appVersion.indexOf("X11") != -1 || navigator.appVersion.indexOf("Linux") != -1) {
-        return e.ctrlKey;
+        return "ctrlKey";
     } else if (navigator.appVersion.indexOf("Mac") != -1) {
-        return e.metaKey;
+        return "metaKey";
     }
     return null;
 }

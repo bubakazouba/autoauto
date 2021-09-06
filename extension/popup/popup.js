@@ -48,4 +48,4 @@ window.onload = function() {
 
     // TODO: ideally this would just run once, but this runs once each time user opens popup
     sendMsg({ type: "GET_WHAT_AM_I_USING" }, callbackSetSheetSetting);
-}
+};
