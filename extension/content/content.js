@@ -254,7 +254,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
-        automation.handleSheetsPaste(request.params.id, request.params.cell);
+        automation.handleSheetsPaste(request.params.id, request.params.userSheetSetting);
         sendResponse({ "event": "DONE" });
     }
 });

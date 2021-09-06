@@ -1,6 +1,7 @@
 // import time
 const cloneDeep = require('clone-deep');
 const patternutils = require("./patternutils.js");
+const storage = require("../storage.js");
 
 const log = function(...args) {
     console.log("    AUTOMATION", ...args);
@@ -44,10 +45,13 @@ function _triggerSheetsPaste(action, last_index_trackers){
     action = _getActionWithIncrementedElementId(action, last_index_trackers);
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
-    let request = { action: 'SHEETS_PASTE', params: { id: elementId } };
-    log("PASTE request=", request, "tabId=", tabId);
-    chrome.tabs.sendMessage(tabId, request, function() {
-        
+
+    storage.getUserSheetSetting().then(userSheetSetting => {
+        let request = { action: 'SHEETS_PASTE', params: { id: elementId,  userSheetSetting: userSheetSetting } };
+        log("PASTE request=", request, "tabId=", tabId);
+        chrome.tabs.sendMessage(tabId, request, function() {
+            
+        });
     });
 
 }
@@ -55,7 +59,7 @@ function _triggerSwitchingTab(tabId){
     chrome.tabs.update(tabId, { selected: true });
 }
 
-function _trigger_place_clipboard(action, last_index_trackers){
+function _triggerPlaceClipboard(action, last_index_trackers){
     action = _getActionWithIncrementedElementId(action, last_index_trackers);
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
@@ -74,20 +78,17 @@ function triggerActions(actions, last_index_trackers){
     return new Promise(resolve => {
         let intervalId = setInterval(() => {
             if (i >= actions.length) {
-                log("i=", i, "stopping now');");
                 clearInterval(intervalId);
                 return resolve(true);
             }
             let action = actions[i];
-            log("i=", i);
-            log("action now =", action, "actionType=", action["action"]["type"]);
             // only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
             if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
                 _triggerSwitchingTab(action["tab"]["id"]);
             }
             if (action["action"]["type"] == "PLACE_IN_CLIPBOARD") {
                 log(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<");
-                _trigger_place_clipboard(action, last_index_trackers);
+                _triggerPlaceClipboard(action, last_index_trackers);
             }
             else if (action["action"]["type"] == "CLICK") {
                 log(">>>>>>>>>>>CLICK<<<<<<<<");

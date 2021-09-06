@@ -1,15 +1,16 @@
 /* global gapi */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "onGAPILoad" }] */
-const host = require("./hostjs/host.js");
-const oauthutils = require("./oauth/oauthutils.js");
-const sheets = require("./oauth/sheets.js");
-const backgroundutils = require("./backgroundutils.js");
+const host = require("./hostjs/host.js"),
+    oauthutils = require("./oauth/oauthutils.js"),
+    sheets = require("./oauth/sheets.js"),
+    backgroundutils = require("./backgroundutils.js"),
+    storage = require("./storage.js");
 
 // Any function in this file can be referenced elsewhere by using chrome.extension.getBackgroundPage().myFunction()
 const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
-window.onGAPILoad = function() {
+function initGAPI() {
     gapi.client.init({
         // Don't pass client nor scope as these will init auth2, which we don't want
         apiKey: API_KEY,
@@ -17,6 +18,14 @@ window.onGAPILoad = function() {
     }).then(function() {
         console.log('gapi initialized, now logging in..');
         oauthutils.doLogin(gapi);
+    });
+}
+
+window.onGAPILoad = function() {
+    storage.getUserSheetSetting().then(value => {
+        if (value == "API") {
+            initGAPI();
+        }
     });
 };
 
@@ -34,14 +43,40 @@ window.onload = function() {
     });
 };
 
-
-chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+function handlePopupRequest(msg, sendResponse) {
+    chrome.runtime.onMessage.addListener({ "hello": "bye" });
     if (msg.event && msg.event.type == "USER_PRESSED_START") {
         console.log("got user pressed start");
         window.amiwaiting = true;
         host.handleUserPressedStart(msg.event.repitions).then(() => {
             window.amiwaiting = false;
         });
+        sendResponse("ok");
+    }
+    else if (msg.event && (msg.event.type == "USER_PRESSED_USE_API" || msg.event.type == "USER_PRESSED_USE_PASTE")) {
+        storage.storeUserSheetSetting(msg.event.type).then((value) => {
+            if (value == "API") {
+                initGAPI();
+            }
+            sendResponse({ "text": value });
+        });
+    }
+    else if (msg.event && msg.event.type == "GET_WHAT_AM_I_USING") {
+        storage.getUserSheetSetting().then((value) => {
+            sendResponse({ "text": value });
+        });
+    }
+    else if (msg.event && msg.event.type == "CLEAR_SHEET_SETTING") {
+        storage.clearUserSheetSetting();
+        sendResponse("ok");
+    }
+}
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+    if (sender.url.startsWith("chrome-extension://") && sender.url.endsWith("/popup.html")) {
+        handlePopupRequest(msg, sendResponse);
+        // true indicates we wish to sendResponse asynchronously https://stackoverflow.com/questions/20077487/chrome-extension-message-passing-response-not-sent
+        return true;
     }
     if (msg.request) {
         if (msg.request.type == "WRITE_SHEET") {

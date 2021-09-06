@@ -200,8 +200,7 @@ function colNumAndRowToCell(colNumAndRow) {
     // TODO: this only works for A->Z
     function _numToCol(colNum) {
         let columnString = "";
-        while (colNum > 0)
-        {
+        while (colNum > 0) {
             let currentLetterNumber = (colNum - 1) % 26;
             let currentLetter = String.fromCharCode(currentLetterNumber + 65);
             columnString = currentLetter + columnString;

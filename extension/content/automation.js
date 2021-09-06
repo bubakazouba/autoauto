@@ -74,24 +74,30 @@ function changeCellWithElementId(element_id) {
 }
 
 
-function handleSheetsPaste(element_id) {
+function handleSheetsPaste(element_id, userSheetSetting) {
+    console.log("handleSheetsPaste userSheetSetting=", userSheetSetting);
     let cell = getCellFromSheetsElementId(element_id);
-    contentutils.getValueInClipboard().then(value => {
-        let request = {
-            type: "WRITE_SHEET",
-            range: cell,
-            values: [[value]],
-            sheetId: getSheetId(),
-        };
-        chrome.runtime.sendMessage({
-            request: request
-        });
-    });
-    
     changeCellWithElementId(element_id);
-
-    // Now Paste
-    // document.execCommand("paste");
+    if (userSheetSetting == "API") {
+        contentutils.getValueInClipboard().then(value => {
+            let request = {
+                type: "WRITE_SHEET",
+                range: cell,
+                values: [[value]],
+                sheetId: getSheetId(),
+            };
+            chrome.runtime.sendMessage({
+                request: request
+            });
+        });
+    }
+    else if (userSheetSetting == "PASTE") {
+        // Now Paste
+        document.execCommand("paste");
+    }
+    else {
+        console.error("INVALID userSheetSetting");
+    }
 }
 
 module.exports = {
