@@ -35,8 +35,7 @@
             "always"
         ],
         "brace-style": [
-            "error",
-            "stroustrup"
+            "error"
         ],
         "object-curly-spacing": [
             "error",

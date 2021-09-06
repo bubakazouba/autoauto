@@ -15,7 +15,7 @@ function handleAction(msg) {
     if (!action_group || action_group.length == 0) {
         return;
     }
-    
+
     let res;
     for (let groupedAction of action_group) {
         log(">>>>>I'm appending groupedAction..", groupedAction);
@@ -23,8 +23,7 @@ function handleAction(msg) {
     }
     if (!!res && res["sureness"] >= MIN_SURENESS_THRESHOLD) {
         return { "event": "IM SURE", "sureness": res["sureness"] };
-    }
-    else {
+    } else {
         return { "event": "IM NOT SURE" };
     }
 }

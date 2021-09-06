@@ -34,7 +34,7 @@ document.addEventListener('click', (e) => {
     // TODO: allowlist checkboxes and radio buttons (see how popular implementations make these, bootstrap..etc)
     let elemIsSubmitButton = elem.nodeName == "INPUT" && !!elem.attributes["type"] && elem.attributes["type"].value.toUpperCase() == "SUBMIT";
     let elemIsAnyTypeOfButton = elemIsSubmitButton || elem.nodeName == "BUTTON";
-    
+
     if (elemIsAnyTypeOfButton) {
         chrome.runtime.sendMessage({
             event: {
@@ -51,11 +51,9 @@ document.addEventListener('click', (e) => {
         const _getText = function(elem) {
             if (["goog-menuitem apps-menuitem", "goog-menuitem-content"].indexOf(elem.className) != -1) {
                 return elem.textContent;
-            }
-            else if (["goog-menuitem-label", "goog-menuitem-accel", "docs-icon goog-inline-block goog-menuitem-icon"].indexOf(elem.className) != -1) {
+            } else if (["goog-menuitem-label", "goog-menuitem-accel", "docs-icon goog-inline-block goog-menuitem-icon"].indexOf(elem.className) != -1) {
                 return elem.parentElement.textContent;
-            }
-            else if (["docs-icon-img-container docs-icon-img docs-icon-paste"].indexOf(elem.className) != -1) {
+            } else if (["docs-icon-img-container docs-icon-img docs-icon-paste"].indexOf(elem.className) != -1) {
                 return PASTE_TEXT;
             }
         };
@@ -115,14 +113,14 @@ document.addEventListener("keydown", e => {
     if (contentutils.keyIsCopy(e) || contentutils.keyIsPaste(e)) {
         return;
     }
-    
+
     // We are not interesting in  any text manuvering commands
-    if(isTextManuveringCommand(e, false)) {
+    if (isTextManuveringCommand(e, false)) {
         return;
     }
-    
+
     let event = contentutils.getKeyPressEvent(e, element, element_id, element_node);
-    
+
     chrome.runtime.sendMessage({
         event: event
     });
@@ -242,19 +240,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         automation.placeElementInClipboard(request.params.id).then(text => {
             sendResponse({ "text": text });
         });
-    }
-    else if (request.action == "CLICK_ON_ELEMENT") {
+    } else if (request.action == "CLICK_ON_ELEMENT") {
         console.log("I was asked to click on element: " + request.params.id);
         automation.clickOnElement(request.params.id);
         sendResponse({ "event": "DONE" });
-    }
-    else if (request.action == "KEY_GROUP_INPUT") {
+    } else if (request.action == "KEY_GROUP_INPUT") {
         console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
         automation.keyGroupOnElement(request.params.id, request.params.keyGroup).then(() => {
             sendResponse({ "event": "DONE" });
         });
-    }
-    else if (request.action == "SHEETS_PASTE") {
+    } else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
         automation.handleSheetsPaste(request.params.id, request.params.userSheetSetting).then(() => {
             sendResponse({ "event": "DONE" });

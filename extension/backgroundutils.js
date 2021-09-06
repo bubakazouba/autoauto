@@ -64,18 +64,17 @@ function keyParamsToString(keyParams) {
     if (keyParams.altKey) {
         keyName = "alt+" + keyName;
     }
-    
+
     return "key=" + keyName;
 }
 
 function _pprint(msg) {
-    if(!msg.event) {
+    if (!msg.event) {
         return JSON.stringify(msg);
     }
     if (msg.event.type == "KEYBOARD") {
         return keyParamsToString(msg.event.keyParams);
-    }
-    else {
+    } else {
         return JSON.stringify(msg.event);
     }
 }

@@ -1,9 +1,9 @@
 function get_keyboard_string_from_key_params(keyParams) {
     let s = keyParams["key"];
-    if (s.slice(0, 5) == "Arrow") {  // ArrowDown -> Down
+    if (s.slice(0, 5) == "Arrow") { // ArrowDown -> Down
         s = s.slice(5);
     }
-    if (["Meta", "Shift", "Control", "Alt"].includes(s)) {  // Ignore a lone Meta
+    if (["Meta", "Shift", "Control", "Alt"].includes(s)) { // Ignore a lone Meta
         return "";
     }
     if (keyParams["metaKey"]) {
@@ -32,11 +32,9 @@ function getPrettyPrintAction(action) {
     let actionType = action["action"]["type"];
     if (actionType == "KEYBOARD") {
         return _getPrettyPrintKeyboard(action);
-    }
-    else if (actionType == "KEY_GROUP_INPUT") {
+    } else if (actionType == "KEY_GROUP_INPUT") {
         return `${actionType}${action["action"]["element_id"]} KeyGroup='${action["action"]["keyGroup"]}'`;
-    }
-    else if (["CLICK", "PLACE_IN_CLIPBOARD", "SHEETS_PASTE"].includes(actionType)) {
+    } else if (["CLICK", "PLACE_IN_CLIPBOARD", "SHEETS_PASTE"].includes(actionType)) {
         return _getStandardPrettyPrint(action);
     }
 }
@@ -48,6 +46,7 @@ function _getStandardPrettyPrint(action) {
     }
     return s;
 }
+
 function _getPrettyPrintKeyboard(action) {
     return `${action["action"]["type"]}${action["action"]["element_id"]} +" Key='${get_keyboard_string_from_key_params(action["action"]["keyParams"])}'`;
 }

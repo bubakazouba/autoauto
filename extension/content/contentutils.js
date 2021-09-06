@@ -23,7 +23,7 @@ function getElementInfoForKeyPresses(e) {
     }
     // TODO: reconcile key ignoring logic (rn its fragmented here,backgorund.js and actionsgrouper.py)
     // User is just switching tabs, unfortunately key gets reported on a text editable element if its active
-    if(!!e.code && e.code.startsWith("Digit") && getModifierKey(e)) {
+    if (!!e.code && e.code.startsWith("Digit") && getModifierKey(e)) {
         return;
     }
     return {
@@ -44,8 +44,7 @@ function getKeyPressEvent(e, element, element_id, element_node) {
             startOffset: element.selectionStart,
             value: element.value,
         };
-    }
-    else {
+    } else {
         event.type = "KEYBOARD";
     }
     event.keyParams = {};
@@ -53,7 +52,7 @@ function getKeyPressEvent(e, element, element_id, element_node) {
     for (let f of FIELDS) {
         event.keyParams[f] = e[f];
     }
-    
+
     return event;
 }
 
@@ -95,7 +94,7 @@ function getElementId(element) {
             return "0";
         }
         // TODO: evaluate children vs childNodes
-        for(let i = 0; i < elem.parentElement.childNodes.length; i++) {
+        for (let i = 0; i < elem.parentElement.childNodes.length; i++) {
             if (elem.parentElement.childNodes[i] == elem) {
                 return getElementIndex(elem.parentElement) + "." + i;
             }
@@ -118,16 +117,14 @@ function isTextSelected() {
         if (!window.getSelection().isCollapsed) {
             selecttxt = window.getSelection().baseNode.textContent;
         }
-    }
-    else if (document.getSelection) {
+    } else if (document.getSelection) {
         if (!document.getSelection().isCollapsed) {
             selecttxt = document.getSelection().baseNode.textContent;
         }
-    }
-    else if (document.selection) {
+    } else if (document.selection) {
         selecttxt = document.selection.createRange().text;
     }
- 
+
     if (selecttxt == '') {
         return false;
     }
@@ -159,13 +156,12 @@ function getElementById(id) {
     function _getElementById(node, id) {
         let i = id.indexOf(".");
         let x;
-        if (i==-1) {
+        if (i == -1) {
             x = parseInt(id);
             return node.childNodes[x];
-        }
-        else {
+        } else {
             let x = parseInt(id.substr(0, i));
-            return _getElementById(node.childNodes[x], id.substr(i+1));
+            return _getElementById(node.childNodes[x], id.substr(i + 1));
         }
     }
     let root = document.documentElement;
@@ -193,7 +189,7 @@ function cellToColAndRow(cell) {
     let col = cell.match(/([A-Z]+)/)[0];
     let row = cell.match(/([0-9]+)/)[0];
     let col_in_num = _colToNum(col);
-    return col_in_num+"."+row;
+    return col_in_num + "." + row;
 }
 
 function colNumAndRowToCell(colNumAndRow) {
@@ -210,14 +206,13 @@ function colNumAndRowToCell(colNumAndRow) {
     }
     let colNum = parseInt(colNumAndRow[0]);
     let row = parseInt(colNumAndRow[1]);
-    return _numToCol(colNum)+row;
+    return _numToCol(colNum) + row;
 }
 
 function getModifierKey(e) {
-    if(navigator.appVersion.indexOf("Win") != -1 || navigator.appVersion.indexOf("X11") != -1 || navigator.appVersion.indexOf("Linux") != -1) {
+    if (navigator.appVersion.indexOf("Win") != -1 || navigator.appVersion.indexOf("X11") != -1 || navigator.appVersion.indexOf("Linux") != -1) {
         return e.ctrlKey;
-    }
-    else if(navigator.appVersion.indexOf("Mac") != -1) {
+    } else if (navigator.appVersion.indexOf("Mac") != -1) {
         return e.metaKey;
     }
     return null;

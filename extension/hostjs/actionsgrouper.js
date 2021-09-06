@@ -17,6 +17,44 @@ class ActionsGrouper {
         this.selectionDict = {}; // {tabId: {elementId: [selection start, selection end]}} 
     }
 
+    append(action) {
+        if (this._actionIsOnEditableElement(action)) {
+            // TODO: only create a new KeyGroup on re-focus if keyGroup for element was submitted (or if it didn't exist before) 
+            if (action["action"]["type"] == "FOCUS" && this._isActionOnEditableElementIsSubmitted(action)) {
+                this._setKeyGroupForAction(action, new KeyGrouper(action["action"]["keyGroupInput"]["value"]));
+            } else if (["KEY_GROUP_INPUT", "KEY_GROUP_PASTE", "KEY_GROUP_SELECTION"].includes(action["action"]["type"])) {
+                this._appendKeyGroupAction(action);
+            }
+            return null;
+        } else {
+            // if action is clicking/selecting
+            let res = [];
+            if (action["action"]["type"] == "CLICK") {
+                log("click");
+                // Only submit keyGroups and report them back if we clicked on a button
+                // (assuming here that clicking on this button is submitting the text in the web page)
+                let unsubmittedKeyGroupActions = this._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"]);
+                for (let a of unsubmittedKeyGroupActions) {
+                    a = cloneDeep(a);
+                    delete a["action"]["keyParams"];
+                    delete a["action"]["keyGroupInput"];
+                    // standardize to KEY_GROUP_INPUT, havent found a need to differentiate after this point
+                    a["action"]["type"] = "KEY_GROUP_INPUT";
+                    a["action"]["keyGroup"] = this._getKeyGroupForAction(a);
+                    res.push(a);
+                }
+                res.push(action);
+            } else if (["PLACE_IN_CLIPBOARD", "SHEETS_PASTE"].includes(action["action"]["type"])) {
+                log("PLACE_IN_CLIPBOARD or SHEETS_PASTE");
+                res.push(action);
+            } else if (action["action"]["type"] == "UNLOAD") {
+                log("UNLOAD");
+                this._clearAllDictsForTab(action["tab"]["id"]);
+            }
+            return res;
+        }
+    }
+
     _setKeyGroupForAction(action, keyGroup) {
         if (!this.keyGroupDict[action["tab"]["id"]]) {
             this.keyGroupDict[action["tab"]["id"]] = {};
@@ -32,12 +70,12 @@ class ActionsGrouper {
         this.selectionDict[action["tab"]["id"]][action["action"]["element_id"]] = selection;
     }
     _getKeyGroupForAction(action) {
-        if(!!this.keyGroupDict[action["tab"]["id"]]) {
+        if (!!this.keyGroupDict[action["tab"]["id"]]) {
             return this.keyGroupDict[action["tab"]["id"]][action["action"]["element_id"]];
         }
     }
     _getSelectionForAction(action) {
-        if(!!this.selectionDict[action["tab"]["id"]]) {
+        if (!!this.selectionDict[action["tab"]["id"]]) {
             return this.selectionDict[action["tab"]["id"]][action["action"]["element_id"]];
         }
     }
@@ -74,8 +112,7 @@ class ActionsGrouper {
         log(`_updateSelectionDict: [${startOffset},${endOffset}]`);
         if (endOffset != null && startOffset != endOffset) {
             this._setSelectionForAction(action, [startOffset, endOffset]);
-        }
-        else {
+        } else {
             this._setSelectionForAction(action, undefined);
         }
     }
@@ -97,18 +134,17 @@ class ActionsGrouper {
                 return;
             }
         }
-        
+
         // Starting here all actions are destructive ones (character or cmd+v or backspace)
         this._markUnsubmittedKeyGroup(action);
         if (!!this._getSelectionForAction(action)) {
             let [selectionStartOffset, selectionEndOffset] = this._getSelectionForAction(action);
-            log("There is selection and a destructive action deleting selected range: " + selectionStartOffset + ","+ selectionEndOffset);
+            log("There is selection and a destructive action deleting selected range: " + selectionStartOffset + "," + selectionEndOffset);
             this._getKeyGroupForAction(action).deleteTextAtOffsetRange(selectionStartOffset, selectionEndOffset);
         }
         if (actionType == "KEY_GROUP_INPUT") {
             this._appendInputActionInKeyGroup(action);
-        }
-        else if (actionType == "KEY_GROUP_PASTE") {
+        } else if (actionType == "KEY_GROUP_PASTE") {
             this._appendPasteActionInKeyGroup(action);
         }
 
@@ -131,64 +167,21 @@ class ActionsGrouper {
             // if there was selection then we have already taken care of it
             if (!this._getSelectionForAction(action)) {
                 this._getKeyGroupForAction(action).deleteTextAtOffset(startOffset - 1);
-                log("I sent deleteTextAtOffset: " + (startOffset-1));
+                log("I sent deleteTextAtOffset: " + (startOffset - 1));
             }
-        }
-        else if (key == "Backspace" && keyParams["metaKey"]){ // TODO: add also alt+delete
+        } else if (key == "Backspace" && keyParams["metaKey"]) { // TODO: add also alt+delete
             // if there was selection then we have already taken care of it
             if (!this._getSelectionForAction(action)) {
                 this._getKeyGroupForAction(action).deleteTextAtOffsetRange(0, startOffset);
-                log("I sent deleteTextAtOffsetRange(0, : " + (startOffset-1) + ")");
+                log("I sent deleteTextAtOffsetRange(0, : " + (startOffset - 1) + ")");
             }
-        }
-        else {
+        } else {
             log("im appending text");
             this._getKeyGroupForAction(action).appendTextAtOffset(key, startOffset);
         }
     }
     _actionIsOnEditableElement(action) {
         return action["action"]["element_node"] == "INPUT";
-    }
-    append(action) {
-        if (this._actionIsOnEditableElement(action)) {
-            // TODO: only create a new KeyGroup on re-focus if keyGroup for element was submitted (or if it didn't exist before) 
-            if (action["action"]["type"] == "FOCUS" && this._isActionOnEditableElementIsSubmitted(action)) {
-                this._setKeyGroupForAction(action, new KeyGrouper(action["action"]["keyGroupInput"]["value"]));
-            }
-            else if (["KEY_GROUP_INPUT", "KEY_GROUP_PASTE", "KEY_GROUP_SELECTION"].includes(action["action"]["type"])) {
-                this._appendKeyGroupAction(action);
-            }
-            return null;
-        }
-        // if action is clicking/selecting
-        else {
-            let res = [];
-            if (action["action"]["type"] == "CLICK") {
-                log("click");
-                // Only submit keyGroups and report them back if we clicked on a button
-                // (assuming here that clicking on this button is submitting the text in the web page)
-                let unsubmittedKeyGroupActions = this._getAndSubmitUnsubmittedKeyGroupsInTab(action["tab"]["id"]);
-                for (let a of unsubmittedKeyGroupActions) {
-                    a = cloneDeep(a);
-                    delete a["action"]["keyParams"];
-                    delete a["action"]["keyGroupInput"];
-                    // standardize to KEY_GROUP_INPUT, havent found a need to differentiate after this point
-                    a["action"]["type"] = "KEY_GROUP_INPUT";
-                    a["action"]["keyGroup"] = this._getKeyGroupForAction(a);
-                    res.push(a);
-                }
-                res.push(action);
-            }
-            else if (["PLACE_IN_CLIPBOARD", "SHEETS_PASTE"].includes(action["action"]["type"])) {
-                log("PLACE_IN_CLIPBOARD or SHEETS_PASTE");
-                res.push(action);
-            }
-            else if (action["action"]["type"] == "UNLOAD") {
-                log("UNLOAD");
-                this._clearAllDictsForTab(action["tab"]["id"]);
-            }
-            return res;
-        }
     }
 }
 

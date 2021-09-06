@@ -2,7 +2,7 @@ const storage = require("./storage");
 let expiresTimerId = null;
 const LOGOUT_WARNING_SECONDS = 60;
 
-function login(isImmediate=false) {
+function login(isImmediate = false) {
     isImmediate = false; // overriding isImmediate since its failing right now with true
     const config = {
         implicitGrantUrl: "https://accounts.google.com/o/oauth2/auth",
@@ -24,8 +24,7 @@ function login(isImmediate=false) {
         chrome.identity.launchWebAuthFlow({ 'url': authUrl, 'interactive': !isImmediate }, function(redirectUrl) {
             if (redirectUrl) {
                 console.log('[DEBUG] launchWebAuthFlow login successful: ', redirectUrl);
-            }
-            else {
+            } else {
                 console.log("[DEBUG] launchWebAuthFlow login failed. Is your redirect URL (" + chrome.identity.getRedirectURL("oauth2") + ") configured with your OAuth2 provider?");
             }
             return resolve(redirectUrl); // call the original callback now that we've intercepted what we needed
@@ -47,20 +46,17 @@ function doLogin(gapi) {
                 validateToken(token, function(results, err) {
                     if (err) {
                         console.log('[doLogin] OAuth2: Token failed validation');
-                    }
-                    else {
+                    } else {
                         storage.storeToken(token, expiresSeconds, gapi);
                         startTimer(expiresSeconds);
                         console.log('[doLogin] OAuth2: Success');
                         return true;
                     }
                 });
-            }
-            else {
+            } else {
                 console.log('[doLogin] OAuth2: No token found');
             }
-        }
-        else {
+        } else {
             console.log('[doLogin] OAuth2: General error');
         }
         return null;
@@ -78,8 +74,7 @@ function doLogin(gapi) {
         let isImmediate;
         if (doWeHaveToken && !isStillValid) {
             isImmediate = true;
-        }
-        else if (!doWeHaveToken) {
+        } else if (!doWeHaveToken) {
             isImmediate = false;
         }
         return login(isImmediate).then(loginCb);
@@ -121,11 +116,9 @@ function parse(str) {
         val = val === undefined ? null : decodeURIComponent(val);
         if (!ret.hasOwnProperty(key)) {
             ret[key] = val;
-        }
-        else if (Array.isArray(ret[key])) {
+        } else if (Array.isArray(ret[key])) {
             ret[key].push(val);
-        }
-        else {
+        } else {
             ret[key] = [ret[key], val];
         }
         return ret;

@@ -1,7 +1,7 @@
 const adhoc2 = require("./adhoc2.js");
 const printutils = require("./printutils.js");
 const increment_finder = require("./incrementfinder.js");
-const patternutils=require("./patternutils.js");
+const patternutils = require("./patternutils.js");
 const cloneDeep = require('clone-deep');
 
 const log = function(...args) {
@@ -26,44 +26,14 @@ class PatternFinder {
         // we would want to track the last index
         this.last_index_trackers = {}; // map from "tab_id+element_node+action_type" to element_id
     }
-    _getExpectedActionAccordingToOurSuspectedResult() {
-        if (!this.suspected_result) {
-            return null;
-        }
-        let index = this.actions.length - this.suspected_result_last_index - 1;
-        index = index % this.suspected_result["pattern"].length;
-        return this.suspected_result["pattern"][index];
-    }
 
-    _isUsersLastActionConfirmingSuggestion() {
-        let expectedAction = this._getExpectedActionAccordingToOurSuspectedResult();
-        return this._actionIsEqualTo(expectedAction, this.actions[this.actions.length - 1]);
-    }
-    
-    _getSureness() {
-        let len_user_confirmation = this.actions.length - this.suspected_result_last_index;
-        let pattern_score = 0;
-        let len_pattern = this.suspected_result["pattern"].length;
-        for (let i = 0; i < len_pattern; i++) {
-            let action = this.suspected_result["pattern"][i];
-            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]]; 
-            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * parseInt(len_user_confirmation / len_pattern) * USER_CONFIRMATION_WEIGHT;
-            if (i < len_user_confirmation % len_pattern) {
-                pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * USER_CONFIRMATION_WEIGHT;
-            }
-        }
-        let sureness = pattern_score - this.suspected_result["error"];
-        log(`<<<len=${len_pattern}, error=${this.suspected_result["error"]}, confirmation=${len_user_confirmation}, score=${pattern_score}`);
-        return sureness;
-    }
     append(action) {
         this.actions.push(action);
         this._suggestPattern();
         log("---------------");
         if (!this.suspected_result) {
             return null;
-        }
-        else {
+        } else {
             let sureness = this._getSureness();
             log("sureness=", sureness);
             return {
@@ -79,19 +49,61 @@ class PatternFinder {
         }
     }
 
+    giveMePattern() {
+        if (!this.suspected_result) {
+            return null;
+        }
+        let start_from_index = (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
+        return {
+            "current": this.suspected_result["pattern"].slice(start_from_index),
+            "complete": this.suspected_result["pattern"],
+            "last_index_trackers": this.last_index_trackers,
+        };
+    }
+
+    _getExpectedActionAccordingToOurSuspectedResult() {
+        if (!this.suspected_result) {
+            return null;
+        }
+        let index = this.actions.length - this.suspected_result_last_index - 1;
+        index = index % this.suspected_result["pattern"].length;
+        return this.suspected_result["pattern"][index];
+    }
+
+    _isUsersLastActionConfirmingSuggestion() {
+        let expectedAction = this._getExpectedActionAccordingToOurSuspectedResult();
+        return this._actionIsEqualTo(expectedAction, this.actions[this.actions.length - 1]);
+    }
+
+    _getSureness() {
+        let len_user_confirmation = this.actions.length - this.suspected_result_last_index;
+        let pattern_score = 0;
+        let len_pattern = this.suspected_result["pattern"].length;
+        for (let i = 0; i < len_pattern; i++) {
+            let action = this.suspected_result["pattern"][i];
+            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]];
+            pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * parseInt(len_user_confirmation / len_pattern) * USER_CONFIRMATION_WEIGHT;
+            if (i < len_user_confirmation % len_pattern) {
+                pattern_score += ACTIONS_TYPE_SCORE_WEIGHT[action["action"]["type"]] * USER_CONFIRMATION_WEIGHT;
+            }
+        }
+        let sureness = pattern_score - this.suspected_result["error"];
+        log(`<<<len=${len_pattern}, error=${this.suspected_result["error"]}, confirmation=${len_user_confirmation}, score=${pattern_score}`);
+        return sureness;
+    }
+
     _resultPassesErrorConstraints(result) {
         return result["pattern"].length > 0 &&
             result["error"] / result["pattern"].length <= MAX_ERROR_RATIO_THRESHOLD;
     }
 
     _suggestPattern() {
-        let action = this.actions[this.actions.length-1];
+        let action = this.actions[this.actions.length - 1];
         if (!!this.suspected_result) {
             if (this._isUsersLastActionConfirmingSuggestion()) {
                 log("user is confirming our suggestion");
                 return;
-            }
-            else {
+            } else {
                 let expectedAction = this._getExpectedActionAccordingToOurSuspectedResult();
                 let expectedActionStr = printutils.getPrettyPrintAction(expectedAction);
                 let actionStr = printutils.getPrettyPrintAction(action);
@@ -120,14 +132,13 @@ class PatternFinder {
         let sorted_results = results.sort((a, b) => {
             return (a["pattern"].length - a["error"]) - (b["pattern"].length - b["error"]);
         });
-        let final_result = sorted_results.length > 0 ? sorted_results[sorted_results.length-1] : null;
+        let final_result = sorted_results.length > 0 ? sorted_results[sorted_results.length - 1] : null;
 
         // reason we log the results later is to highlight the winner when logging
         for (let result of results) {
             if (result == final_result) {
                 log("!!!!winner!!!!", result["log"]);
-            }
-            else {
+            } else {
                 log(result["log"]);
             }
             delete result["log"];
@@ -150,18 +161,6 @@ class PatternFinder {
         }
     }
 
-    giveMePattern() {
-        if (!this.suspected_result) {
-            return null;
-        }
-        let start_from_index = (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
-        return {
-            "current": this.suspected_result["pattern"].slice(start_from_index),
-            "complete": this.suspected_result["pattern"],
-            "last_index_trackers": this.last_index_trackers,
-        };
-    }
-
     _getResultLog(result, actions) {
         if (result["pattern"].length == 0) {
             return "no pattern";
@@ -170,8 +169,7 @@ class PatternFinder {
         let s = `E:${result["error"]}||ER:${result["error"]/result["pattern"].length}||P:${printutils.getPrettyPrintActions(result["pattern"])}||F:${printutils.getPrettyPrintActions(actions)}`;
         if (this._resultPassesErrorConstraints(result)) {
             return "error < threshold =" + s;
-        }
-        else {
+        } else {
             return "error > threshold =" + s;
         }
     }
@@ -217,8 +215,7 @@ class PatternFinder {
             action1["action"]["keyGroup"] = action1["action"]["keyGroup"].jsonify();
             action2["action"]["keyGroup"] = action2["action"]["keyGroup"].jsonify();
             return action1 == action2;
-        } 
-        else {
+        } else {
             return action1 == action2;
         }
     }
