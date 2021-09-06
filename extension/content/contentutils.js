@@ -199,7 +199,15 @@ function cellToColAndRow(cell) {
 function colNumAndRowToCell(colNumAndRow) {
     // TODO: this only works for A->Z
     function _numToCol(colNum) {
-        return String.fromCharCode(colNum + "A".charCodeAt(0) - 1);
+        let columnString = "";
+        while (colNum > 0)
+        {
+            let currentLetterNumber = (colNum - 1) % 26;
+            let currentLetter = String.fromCharCode(currentLetterNumber + 65);
+            columnString = currentLetter + columnString;
+            colNum = (colNum - (currentLetterNumber + 1)) / 26;
+        }
+        return columnString;
     }
     let colNum = parseInt(colNumAndRow[0]);
     let row = parseInt(colNumAndRow[1]);
