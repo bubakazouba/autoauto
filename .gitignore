@@ -4,4 +4,6 @@ manifest.json
 *.jpg
 *.jpeg
 node_modules/
-bundle.js
+backgroundbundle.js
+contentbundle.js
+popupbundle.js

@@ -1,4 +1,5 @@
 ## Installation
+* Install the pre-commit githook: `cp githooks/pre-commit .git/hooks/`
 * `cp manifest-template.json manifest.json`
 * `npm install -g watchify`
 * `npm install`

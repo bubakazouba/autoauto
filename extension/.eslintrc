@@ -9,12 +9,12 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        },
+        "ecmaVersion": 2018,
         "sourceType": "module"
     },
+    "ignorePatterns": ["backgroundbundle.js", "contentbundle.js", "popupbundle.js"],
     "rules": {
+        "no-prototype-builtins": "off",
         "no-unused-vars": ["error", { "varsIgnorePattern": "_" }],
         "space-before-function-paren": ["error", "never"],
         "comma-spacing": [2, {"before": false, "after": true}], // 2 means error

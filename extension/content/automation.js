@@ -1,12 +1,14 @@
+const contentutils = require("./contentutils.js");
+
 function clickOnElement(element_id) {
-    let element = getElementById(element_id);
+    let element = contentutils.getElementById(element_id);
     element.click();
 }
 function keyGroupOnElement(element_id, keyGroup) {
     console.log("[keyGroupOnElement] keyGroup=", keyGroup);
-    let element = getElementById(element_id);
+    let element = contentutils.getElementById(element_id);
     let initialValue = element.value;
-    getValueInClipboard().then(paste => {
+    contentutils.getValueInClipboard().then(paste => {
         let finalValue = "";
         for(let p of keyGroup) {
             if (typeof p == typeof "") {
@@ -31,20 +33,20 @@ function keyGroupOnElement(element_id, keyGroup) {
 }
 
 function placeElementInClipboard(element_id) {
-    if (areWeInSpreadsheets()) {
+    if (contentutils.areWeInSpreadsheets()) {
         // update selector
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
         console.log("[placeElementInClipboard] done changing cell copying cell content");
         // TODO: not sure if timeout is necessary
         setTimeout(() => {
-            copy(document.getElementsByClassName("cell-input")[0].textContent);
+            contentutils.copy(document.getElementsByClassName("cell-input")[0].textContent);
         }, 100);
     }
     else {
-        let element = getElementById(element_id);
+        let element = contentutils.getElementById(element_id);
         // TODO: we will need to use different accessors (e.g textfields use .value)
-        copy(element.textContent);
+        contentutils.copy(element.textContent);
     }
 }
 
@@ -52,7 +54,7 @@ function placeElementInClipboard(element_id) {
 // Sheets stuff
 
 function getCellFromSheetsElementId(element_id) {
-    return colNumAndRowToCell(element_id.split(".").slice(-2));
+    return contentutils.colNumAndRowToCell(element_id.split(".").slice(-2));
 }
 
 function getSheetId() {
@@ -74,7 +76,7 @@ function changeCellWithElementId(element_id) {
 
 function handleSheetsPaste(element_id) {
     let cell = getCellFromSheetsElementId(element_id);
-    getValueInClipboard().then(value => {
+    contentutils.getValueInClipboard().then(value => {
         let request = {
             type: "WRITE_SHEET",
             range: cell,
@@ -91,3 +93,13 @@ function handleSheetsPaste(element_id) {
     // Now Paste
     // document.execCommand("paste");
 }
+
+module.exports = {
+    clickOnElement: clickOnElement,
+    keyGroupOnElement: keyGroupOnElement,
+    placeElementInClipboard: placeElementInClipboard,
+    getCellFromSheetsElementId: getCellFromSheetsElementId,
+    getSheetId: getSheetId,
+    changeCellWithElementId: changeCellWithElementId,
+    handleSheetsPaste: handleSheetsPaste,
+};

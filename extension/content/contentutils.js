@@ -215,3 +215,20 @@ function getModifierKey(e) {
     }
     return null;
 }
+
+module.exports = {
+    getElementInfoForKeyPresses: getElementInfoForKeyPresses,
+    getKeyPressEvent: getKeyPressEvent,
+    isElementTextEditable: isElementTextEditable,
+    keyIsCopy: keyIsCopy,
+    keyIsPaste: keyIsPaste,
+    getValueInClipboard: getValueInClipboard,
+    getElementId: getElementId,
+    isTextSelected: isTextSelected,
+    areWeInSpreadsheets: areWeInSpreadsheets,
+    copy: copy,
+    getElementById: getElementById,
+    cellToColAndRow: cellToColAndRow,
+    colNumAndRowToCell: colNumAndRowToCell,
+    getModifierKey: getModifierKey,
+};
