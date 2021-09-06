@@ -80,15 +80,17 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     }
     if (msg.request) {
         if (msg.request.type == "WRITE_SHEET") {
+            // this can happen async so we respond immediately that we are done
             sheets.writeSheet(gapi, msg.request.sheetId, msg.request.range, msg.request.values);
+            return sendResponse(true); 
         }
         else if (msg.request.type == "GET_CLIPBOARD") {
-            sendResponse(backgroundutils.getValueInClipboard());
+            return sendResponse(backgroundutils.getValueInClipboard());
         }
         else if (msg.request.type == "PLACE_IN_CLIPBOARD") {
-            sendResponse(backgroundutils.copy(msg.request.text));
+            return sendResponse(backgroundutils.copy(msg.request.text));
         }
-        return;
+        return true;
     }
     if (window.amiwaiting) {
         console.log("ignoring because amiwaiting = true");

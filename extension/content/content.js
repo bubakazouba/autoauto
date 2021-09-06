@@ -239,8 +239,9 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
     if (request.action == "PLACE_IN_CLIPBOARD") {
         console.log("I was asked to place element in clipboard element_id: " + request.params.id);
-        let text = automation.placeElementInClipboard(request.params.id);
-        sendResponse({ "text": text });
+        automation.placeElementInClipboard(request.params.id).then(text => {
+            sendResponse({ "text": text });
+        });
     }
     else if (request.action == "CLICK_ON_ELEMENT") {
         console.log("I was asked to click on element: " + request.params.id);
@@ -249,12 +250,14 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
     else if (request.action == "KEY_GROUP_INPUT") {
         console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
-        automation.keyGroupOnElement(request.params.id, request.params.keyGroup);
-        sendResponse({ "event": "DONE" });
+        automation.keyGroupOnElement(request.params.id, request.params.keyGroup).then(() => {
+            sendResponse({ "event": "DONE" });
+        });
     }
     else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
-        automation.handleSheetsPaste(request.params.id, request.params.userSheetSetting);
-        sendResponse({ "event": "DONE" });
+        automation.handleSheetsPaste(request.params.id, request.params.userSheetSetting).then(() => {
+            sendResponse({ "event": "DONE" });
+        });
     }
 });

@@ -27,8 +27,10 @@ function _triggerKeyGroupInputCommand(action){
     let keyGroup = action["action"]["keyGroup"].jsonify();
     let request = { action: 'KEY_GROUP_INPUT', params: { id: elementId, keyGroup: keyGroup } };
     log("keyGroupInput request=", request, "tabId=", tabId);
-    chrome.tabs.sendMessage(tabId, request, function() {
-        
+    return new Promise(resolve => {
+        chrome.tabs.sendMessage(tabId, request, function() {
+            resolve(true);
+        });
     });
 }
 function _triggerClickCommand(action, last_index_trackers){
@@ -37,8 +39,10 @@ function _triggerClickCommand(action, last_index_trackers){
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
     let request = { action: 'CLICK_ON_ELEMENT', params: { id: elementId } };
-    chrome.tabs.sendMessage(tabId, request, function() {
-        
+    return new Promise(resolve => {
+        chrome.tabs.sendMessage(tabId, request, function() {
+            resolve(true);
+        });
     });
 }
 function _triggerSheetsPaste(action, last_index_trackers){
@@ -46,14 +50,15 @@ function _triggerSheetsPaste(action, last_index_trackers){
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
 
-    storage.getUserSheetSetting().then(userSheetSetting => {
-        let request = { action: 'SHEETS_PASTE', params: { id: elementId,  userSheetSetting: userSheetSetting } };
-        log("PASTE request=", request, "tabId=", tabId);
-        chrome.tabs.sendMessage(tabId, request, function() {
-            
+    return new Promise(resolve => {
+        storage.getUserSheetSetting().then(userSheetSetting => {
+            let request = { action: 'SHEETS_PASTE', params: { id: elementId,  userSheetSetting: userSheetSetting } };
+            log("PASTE request=", request, "tabId=", tabId);
+            chrome.tabs.sendMessage(tabId, request, function() {
+                resolve(true);
+            });
         });
     });
-
 }
 function _triggerSwitchingTab(tabId){
     chrome.tabs.update(tabId, { selected: true });
@@ -66,9 +71,12 @@ function _triggerPlaceClipboard(action, last_index_trackers){
     log("[placeInClipboard] element_id=", elementId);
     
     let request = { action: 'PLACE_IN_CLIPBOARD', params: { id: elementId } };
-    chrome.tabs.sendMessage(tabId, request, function(response) {
-        log("[placeInClipboard] got back from content script", response);
-    });
+    return new Promise((resolve) => {
+        chrome.tabs.sendMessage(tabId, request, function(response) {
+            log("[placeInClipboard] got back from content script", response);
+            resolve(true);
+        });
+    })
 }
 
 function triggerActions(actions, last_index_trackers){
@@ -76,37 +84,36 @@ function triggerActions(actions, last_index_trackers){
     let lastTabId = null;
     let i = 0;
     return new Promise(resolve => {
-        let intervalId = setInterval(() => {
+        function _act() {
             if (i >= actions.length) {
-                clearInterval(intervalId);
                 return resolve(true);
             }
-            let action = actions[i];
+            let action = actions[i++];
             // only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
-            if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
-                _triggerSwitchingTab(action["tab"]["id"]);
-            }
+            // if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
+            //     _triggerSwitchingTab(action["tab"]["id"]);
+            // }
             if (action["action"]["type"] == "PLACE_IN_CLIPBOARD") {
                 log(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<");
-                _triggerPlaceClipboard(action, last_index_trackers);
+                return _triggerPlaceClipboard(action, last_index_trackers).then(_act);
             }
             else if (action["action"]["type"] == "CLICK") {
                 log(">>>>>>>>>>>CLICK<<<<<<<<");
-                _triggerClickCommand(action, last_index_trackers);
                 lastTabId = action["tab"]["id"];
+                return _triggerClickCommand(action, last_index_trackers).then(_act);
             }
             else if (action["action"]["type"] == "KEY_GROUP_INPUT") {
                 log(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<");
-                _triggerKeyGroupInputCommand(action);
                 lastTabId = action["tab"]["id"];
+                return _triggerKeyGroupInputCommand(action).then(_act);
             }
             else if (action["action"]["type"] == "SHEETS_PASTE") {
                 log(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<");
-                _triggerSheetsPaste(action, last_index_trackers);
                 lastTabId = action["tab"]["id"];
+                return _triggerSheetsPaste(action, last_index_trackers).then(_act);
             }
-            i++;
-        }, 0.8 * 1000);
+        }
+        _act();
     });
 }
 function detectActionsToTrigger(pattern_finder, repitions) {

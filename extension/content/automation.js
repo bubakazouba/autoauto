@@ -8,7 +8,7 @@ function keyGroupOnElement(element_id, keyGroup) {
     console.log("[keyGroupOnElement] keyGroup=", keyGroup);
     let element = contentutils.getElementById(element_id);
     let initialValue = element.value;
-    contentutils.getValueInClipboard().then(paste => {
+    return contentutils.getValueInClipboard().then(paste => {
         let finalValue = "";
         for(let p of keyGroup) {
             if (typeof p == typeof "") {
@@ -29,6 +29,7 @@ function keyGroupOnElement(element_id, keyGroup) {
             }
         }
         element.value = finalValue;
+        return true;
     });
 }
 
@@ -38,15 +39,12 @@ function placeElementInClipboard(element_id) {
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
         console.log("[placeElementInClipboard] done changing cell copying cell content");
-        // TODO: not sure if timeout is necessary
-        setTimeout(() => {
-            contentutils.copy(document.getElementsByClassName("cell-input")[0].textContent);
-        }, 100);
+        return contentutils.copy(document.getElementsByClassName("cell-input")[0].textContent);
     }
     else {
         let element = contentutils.getElementById(element_id);
         // TODO: we will need to use different accessors (e.g textfields use .value)
-        contentutils.copy(element.textContent);
+        return contentutils.copy(element.textContent);
     }
 }
 
@@ -79,21 +77,26 @@ function handleSheetsPaste(element_id, userSheetSetting) {
     let cell = getCellFromSheetsElementId(element_id);
     changeCellWithElementId(element_id);
     if (userSheetSetting == "API") {
-        contentutils.getValueInClipboard().then(value => {
+        return contentutils.getValueInClipboard().then(value => {
             let request = {
                 type: "WRITE_SHEET",
                 range: cell,
                 values: [[value]],
                 sheetId: getSheetId(),
             };
-            chrome.runtime.sendMessage({
-                request: request
+            return new Promise(resolve => {
+                chrome.runtime.sendMessage({ request: request }, response => {
+                    resolve(true);
+                });
             });
         });
     }
     else if (userSheetSetting == "PASTE") {
         // Now Paste
         document.execCommand("paste");
+        return new Promise(resolve => {
+            resolve(true);
+        });
     }
     else {
         console.error("INVALID userSheetSetting");
