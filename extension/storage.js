@@ -9,7 +9,7 @@ function getUserSheetSetting() {
         return chrome.storage.sync.get([USER_SHEET_SETTING_KEY], function(result) {
             console.log('[Storage][Get] user sheet value currently is', result[USER_SHEET_SETTING_KEY]);
             if (!result[USER_SHEET_SETTING_KEY]) {
-                return resolve(DEFAULT_SETTING);
+                return storeUserSheetSetting("USER_PRESSED_USE_PASTE");
             }
             resolve(result[USER_SHEET_SETTING_KEY]);
         });
