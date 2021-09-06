@@ -15,7 +15,9 @@ document.getElementById('useapi').onclick = function() {
 document.getElementById('clearsheetsetting').onclick = function() {
     sendMsg({ type: "CLEAR_SHEET_SETTING" }, callbackSetSheetSetting);
 };
-
+document.getElementById('haltautomation').onclick = function() {
+    sendMsg({ type: "HALT_AUTOMATION" });
+};
 // chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 //     console.log("popup got some stuff back", request);
 //     if (request.action == "WHATAMIUSING") {

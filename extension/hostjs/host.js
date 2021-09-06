@@ -34,7 +34,12 @@ function handleUserPressedStart(repitions) {
     return automation.triggerActions(actionsToTrigger, last_index_trackers);
 }
 
+function haltAutomation() {
+    return automation.haltAutomation();
+}
+
 module.exports = {
     handleAction: handleAction,
     handleUserPressedStart: handleUserPressedStart,
+    haltAutomation: haltAutomation,
 };

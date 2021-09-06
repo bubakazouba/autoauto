@@ -6,6 +6,11 @@ const storage = require("../storage.js");
 const log = function(...args) {
     console.log("    AUTOMATION", ...args);
 };
+let shouldHaltAutomation = false;
+
+function haltAutomation() {
+    shouldHaltAutomation = true;
+}
 
 function _getActionWithIncrementedElementId(action, last_index_trackers) {
     if ("increment_pattern" in action["action"]) {
@@ -80,12 +85,13 @@ function _triggerPlaceClipboard(action, last_index_trackers){
 }
 
 function triggerActions(actions, last_index_trackers){
+    shouldHaltAutomation = false;
     log("actions.length to trigger=", actions.length);
     let lastTabId = null;
     let i = 0;
     return new Promise(resolve => {
         function _act() {
-            if (i >= actions.length) {
+            if (i >= actions.length || shouldHaltAutomation) {
                 return resolve(true);
             }
             let action = actions[i++];
@@ -127,4 +133,5 @@ function detectActionsToTrigger(pattern_finder, repitions) {
 module.exports = {
     detectActionsToTrigger: detectActionsToTrigger,
     triggerActions: triggerActions,
+    haltAutomation: haltAutomation,
 };

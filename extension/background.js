@@ -44,30 +44,32 @@ window.onload = function() {
 };
 
 function handlePopupRequest(msg, sendResponse) {
-    chrome.runtime.onMessage.addListener({ "hello": "bye" });
-    if (msg.event && msg.event.type == "USER_PRESSED_START") {
+    if (!msg.event) {
+        return;
+    }
+    if (msg.event.type == "USER_PRESSED_START") {
         console.log("got user pressed start");
         window.amiwaiting = true;
         host.handleUserPressedStart(msg.event.repitions).then(() => {
             window.amiwaiting = false;
         });
         sendResponse("ok");
-    }
-    else if (msg.event && (msg.event.type == "USER_PRESSED_USE_API" || msg.event.type == "USER_PRESSED_USE_PASTE")) {
+    } else if (["USER_PRESSED_USE_API", "USER_PRESSED_USE_PASTE"].includes(msg.event.type)) {
         storage.storeUserSheetSetting(msg.event.type).then((value) => {
             if (value == "API") {
                 initGAPI();
             }
             sendResponse({ "text": value });
         });
-    }
-    else if (msg.event && msg.event.type == "GET_WHAT_AM_I_USING") {
+    } else if (msg.event.type == "GET_WHAT_AM_I_USING") {
         storage.getUserSheetSetting().then((value) => {
             sendResponse({ "text": value });
         });
-    }
-    else if (msg.event && msg.event.type == "CLEAR_SHEET_SETTING") {
+    } else if (msg.event.type == "CLEAR_SHEET_SETTING") {
         storage.clearUserSheetSetting();
+        sendResponse("ok");
+    } else if (msg.event.type == "HALT_AUTOMATION") {
+        host.haltAutomation();
         sendResponse("ok");
     }
 }
@@ -82,12 +84,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         if (msg.request.type == "WRITE_SHEET") {
             // this can happen async so we respond immediately that we are done
             sheets.writeSheet(gapi, msg.request.sheetId, msg.request.range, msg.request.values);
-            return sendResponse(true); 
-        }
-        else if (msg.request.type == "GET_CLIPBOARD") {
+            return sendResponse(true);
+        } else if (msg.request.type == "GET_CLIPBOARD") {
             return sendResponse(backgroundutils.getValueInClipboard());
-        }
-        else if (msg.request.type == "PLACE_IN_CLIPBOARD") {
+        } else if (msg.request.type == "PLACE_IN_CLIPBOARD") {
             return sendResponse(backgroundutils.copy(msg.request.text));
         }
         return true;
@@ -122,8 +122,7 @@ function handleAction(msg) {
     if (res["event"] == "IM SURE") {
         console.log("event == IMSURE");
         chrome.browserAction.setIcon({ path: 'images/green.png' });
-    }
-    else {
+    } else {
         console.log("event != IMSURE");
         chrome.browserAction.setIcon({ path: 'images/red.png' });
     }
