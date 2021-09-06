@@ -23,4 +23,4 @@ Run `npm test`
 Run ` npm run eslint -- --fix`
 
 ## Deploy
-`browserify -p tinyify background.js`
+`./deploy.sh`
