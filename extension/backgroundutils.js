@@ -51,7 +51,7 @@ function copy(text) {
 function keyParamsToString(keyParams) {
     let keyName = keyParams.key;
     if (keyParams.metaKey) {
-        keyName = "cmd+" + keyName
+        keyName = "cmd+" + keyName;
     }
     if (keyParams.ctrlKey) {
         keyName = "ctrl+" + keyName;
@@ -79,5 +79,12 @@ function _pprint(msg) {
 }
 
 function pprint(msg, tabIndex) {
-     return _pprint(msg) + ", tab=" + tabIndex;
+    return _pprint(msg) + ", tab=" + tabIndex;
 }
+
+module.exports = {
+    getValueInClipboard: getValueInClipboard,
+    copy: copy,
+    keyParamsToString: keyParamsToString,
+    pprint: pprint,
+};

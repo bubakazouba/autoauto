@@ -3,3 +3,5 @@ manifest.json
 *.pyc
 *.jpg
 *.jpeg
+node_modules/
+bundle.js

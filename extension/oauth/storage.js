@@ -7,7 +7,7 @@ function getToken() {
             console.log('[Storage][Get] Token Value currently is ' + result[TOKEN_KEY]);
             resolve(result[TOKEN_KEY]);
         });
-    })
+    });
 }
 
 function isTokenExpired() {
@@ -15,7 +15,7 @@ function isTokenExpired() {
         chrome.storage.sync.get([TOKEN_EXPIRATION_TIME_KEY], function(result) {
             console.log('[Storage][Get] Is Token Expired Value currently is ' + 
                 result[TOKEN_EXPIRATION_TIME_KEY] + " which is " + 
-                secondsFromNow(result[TOKEN_EXPIRATION_TIME_KEY]) + " seconds from now");
+                _secondsFromNow(result[TOKEN_EXPIRATION_TIME_KEY]) + " seconds from now");
             if (!result[TOKEN_EXPIRATION_TIME_KEY]) {
                 return resolve(true);
             }
@@ -30,13 +30,13 @@ function isTokenStillValid() {
     });
 }
 
-function storeToken(token, expiresSeconds) {
+function storeToken(token, expiresSeconds, gapi) {
     gapi.auth.setToken({
         'access_token': token,
     });
     chrome.storage.sync.set({
         [TOKEN_KEY]: token
-    }, function(result) {
+    }, function() {
         console.log('[Storage][Set] Token value is set to ' + token);
     });
 
@@ -45,7 +45,7 @@ function storeToken(token, expiresSeconds) {
 
     chrome.storage.sync.set({
         [TOKEN_EXPIRATION_TIME_KEY]: expires.getTime()
-    }, function(result) {
+    }, function() {
         console.log('[Storage][Set] Token expiration time value is set to ' + expires.getTime());
     });
 }
@@ -54,18 +54,26 @@ function storeToken(token, expiresSeconds) {
 function clearalltokens() {
     chrome.storage.sync.set({
         [TOKEN_EXPIRATION_TIME_KEY]: 0
-    }, function(result) {
+    }, function() {
         console.log('[Storage] [Clear] Cleared token expiration time');
     });
 
     chrome.storage.sync.set({
         [TOKEN_KEY]: ""
-    }, function(result) {
+    }, function() {
         console.log('[Storage] [Clear] Cleared token');
     });
 }
 
-function secondsFromNow(time) {
+function _secondsFromNow(time) {
     let delta = time - (new Date()).getTime();
     return parseInt(delta / 1000);
 }
+
+module.exports = {
+    getToken: getToken,
+    isTokenExpired: isTokenExpired,
+    isTokenStillValid: isTokenStillValid,
+    storeToken: storeToken,
+    clearalltokens: clearalltokens,
+};

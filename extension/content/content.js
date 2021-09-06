@@ -1,11 +1,6 @@
 const SHEET_ELEM_NODE = "SHEET";
 const SHEET_ELEM_ID = "0"; // It has to be a number
 
-function getCurrentTab() {
-    let queryOptions = { active: true, currentWindow: true };
-    return chrome.tabs.query(queryOptions);
-}
-
 function getSelectionInfo() {
     if (!isTextSelected()) {
         return;
@@ -112,7 +107,7 @@ document.addEventListener('focusin', function(e) {
     if (!elementInfo) {
         return;
     }
-    let {element, element_id, element_node} = elementInfo;
+    let { element, element_id, element_node } = elementInfo;
 
     let event = {
         type: "FOCUS",
@@ -134,7 +129,7 @@ document.addEventListener("keydown", e => {
     if (!elementInfo) {
         return;
     }
-    let {element, element_id, element_node} = elementInfo;
+    let { element, element_id, element_node } = elementInfo;
     if (areWeInSpreadsheets()) {
         return handleSheetsKeyDown(e, element_node);
     }
@@ -181,7 +176,7 @@ function handleSheetsKeyDown(e, element_node) {
 
 function isTextManuveringCommand(e, isKeyUp) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
-    let c1 = e.key.substring(0,5).toUpperCase() == "ARROW";
+    let c1 = e.key.substring(0, 5).toUpperCase() == "ARROW";
     let c2 = e.key == "a" && getModifierKey(e);
     return c1 || c2;
 }
@@ -269,21 +264,20 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         console.log("I was asked to place element in clipboard element_id: " + request.params.id);
         let text = placeElementInClipboard(request.params.id);
         sendResponse({ "text": text });
-    } else if (request.action == "PUT_ELEMENT_IN_FOCUS") {
-        console.log("I was asked to put element in focus: " + request.params.id);
-        putElementInFocus(request.params.id);
-        sendResponse({"event": "DONE"});
-    } else if (request.action == "CLICK_ON_ELEMENT") {
+    }
+    else if (request.action == "CLICK_ON_ELEMENT") {
         console.log("I was asked to click on element: " + request.params.id);
         clickOnElement(request.params.id);
-        sendResponse({"event": "DONE"});
-    } else if (request.action == "KEY_GROUP_INPUT") {
+        sendResponse({ "event": "DONE" });
+    }
+    else if (request.action == "KEY_GROUP_INPUT") {
         console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
         keyGroupOnElement(request.params.id, request.params.keyGroup);
-        sendResponse({"event": "DONE"});
-    } else if (request.action == "SHEETS_PASTE") {
+        sendResponse({ "event": "DONE" });
+    }
+    else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
         handleSheetsPaste(request.params.id, request.params.cell);
-        sendResponse({"event": "DONE"});
+        sendResponse({ "event": "DONE" });
     }
 });

@@ -1,4 +1,27 @@
->>more manual testing of keygrouper/actiongrouper on text field
+------------------------------
+if 2 copies in a row:
+    ignore current copy
+copy order operation shouldnt matter as long as its after a submit and before a paste
+when we get to paste we can say user 
+
+INPUT 1
+SUBMIT
+COPY
+PASTE
+INPUT 2
+SUBMIT
+COPY
+PASTE
+-------
+INPUT 1
+SUBMIT
+COPY
+INPUT 2
+SUBMIT
+PASTE
+COPY
+PASTE
+-------
 ------------
 PatternFinder needs to know:
     1- [INITIAL_VALUE substring(s), PASTE(s) substring(s), ADDITIONS]

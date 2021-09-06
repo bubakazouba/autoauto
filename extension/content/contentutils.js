@@ -43,14 +43,14 @@ function getKeyPressEvent(e, element, element_id, element_node) {
         event.keyGroupInput = {
             startOffset: element.selectionStart,
             value: element.value,
-        }
+        };
     }
     else {
         event.type = "KEYBOARD";
     }
     event.keyParams = {};
     const FIELDS = ["code", "key", "keyCode", "shiftKey", "ctrlKey", "metaKey", "altKey", "which"];
-    for (f of FIELDS) {
+    for (let f of FIELDS) {
         event.keyParams[f] = e[f];
     }
     
@@ -118,11 +118,13 @@ function isTextSelected() {
         if (!window.getSelection().isCollapsed) {
             selecttxt = window.getSelection().baseNode.textContent;
         }
-    } else if (document.getSelection) {
+    }
+    else if (document.getSelection) {
         if (!document.getSelection().isCollapsed) {
             selecttxt = document.getSelection().baseNode.textContent;
         }
-    } else if (document.selection) {
+    }
+    else if (document.selection) {
         selecttxt = document.selection.createRange().text;
     }
  
@@ -199,8 +201,8 @@ function colNumAndRowToCell(colNumAndRow) {
     function _numToCol(colNum) {
         return String.fromCharCode(colNum + "A".charCodeAt(0) - 1);
     }
-    colNum = parseInt(colNumAndRow[0]);
-    row = parseInt(colNumAndRow[1]);
+    let colNum = parseInt(colNumAndRow[0]);
+    let row = parseInt(colNumAndRow[1]);
     return _numToCol(colNum)+row;
 }
 
@@ -209,7 +211,7 @@ function getModifierKey(e) {
         return e.ctrlKey;
     }
     else if(navigator.appVersion.indexOf("Mac") != -1) {
-        return e.metaKey
+        return e.metaKey;
     }
-    return null
+    return null;
 }

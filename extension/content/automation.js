@@ -1,8 +1,3 @@
-function putElementInFocus(element_id) {
-    let element = getElementById(element_id);
-    element.focus();
-}
-
 function clickOnElement(element_id) {
     let element = getElementById(element_id);
     element.click();
@@ -71,7 +66,7 @@ function changeCellWithElementId(element_id) {
     // Change Cell
     document.getElementById("t-name-box").value = cell;
 
-    const ENTER_EVENT = new window.KeyboardEvent("keydown", {key: "Enter", keyCode: 13});
+    const ENTER_EVENT = new window.KeyboardEvent("keydown", { key: "Enter", keyCode: 13 });
     document.getElementById("t-name-box").dispatchEvent(ENTER_EVENT);
     document.dispatchEvent(ENTER_EVENT);    
 }
@@ -85,7 +80,7 @@ function handleSheetsPaste(element_id) {
             range: cell,
             values: [[value]],
             sheetId: getSheetId(),
-        }
+        };
         chrome.runtime.sendMessage({
             request: request
         });

@@ -1,9 +1,0 @@
-{
-    "name": "com.my_company.my_app",
-    "description": "My App",
-    "path": "D:\\Repos\\autoauto\\extension\\host\\host.bat",
-    "type": "stdio",
-    "allowed_origins": [
-        "chrome-extension://lobcmaafhlkdndfgpmhaplbgpmjhniil/"
-    ]
-}

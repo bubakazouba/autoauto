@@ -7,4 +7,4 @@ document.getElementById('start').onclick = function() {
     }, function(response) {
         console.log("popup.js: Response: ", response);
     });
-}
+};
