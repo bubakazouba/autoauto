@@ -1,7 +1,9 @@
+const REPITITIONS_TEXT_FIELD = document.getElementById('repitions');
+
 document.getElementById('start').onclick = function() {
     sendMsg({
         type: "USER_PRESSED_START",
-        repitions: document.getElementById('repitions').value,
+        repitions: REPITITIONS_TEXT_FIELD.value,
     });
 };
 document.getElementById('usepaste').onclick = function() {
@@ -40,5 +42,10 @@ function callbackSetSheetSetting(response) {
     document.getElementById("whatamiusing").textContent = response.text;
 }
 
-// one time request on load
-sendMsg({ type: "GET_WHAT_AM_I_USING" }, callbackSetSheetSetting);
+window.onload = function() {
+    REPITITIONS_TEXT_FIELD.focus();
+    REPITITIONS_TEXT_FIELD.select();
+
+    // TODO: ideally this would just run once, but this runs once each time user opens popup
+    sendMsg({ type: "GET_WHAT_AM_I_USING" }, callbackSetSheetSetting);
+}
