@@ -120,10 +120,8 @@ function handleAction(msg) {
         return;
     }
     if (res["event"] == "IM SURE") {
-        console.log("event == IMSURE");
         chrome.browserAction.setIcon({ path: 'images/green.png' });
     } else {
-        console.log("event != IMSURE");
         chrome.browserAction.setIcon({ path: 'images/red.png' });
     }
 }

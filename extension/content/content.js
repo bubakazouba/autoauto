@@ -226,7 +226,7 @@ document.addEventListener('paste', e => {
     }
     let elem = e.path[0];
     // Not sure how this would happen but better be safe
-    if (!contentutils.isElementTextEditable(elem)) {
+    if (!contentutils.isElementTextEditable(elem) || !elem.focus()) {
         return;
     }
     contentutils.getValueInClipboard().then(clipboard => {
