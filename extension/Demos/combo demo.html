@@ -39,17 +39,36 @@
     </div>
 </body>
 <script type="text/javascript">
+function getElementId(element) {
+    function getElementIndex(elem) {
+        if (!elem.parentElement) {
+            return "0";
+        }
+        // TODO: evaluate children vs childNodes
+        for (let i = 0; i < elem.parentElement.childNodes.length; i++) {
+            if (elem.parentElement.childNodes[i] == elem) {
+                return getElementIndex(elem.parentElement) + "." + i;
+            }
+        }
+    }
+    if (!window.elements) {
+        window.elements = {};
+    }
+    let id = getElementIndex(element);
+    window.elements[id] = element;
+    return id;
+}
 var onCheckClick = function() {
     let id = this.id;
     let textarea = document.getElementById("output");
-    textarea.value += "you checked " + id + "\n";
+    textarea.value += "you checked " + id + "," + getElementId(document.getElementById(id)) + "\n";
     textarea.scrollTop = textarea.scrollHeight;
 };
 
 var onBtnClick = function() {
     let id = this.id;
     let textarea = document.getElementById("output");
-    textarea.value += "you clicked on id=" + id + "\n";
+    textarea.value += "you clicked on id=" + id + "," + getElementId(document.getElementById(id)) + "\n";
     textarea.scrollTop = textarea.scrollHeight
 };
 

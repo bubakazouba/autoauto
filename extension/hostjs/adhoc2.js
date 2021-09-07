@@ -1,7 +1,8 @@
 const cloneDeep = require('clone-deep');
+const patternutils = require("./patternutils.js");
 // const log = function(...args) {
 //     console.log("      ADHOC2", ...args);
-// }
+// };
 
 function detectRepition(actions) {
     // TODO: Action should be a class with an __eq__ override where it can do smart stuff like
@@ -11,27 +12,37 @@ function detectRepition(actions) {
     // 2- checking if theres an increment pattern and using that to compare
     // or maybe these checks should happen in another class like IncrementFinder? 
     let n = actions.length;
-    let min_editdistance = 9999;
-    let min_eval = null;
+    let minEditDistance = 9999;
+    let leastDistancePattern = null;
     for (let i = 1; i < n; i++) {
         let x1 = actions.slice(0, i);
         let x2 = actions.slice(i);
         let dis = _levenshteinDistance(x1, x2);
-        if (dis < min_editdistance) {
-            min_eval = x1;
+        if (dis < minEditDistance) {
+            leastDistancePattern = x1;
             if (x2.length < x1.length) {
-                min_eval = x2;
+                leastDistancePattern = x2;
             }
-            min_editdistance = dis;
+            minEditDistance = dis;
         }
     }
 
-    if (!min_eval) {
+    if (leastDistancePattern == null) {
         return null;
     }
+    let last_index_trackers = { }; // actionIndex: element_id
+    let increment_patterns = { }; // actionIndex: increment_pattern
+    for(let i = 0; i < parseInt(actions.length / 2); i++) {
+        let action1 = actions[i];
+        let action2 = actions[parseInt(i + actions.length / 2)];
+        increment_patterns[i] = _proposeIncrement(action1, action2);
+        last_index_trackers[i] = action2["action"]["element_id"];
+    }
     return {
-        "error": min_editdistance,
-        "pattern": min_eval,
+        "error": minEditDistance,
+        "pattern": leastDistancePattern,
+        "last_index_trackers": last_index_trackers,
+        "increment_patterns": increment_patterns,
     };
 }
 
@@ -57,19 +68,23 @@ function _levenshteinDistance(arr1, arr2) {
 }
 
 function _areActionsEqual(action1, action2) {
-    // TODO: we should reuse function in patternfinder.js with complete logic for increment_pattern
-    if ("increment_pattern" in action1["action"]) {
-        action1 = cloneDeep(action1);
-        delete action1["action"]["element_id"];
+    action1 = cloneDeep(action1);
+    action2 = cloneDeep(action2);
+    // delete element_id before comparing and propose the increment pattern
+    // Just assert that the element depth matches (element depth is how deep it is in the XML tree)
+    if (action1["action"]["element_id"].split(".").length != action2["action"]["element_id"].split(".").length) {
+        return false;
     }
-    if ("increment_pattern" in action2["action"]) {
-        action2 = cloneDeep(action2);
-        delete action2["action"]["element_id"];
-    }
-    if (action1["action"]["type"] == action2["action"]["type"] == "KEY_GROUP_INPUT") {
-        return action1.equals(action2);
-    }
+    delete action1["action"]["element_id"];
+    delete action2["action"]["element_id"];
+
     return JSON.stringify(action1) == JSON.stringify(action2);
+}
+
+function _proposeIncrement(action1, action2) {
+    let i1 = action1["action"]["element_id"];
+    let i2 = action2["action"]["element_id"];
+    return patternutils.subtractIds(i2, i1);
 }
 
 module.exports = {

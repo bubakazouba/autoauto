@@ -269,4 +269,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             sendResponse({ "event": "DONE" });
         });
     }
+    // Return true to signal that we will sendResponse asynchrounsly
+    return true;
 });

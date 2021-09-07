@@ -29,8 +29,8 @@ function handleAction(msg) {
 }
 
 function handleUserPressedStart(repitions) {
-    let { actionsToTrigger, last_index_trackers } = automation.detectActionsToTrigger(pattern_finder, parseInt(repitions));
-    return automation.triggerActions(actionsToTrigger, last_index_trackers);
+    let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repitions));
+    return automation.triggerActions(actionsToTrigger, sequenceLength);
 }
 
 function haltAutomation() {

@@ -19,7 +19,8 @@ class Part {
         }
         return this.text.slice(this.start, this.raw_end);
     }
-    jsonify() {
+    // this overrides JSON.stringify
+    toJSON() {
         return {
             "start": this.start,
             "end": this.end,
@@ -68,14 +69,15 @@ class KeyGrouper {
         }
         return val;
     }
-    jsonify() {
+    // this overrides JSON.stringify
+    toJSON() {
         let parts = this.getParts();
         let jsonExport = [];
         for (let p of parts) {
             if (typeof p == "string") {
                 jsonExport.push(p);
             } else {
-                jsonExport.push(p.jsonify());
+                jsonExport.push(p.toJSON());
             }
         }
         return jsonExport;
@@ -195,7 +197,7 @@ class KeyGrouper {
             if (checkInitialValueWasSet && this.initialValueWasSet != other.initialValueWasSet) {
                 return false;
             }
-            return this.jsonify() == other.jsonify();
+            return this.toJSON() == other.toJSON();
         }
         return false;
     }
