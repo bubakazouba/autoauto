@@ -1,14 +1,11 @@
 ## Installation
-* Install the pre-commit githook: `cp githooks/pre-commit .git/hooks/`
+* Install the pre-commit githook: `cp extension/githooks/pre-commit .git/hooks/`
 * `cp manifest-template.json manifest.json`
 * `npm install -g watchify`
-* `npm install`
+* `cd extension && npm install`
 
-## Run
-* `npm start`
-* Reload extension (from `chrome://extensions`)
-
-## Load extension
+## Load extension (1 time process)
+* `cd extension && npm start`
 * Open `chrome://extensions`
 * Enable developer mode
 * click `Load Unpacked`
@@ -16,11 +13,15 @@
 * Reload extension (from `chrome://extensions`)
 * Open background page, check console to make sure you have no errors
 
+## Development
+* `cd extension && npm start`
+* Reload extension (from `chrome://extensions`)
+
 ## Tests
-Run `npm test`
+Run `cd extension && npm test`
 
 ## Linting
-Run ` npm run eslint -- --fix`
+Run `cd extension && npm run eslint -- --fix`
 
 ## Deploy
 `./deploy.sh`
