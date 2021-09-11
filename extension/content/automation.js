@@ -43,8 +43,9 @@ function placeElementInClipboard(element_id) {
         // update selector
         console.log("[placeElementInClipboard] changing cell");
         changeCellWithElementId(element_id);
-        console.log("[placeElementInClipboard] done changing cell copying cell content");
-        return contentutils.copy(document.getElementsByClassName("cell-input")[0].textContent);
+        let text = document.getElementsByClassName("cell-input")[0].textContent;
+        console.log("[placeElementInClipboard] done changing cell copying cell content text=", text);
+        return contentutils.copy(text);
     } else {
         let element = contentutils.getElementById(element_id);
         // TODO: we will need to use different accessors (e.g textfields use .value)

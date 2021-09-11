@@ -30,22 +30,25 @@ function triggerActions(actions, sequenceLength) {
             // }
             if (action["action"]["type"] == "PLACE_IN_CLIPBOARD") {
                 log(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<");
-                return _triggerPlaceClipboard(action, actionIndex).then(_act);
+                return _triggerPlaceClipboard(action, actionIndex).then(_waitThenAct);
             } else if (action["action"]["type"] == "CLICK") {
                 log(">>>>>>>>>>>CLICK<<<<<<<<");
                 // lastTabId = action["tab"]["id"];
-                return _triggerClickCommand(action, actionIndex).then(_act);
+                return _triggerClickCommand(action, actionIndex).then(_waitThenAct);
             } else if (action["action"]["type"] == "KEY_GROUP_INPUT") {
                 log(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<");
                 // lastTabId = action["tab"]["id"];
-                return _triggerKeyGroupInputCommand(action, actionIndex).then(_act);
+                return _triggerKeyGroupInputCommand(action, actionIndex).then(_waitThenAct);
             } else if (action["action"]["type"] == "SHEETS_PASTE") {
                 log(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<");
                 // lastTabId = action["tab"]["id"];
-                return _triggerSheetsPaste(action, actionIndex).then(_act);
+                return _triggerSheetsPaste(action, actionIndex).then(_waitThenAct);
             }
         }
-        _act();
+        function _waitThenAct(timeout=50) {
+            setTimeout(_act, timeout);
+        }
+        _waitThenAct();
     });
 }
 
