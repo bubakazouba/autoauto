@@ -61,16 +61,22 @@ function handlePopupRequest(msg, sendResponse) {
             }
             sendResponse({ "text": value });
         });
-    } else if (msg.event.type == "GET_WHAT_AM_I_USING") {
+    } else if (msg.event.type == "GET_POPUP_STATE") {
         storage.getUserSheetSetting().then((value) => {
-            sendResponse({ "text": value });
+            sendResponse({ 
+                "whatAmIUsingText": value,
+                amiwaiting: window.amiwaiting
+            });
         });
     } else if (msg.event.type == "CLEAR_SHEET_SETTING") {
         storage.clearUserSheetSetting();
         sendResponse("ok");
     } else if (msg.event.type == "HALT_AUTOMATION") {
         host.haltAutomation();
+        window.amiwaiting = false;
         sendResponse("ok");
+    } else if (msg.event.type == "USER_SELECTED_SPEED_MODE") {
+        host.changeSpeed(msg.event.mode);
     }
 }
 

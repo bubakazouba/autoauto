@@ -2,19 +2,31 @@
 const cloneDeep = require('clone-deep');
 const storage = require("../storage.js");
 const IncrementTracker = require("./incrementtracker.js");
-
+const DEFAULT_MODE = "slowmode";
+const MODE_TO_SPEED = {
+    "slowmode": 800,
+    "mediummode": 300,
+    "quickmode": 25,
+};
 const log = function(...args) {
     console.log("    AUTOMATION", ...args);
 };
+
 let shouldHaltAutomation = false;
+let currentMode = DEFAULT_MODE;
 
 function haltAutomation() {
     shouldHaltAutomation = true;
 }
 
+function changeSpeed(mode) {
+    log("changing speed to mode=", mode);
+    currentMode = mode;
+}
+
 function triggerActions(actions, sequenceLength) {
     shouldHaltAutomation = false;
-    // let lastTabId = null;
+    let lastTabId = null;
     let i = 0;
     return new Promise(resolve => {
         function _act() {
@@ -24,28 +36,37 @@ function triggerActions(actions, sequenceLength) {
             let action = actions[i];
             let actionIndex = i % sequenceLength;
             i++;
-            // only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
-            // if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
-            //     _triggerSwitchingTab(action["tab"]["id"]);
-            // }
+            // Only switch tabs if there's time to do so
+            if (currentMode != "quickmode") {
+                // only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
+                if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
+                    _triggerSwitchingTab(action["tab"]["id"]);
+                }
+            }
             if (action["action"]["type"] == "PLACE_IN_CLIPBOARD") {
                 log(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<");
-                return _triggerPlaceClipboard(action, actionIndex).then(_waitThenAct);
+                return _triggerPlaceClipboard(action, actionIndex).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "CLICK") {
                 log(">>>>>>>>>>>CLICK<<<<<<<<");
-                // lastTabId = action["tab"]["id"];
-                return _triggerClickCommand(action, actionIndex).then(_waitThenAct);
+                lastTabId = action["tab"]["id"];
+                return _triggerClickCommand(action, actionIndex).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "KEY_GROUP_INPUT") {
                 log(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<");
-                // lastTabId = action["tab"]["id"];
-                return _triggerKeyGroupInputCommand(action, actionIndex).then(_waitThenAct);
+                lastTabId = action["tab"]["id"];
+                return _triggerKeyGroupInputCommand(action, actionIndex).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "SHEETS_PASTE") {
                 log(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<");
-                // lastTabId = action["tab"]["id"];
-                return _triggerSheetsPaste(action, actionIndex).then(_waitThenAct);
+                lastTabId = action["tab"]["id"];
+                return _triggerSheetsPaste(action, actionIndex).then(_waitThenActWrapper);
             }
         }
-        function _waitThenAct(timeout=50) {
+        function _waitThenActWrapper() {
+            _waitThenAct(0);
+        }
+        function _waitThenAct(timeout) {
+            if (!timeout) {
+                timeout = MODE_TO_SPEED[currentMode];
+            }
             setTimeout(_act, timeout);
         }
         _waitThenAct();
@@ -114,9 +135,9 @@ function _triggerSheetsPaste(action, actionIndex) {
     });
 }
 
-// function _triggerSwitchingTab(tabId) {
-//     chrome.tabs.update(tabId, { selected: true });
-// }
+function _triggerSwitchingTab(tabId) {
+    chrome.tabs.update(tabId, { selected: true });
+}
 
 function _triggerPlaceClipboard(action, actionIndex) {
     action = _getActionWithIncrementedElementId(action, actionIndex);
@@ -137,4 +158,5 @@ module.exports = {
     detectActionsToTrigger: detectActionsToTrigger,
     triggerActions: triggerActions,
     haltAutomation: haltAutomation,
+    changeSpeed: changeSpeed,
 };

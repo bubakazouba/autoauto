@@ -61,7 +61,7 @@ document.addEventListener('click', (e) => {
 
     if (contentutils.areWeInSpreadsheets()) {
         const PASTE_TEXT = "PASTE⌘V";
-        const RAW_PASTE_TEXT = "PASTE⌘+SHIFT+V";
+        const RAW_PASTE_TEXT = 'PASTE VALUES ONLY⌘+SHIFT+V';
         const _getText = function(elem) {
             if (["goog-menuitem apps-menuitem", "goog-menuitem-content"].indexOf(elem.className) != -1) {
                 return elem.textContent;

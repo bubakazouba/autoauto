@@ -14,11 +14,22 @@ document.getElementById('useapi').onclick = function() {
     sendMsg({ type: "USER_PRESSED_USE_API" }, callbackSetSheetSetting);
 };
 
+document.getElementById('slowmode').onclick = document.getElementById('mediummode').onclick = document.getElementById('quickmode').onclick = function() {
+    document.getElementById('slowmode').parentNode.className = "btn btn-primary";
+    document.getElementById('mediummode').parentNode.className = "btn btn-primary";
+    document.getElementById('quickmode').parentNode.className = "btn btn-primary";
+
+    document.getElementById(this.id).parentNode.className = "btn btn-primary active";
+    sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
+}
+
 document.getElementById('clearsheetsetting').onclick = function() {
     sendMsg({ type: "CLEAR_SHEET_SETTING" }, callbackSetSheetSetting);
 };
 document.getElementById('haltautomation').onclick = function() {
-    sendMsg({ type: "HALT_AUTOMATION" });
+    sendMsg({ type: "HALT_AUTOMATION" }, () => {
+        getAndUpdateState();
+    });
 };
 // chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 //     console.log("popup got some stuff back", request);
@@ -37,15 +48,35 @@ function sendMsg(event, callback) {
         event: event
     }, callback);
 }
-function callbackSetSheetSetting(response) {
-    console.log("got response back for callbackSetSheetSetting", response);
-    document.getElementById("whatamiusing").textContent = response.text;
+
+// either "API" or "PASTE"
+function callbackSetSheetSetting(response, whatAmIUsingText) {
+    if (!whatAmIUsingText) {
+        whatAmIUsingText = response.text;
+    }
+    console.log("got response back for callbackSetSheetSetting", whatAmIUsingText);
+    document.getElementById('usepaste').parentNode.className = "btn btn-primary";
+    document.getElementById('useapi').parentNode.className = "btn btn-primary";
+    document.getElementById(whatAmIUsingText == "API" ? 'useapi' : 'usepaste').parentNode.className += " active";
+}
+
+function getAndUpdateState() {
+    sendMsg({ type: "GET_POPUP_STATE" }, (response) => {
+        console.log("got popupstate", response);
+        callbackSetSheetSetting(null, response.whatAmIUsingText);
+        if (response.amiwaiting) {
+            document.getElementById("haltautomation").style.display = "";
+            document.getElementById("start").style.display = "none";
+        }
+        else {
+            document.getElementById("haltautomation").style.display = "none";
+            document.getElementById("start").style.display = "";
+        }
+    });
 }
 
 window.onload = function() {
     REPITITIONS_TEXT_FIELD.focus();
     REPITITIONS_TEXT_FIELD.select();
-
-    // TODO: ideally this would just run once, but this runs once each time user opens popup
-    sendMsg({ type: "GET_WHAT_AM_I_USING" }, callbackSetSheetSetting);
+    getAndUpdateState();
 };

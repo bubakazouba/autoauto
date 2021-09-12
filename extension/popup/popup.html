@@ -2,27 +2,45 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <style>
-    button {
-        height: 30px;
-        width: 120px;
-        outline: none;
-        font-size: 12px;
+    * {
+        padding-bottom: 5px;
+        padding-top: 5px;
+        font-family: Helvetica;
     }
     </style>
 </head>
 
 <body style="text-align: center;">
-    <span style="font-size: 14px"> Repitions: </span> <input id="repitions" value="1" /><br><br>
-    <button id="start">Start</button><br>
-    <button style="border-color: red; border-style: solid;" id="haltautomation">HALT</button><br>
-    <hr>
-    <span>Sheet Setting</span>
-    <button id="usepaste">Use Paste</button><br>
-    <button id="useapi">Use API</button><br>
-    <button id="clearsheetsetting">Clears Setting</button><br>
-    <div>Currently using <span id="whatamiusing"></span><div>
-
+    <div class="container">
+        <h3> Auto Auto </h3>
+        <span style="font-size: 14px"> Repitions: </span> <input id="repitions" value="1" /><br><br>
+        <button type="button" class="btn btn-primary" id="start">Start</button><br>
+        <div id="modechooser" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="radio" name="options" id="slowmode" autocomplete="off"> Slow &#128034;
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="options" id="mediummode" autocomplete="off"> Medium
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="options" id="quickmode" autocomplete="off"> Quick &#9889;&#65039;
+            </label>
+        </div>
+        <button type="button" class="btn btn-danger" id="haltautomation">HALT</button><br>
+        <hr>
+        <span><b>Sheet Setting</b></span>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-primary active">
+                <input type="radio" name="options" id="usepaste" autocomplete="off"> Use Paste
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="options" id="useapi" autocomplete="off"> Use API
+            </label>
+        </div>
+        <button type="button" class="btn btn-primary" id="clearsheetsetting">Clear Setting</button><br>
+    </div>
     <script src="popupbundle.js"></script>
 </body>
 

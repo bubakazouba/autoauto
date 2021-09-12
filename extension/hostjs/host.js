@@ -37,8 +37,13 @@ function haltAutomation() {
     return automation.haltAutomation();
 }
 
+function changeSpeed(mode) {
+    return automation.changeSpeed(mode);
+}
+
 module.exports = {
     handleAction: handleAction,
     handleUserPressedStart: handleUserPressedStart,
     haltAutomation: haltAutomation,
+    changeSpeed: changeSpeed,
 };
