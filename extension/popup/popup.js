@@ -73,6 +73,8 @@ function getAndUpdateState() {
 
         if(response.amisure && !response.amIAutomating) {
             _showElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
+            REPETITIONS_TEXT_FIELD.focus();
+            REPETITIONS_TEXT_FIELD.select();
         }
         else {
             _hideElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
@@ -99,7 +101,5 @@ function _showElements(elements) {
     }
 }
 window.onload = function() {
-    REPETITIONS_TEXT_FIELD.focus();
-    REPETITIONS_TEXT_FIELD.select();
     getAndUpdateState();
 };
