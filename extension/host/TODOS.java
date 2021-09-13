@@ -1,3 +1,21 @@
+feature: continue until im done:
+    kathyrn demo this means when sheet runs out of rows
+    intent lab demo this means when table runs out of rows
+------------------------------
+https://smartengine-tfx.corp.google.com/tfx#/servo/prod/ml/lbm-intent-classification-jobs/
+    another bug with shadowRoot
+    var allNodes = document.getElementsByTagName('*');
+    for (var i = 0; i < allNodes.length; i++) {
+      if(allNodes[i].shadowRoot) {
+        var x = allNodes[i].shadowRoot;
+      }
+    }
+------------------------------
+bad HTML bug, text with no element
+<td>
+    text
+    <small class="d-block">proper text</small>
+</td>
 ------------------------------
 if 2 copies in a row:
     ignore current copy
