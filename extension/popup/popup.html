@@ -4,19 +4,61 @@
 <head>
     <link rel="stylesheet" href="bootstrap.min.css" />
     <style>
-    * {
-        margin-bottom: 5px;
-        margin-top: 5px;
-        font-family: Helvetica;
-    }
+        * {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            font-family: Helvetica;
+        }
+        body {
+            min-width: 300px;
+        }
+        #patterndescription {
+            text-align: left;
+            font-family: ui-sans-serif;
+            padding-left: 0px;
+            font-size: 12px;
+        }
+        /* Disable bootstrap accordion animation since it's laggy in the popup. */
+        .collapsing {
+          transition: none !important;
+        }
     </style>
+    <script src="jquery.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap.min.js"></script>
 </head>
 
-<body style="text-align: center; padding: 10px;">
+<body style="padding: 10px; text-align: center;">
     <div class="container" style="border-radius: 25px; border-style: solid; padding: 5px;">
         <h4> Auto Auto </h4>
-        <div id="nostarttext">
-            No pattern has been found yet.
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingThree" style="padding: 0px;">
+                    <h5 class="mb-0">
+                        <button id="nostarttext" class="btn btn-link collapsed disabled" data-toggle="collapse" data-target="#collapser" aria-expanded="false" aria-controls="collapser">
+                            No pattern has been found yet.
+                        </button>
+                        <button id="yesstarttext" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapser" aria-expanded="false" aria-controls="collapser">
+                            Pattern Found ✅ (Expand to see)
+                        </button>
+                        
+                    </h5>
+                </div>
+                <div id="collapser" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="">
+                    <div class="card-body" style="padding-top: 2px; padding-bottom: 2px;">
+                        <ol id="patterndescription">
+                            <li> Copy <b>Student Id</b> from spreadsheet </li>
+                            <li> Paste into <b>Student Info</b> page and <b>submit</b> </li>
+                            <li> Copy <b>Name</b> from table </li>
+                            <li> Paste into <b>Name</b> column in spreadsheet </li>
+                            <li> Copy <b>Number Of Classes</b> from table </li>
+                            <li> Paste into <b># Classes</b> column in spreadsheet </li>
+                            <li> Copy <b>Age</b> from table </li>
+                            <li> Paste into <b>Age</b> column in spreadsheet </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </div>
         <label for="repetitions" class="form-label" id="repetitionslabel">Repetitions</label>
         <input class="form-control" id="repetitions" value="1">

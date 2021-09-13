@@ -64,10 +64,10 @@ function getAndUpdateState() {
         }
 
         if (response.amisure) {
-            _showElements(["modechooser"]);
+            _showElements(["modechooser", "yesstarttext"]);
             _hideElements(["nostarttext"]);
         } else {
-            _hideElements(["modechooser"]);
+            _hideElements(["modechooser", "yesstarttext"]);
             _showElements(["nostarttext"]);
         }
 
