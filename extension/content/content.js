@@ -202,13 +202,17 @@ document.addEventListener('selectionchange', () => {
 });
 
 document.addEventListener('copy', e => {
-    let elem = e.path[0];
-    let element_id = contentutils.getElementId(elem);
-    let element_node = elem.nodeName;
+    let element_id, element_node;
     if (contentutils.areWeInSpreadsheets()) {
         element_id = getElementIdWithCellInfo();
         element_node = SHEET_ELEM_NODE;
     }
+    else {
+        let elem = contentutils.getSelectedTextElem();
+        element_id = contentutils.getElementId(elem);
+        element_node = elem.nodeName;    
+    }
+    
     let event = {
         type: "PLACE_IN_CLIPBOARD",
         element_id: element_id,

@@ -108,6 +108,27 @@ function getElementId(element) {
     return id;
 }
 
+function getSelectedTextElem() {
+    let elem;
+    if (window.getSelection) {
+        if (!window.getSelection().isCollapsed) {
+            elem = window.getSelection().baseNode;
+        }
+    } else if (document.getSelection) {
+        if (!document.getSelection().isCollapsed) {
+            elem = document.getSelection().baseNode;
+        }
+    }
+    if (!elem) {
+        return;
+    }
+    if (elem.nodeName == "#text") {
+        return elem.parentNode;
+    }
+    else {
+        return elem;
+    }
+}
 function isTextSelected() {
     if (isElementTextEditable(document.activeElement)) {
         return document.activeElement.selectionStart != document.activeElement.selectionEnd;
@@ -233,4 +254,5 @@ module.exports = {
     cellToColAndRow: cellToColAndRow,
     colNumAndRowToCell: colNumAndRowToCell,
     getModifierKey: getModifierKey,
+    getSelectedTextElem: getSelectedTextElem,
 };
