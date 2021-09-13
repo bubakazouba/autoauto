@@ -1,10 +1,10 @@
-const REPITITIONS_TEXT_FIELD = document.getElementById('repitions');
+const REPETITIONS_TEXT_FIELD = document.getElementById('repetitions');
 
 document.getElementById('start').onclick = function() {
     sendMsg({
         type: "USER_PRESSED_START",
-        repitions: REPITITIONS_TEXT_FIELD.value,
-    });
+        repetitions: REPETITIONS_TEXT_FIELD.value,
+    }, getAndUpdateState);
 };
 document.getElementById('usepaste').onclick = function() {
     sendMsg({ type: "USER_PRESSED_USE_PASTE" }, callbackSetSheetSetting);
@@ -14,14 +14,16 @@ document.getElementById('useapi').onclick = function() {
     sendMsg({ type: "USER_PRESSED_USE_API" }, callbackSetSheetSetting);
 };
 
-document.getElementById('slowmode').onclick = document.getElementById('mediummode').onclick = document.getElementById('quickmode').onclick = function() {
-    document.getElementById('slowmode').parentNode.className = "btn btn-primary";
-    document.getElementById('mediummode').parentNode.className = "btn btn-primary";
-    document.getElementById('quickmode').parentNode.className = "btn btn-primary";
+['slowmode', 'mediummode', 'quickmode'].forEach(id => {
+    document.getElementById(id).onclick = function() {
+        ['slowmode', 'mediummode', 'quickmode'].forEach(id => {
+            document.getElementById(id).parentNode.className = "btn btn-primary";
+        });
 
-    document.getElementById(this.id).parentNode.className = "btn btn-primary active";
-    sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
-}
+        document.getElementById(this.id).parentNode.className = "btn btn-primary active";
+        sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
+    }
+});
 
 document.getElementById('clearsheetsetting').onclick = function() {
     sendMsg({ type: "CLEAR_SHEET_SETTING" }, callbackSetSheetSetting);
@@ -31,12 +33,6 @@ document.getElementById('haltautomation').onclick = function() {
         getAndUpdateState();
     });
 };
-// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-//     console.log("popup got some stuff back", request);
-//     if (request.action == "WHATAMIUSING") {
-//         document.getElementById("whatamiusing").textContent = request.text;
-//     }
-// });
 
 function sendMsg(event, callback) {
     if (!callback) {
@@ -50,33 +46,60 @@ function sendMsg(event, callback) {
 }
 
 // either "API" or "PASTE"
-function callbackSetSheetSetting(response, whatAmIUsingText) {
-    if (!whatAmIUsingText) {
-        whatAmIUsingText = response.text;
-    }
-    console.log("got response back for callbackSetSheetSetting", whatAmIUsingText);
+function callbackSetSheetSetting(response) {
+    console.log("got response back for callbackSetSheetSetting", response.whatAmIUsingText);
     document.getElementById('usepaste').parentNode.className = "btn btn-primary";
     document.getElementById('useapi').parentNode.className = "btn btn-primary";
-    document.getElementById(whatAmIUsingText == "API" ? 'useapi' : 'usepaste').parentNode.className += " active";
+    document.getElementById(response.whatAmIUsingText == "API" ? 'useapi' : 'usepaste').parentNode.className += " active";
 }
 
 function getAndUpdateState() {
     sendMsg({ type: "GET_POPUP_STATE" }, (response) => {
         console.log("got popupstate", response);
-        callbackSetSheetSetting(null, response.whatAmIUsingText);
-        if (response.amiwaiting) {
-            document.getElementById("haltautomation").style.display = "";
-            document.getElementById("start").style.display = "none";
+        callbackSetSheetSetting(response);
+        if (response.amIAutomating) {
+            _showElements(["haltautomation"]);
+        } else {
+            _hideElements(["haltautomation"]);
+        }
+
+        if (response.amisure) {
+            _showElements(["modechooser"]);
+            _hideElements(["nostarttext"]);
+        } else {
+            _hideElements(["modechooser"]);
+            _showElements(["nostarttext"]);
+        }
+
+        if(response.amisure && !response.amIAutomating) {
+            _showElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
         }
         else {
-            document.getElementById("haltautomation").style.display = "none";
-            document.getElementById("start").style.display = "";
+            _hideElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
         }
     });
 }
 
+// takes elements or ids
+function _hideElements(elements) {
+    for(let elem of elements) {
+        if (typeof elem == 'string') {
+            elem = document.getElementById(elem);
+        }
+        elem.style.display = "none";
+    }
+}
+// takes elements or ids
+function _showElements(elements) {
+    for(let elem of elements) {
+        if (typeof elem == 'string') {
+            elem = document.getElementById(elem);
+        }
+        elem.style.display = "";
+    }
+}
 window.onload = function() {
-    REPITITIONS_TEXT_FIELD.focus();
-    REPITITIONS_TEXT_FIELD.select();
+    REPETITIONS_TEXT_FIELD.focus();
+    REPETITIONS_TEXT_FIELD.select();
     getAndUpdateState();
 };

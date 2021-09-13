@@ -31,7 +31,8 @@ window.onGAPILoad = function() {
 
 
 window.onload = function() {
-    window.amiwaiting = false;
+    window.amIAutomating = false;
+    window.amisure = false;
 
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
@@ -49,9 +50,9 @@ function handlePopupRequest(msg, sendResponse) {
     }
     if (msg.event.type == "USER_PRESSED_START") {
         console.log("got user pressed start");
-        window.amiwaiting = true;
-        host.handleUserPressedStart(msg.event.repitions).then(() => {
-            window.amiwaiting = false;
+        window.amIAutomating = true;
+        host.handleUserPressedStart(msg.event.repetitions).then(() => {
+            window.amIAutomating = false;
         });
         sendResponse("ok");
     } else if (["USER_PRESSED_USE_API", "USER_PRESSED_USE_PASTE"].includes(msg.event.type)) {
@@ -59,13 +60,14 @@ function handlePopupRequest(msg, sendResponse) {
             if (value == "API") {
                 initGAPI();
             }
-            sendResponse({ "text": value });
+            sendResponse({ whatAmIUsingText: value });
         });
     } else if (msg.event.type == "GET_POPUP_STATE") {
         storage.getUserSheetSetting().then((value) => {
             sendResponse({ 
-                "whatAmIUsingText": value,
-                amiwaiting: window.amiwaiting
+                whatAmIUsingText: value,
+                amIAutomating: window.amIAutomating,
+                amisure: window.amisure,
             });
         });
     } else if (msg.event.type == "CLEAR_SHEET_SETTING") {
@@ -73,7 +75,7 @@ function handlePopupRequest(msg, sendResponse) {
         sendResponse("ok");
     } else if (msg.event.type == "HALT_AUTOMATION") {
         host.haltAutomation();
-        window.amiwaiting = false;
+        window.amIAutomating = false;
         sendResponse("ok");
     } else if (msg.event.type == "USER_SELECTED_SPEED_MODE") {
         host.changeSpeed(msg.event.mode);
@@ -98,8 +100,8 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
         }
         return true;
     }
-    if (window.amiwaiting) {
-        console.log("ignoring because amiwaiting = true");
+    if (window.amIAutomating) {
+        console.log("ignoring because amIAutomating = true");
         return;
     }
     if (msg.event) {
@@ -126,8 +128,10 @@ function handleAction(msg) {
         return;
     }
     if (res["event"] == "IM SURE") {
+        window.amisure=true;
         chrome.browserAction.setIcon({ path: 'images/green.png' });
     } else {
+        window.amisure=false;
         chrome.browserAction.setIcon({ path: 'images/red.png' });
     }
 }

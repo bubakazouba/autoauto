@@ -73,9 +73,9 @@ function triggerActions(actions, sequenceLength) {
     });
 }
 
-function detectActionsToTrigger(pattern_finder, repitions) {
+function detectActionsToTrigger(pattern_finder, repetitions) {
     let res = pattern_finder.giveMePattern();
-    let repeatedActions = Array(repitions - 1).fill(res["complete"]).flat();
+    let repeatedActions = Array(repetitions - 1).fill(res["complete"]).flat();
     let actionsToTrigger = [...res["current"], ...repeatedActions];
     log("got stuff back from patternfinder len(actionsToTrigger)=", actionsToTrigger.length);
     return {

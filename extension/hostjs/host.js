@@ -28,8 +28,8 @@ function handleAction(msg) {
     }
 }
 
-function handleUserPressedStart(repitions) {
-    let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repitions));
+function handleUserPressedStart(repetitions) {
+    let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
     return automation.triggerActions(actionsToTrigger, sequenceLength);
 }
 
