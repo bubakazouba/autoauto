@@ -1,12 +1,12 @@
 #!/bin/sh
 
-npm run eslint
+cd extension && npm run eslint
 if [ $? != 0 ]
 then
     echo "Lint failed rejecting commit"
     exit 1
 fi
-npm run test
+cd extension && npm run test
 if [ $? != 0 ]
 then
     echo "Tests failed rejecting commit"

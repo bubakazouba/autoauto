@@ -124,8 +124,7 @@ function getSelectedTextElem() {
     }
     if (elem.nodeName == "#text") {
         return elem.parentNode;
-    }
-    else {
+    } else {
         return elem;
     }
 }

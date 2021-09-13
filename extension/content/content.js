@@ -201,13 +201,12 @@ document.addEventListener('selectionchange', () => {
     });
 });
 
-document.addEventListener('copy', e => {
+document.addEventListener('copy', () => {
     let element_id, element_node;
     if (contentutils.areWeInSpreadsheets()) {
         element_id = getElementIdWithCellInfo();
         element_node = SHEET_ELEM_NODE;
-    }
-    else {
+    } else {
         let elem = contentutils.getSelectedTextElem();
         element_id = contentutils.getElementId(elem);
         element_node = elem.nodeName;    

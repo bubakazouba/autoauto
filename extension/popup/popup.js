@@ -22,7 +22,7 @@ document.getElementById('useapi').onclick = function() {
 
         document.getElementById(this.id).parentNode.className = "btn btn-primary active";
         sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
-    }
+    };
 });
 
 document.getElementById('clearsheetsetting').onclick = function() {
@@ -75,8 +75,7 @@ function getAndUpdateState() {
             _showElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
             REPETITIONS_TEXT_FIELD.focus();
             REPETITIONS_TEXT_FIELD.select();
-        }
-        else {
+        } else {
             _hideElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
         }
     });
