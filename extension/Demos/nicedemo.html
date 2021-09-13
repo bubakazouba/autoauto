@@ -1,0 +1,105 @@
+<!-- https://preview.colorlib.com/theme/bootstrap/css-table-18/ -->
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://preview.colorlib.com/theme/bootstrap/css-table-18/fonts,_icomoon,_style.css+css,_owl.carousel.min.css+css,_bootstrap.min.css+css,_style.css.pagespeed.cc.eJSu-YmL8I.css" />
+    <title>Student Info</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">NE. Auto</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container">
+            <div class="col-sm-6">
+                <label for="exampleFormControlInput1" class="form-label" style="color: white; font-family: 'Roboto'; font-size: 18px">Student Id</label>
+                <input id="input" class="form-control" id="exampleFormControlInput1" placeholder="e.g 1743">
+                <br>
+                <button id="btn" class="btn btn-secondary" type="submit">Submit</button>
+            </div>
+            <br>
+            <br>
+            <h2 class="mb-5">Student Info</h2>
+            <div class="table-responsive custom-table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Number Of Classes</th>
+                            <th scope="col">Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr scope="row">
+                            <td id="studentid">
+                            </td>
+                            <td id="name"></td>
+                            <td>
+                                <span id="numberclasses"></span>
+                                <small class="d-block"></small>
+                            </td>
+                            <td id="age"></td>
+                        </tr>
+                        <tr class="spacer">
+                            <td colspan="100"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="https://preview.colorlib.com/theme/bootstrap/css-table-18/js/jquery-3.3.1.min.js"></script>
+    <script src="https://preview.colorlib.com/theme/bootstrap/css-table-18/js/popper.min.js+bootstrap.min.js+main.js.pagespeed.jc.02UXSFDjmY.js"></script>
+    <script type="text/javascript">
+        function randBetween(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        const NAMES = ["Dortha Sawayn","Jon Baumbach","Clovis Blanda","Dwight Friesen","Nelda Kunde V","Ashtyn Schiller","Melisa Runolfsdottir","Lorenzo Auer","Laisha Smith","Lon Lemke","Lia Bailey","Elwyn Littel","Rubie Blanda","Benton Bruen V","Dangelo Lakin","Saul Dicki","Mitchel Kemmer","Travon O'Conner","Kieran Runte","Alvis Larson","Mabel Pfannerstill","Mervin Graham","Robin Schamberger","Mauricio Goyette","Annamarie Zemlak","Estevan Kilback","Daniela Hand","Theron Schroeder","Annetta Willms","Isobel Brekke","Giovanna Nolan","Arlene Maggio","Renee Schowalter","Emelia McKenzie","Kamron Goodwin","Jamarcus Huel","Novella Orn","Leann Carter","Tiana Howe","Guy Bosco","Chasity Hackett","Dale Nader","Nikolas Schoen","Pattie Rosenbaum","Marilou Mayer","Ismael Wisozk","Judah Quigley","Freda Kirlin","Eldred Maggio","Vito Buckridge","Annamarie Daniel","Camren Becker","Terry Simonis","Marques Zboncak","Wendell Harber","Hazle Swaniawski","Neoma Kertzmann","Jerad Haag","Ramona Keeling","Audrey Powlowski","Enid Schaden","Melyna Leffler","Gladyce Bartoletti","Leann Johnson","Verda Pouros","Olga Reichert","Madelyn Ruecker","Jalyn Botsford","Roxanne McLaughlin","Dasia Hirthe","Roderick Botsford","Alexandria Smith","Deangelo Bins","Ruby O'Conner","Braxton Gleichner","Iva Effertz","Justus Hamill","Steve Spinka","Carlee Fisher","Melyna Farrell","Onie Dooley","Josie Considine","Esmeralda Franecki","Kayley Hirthe","Zena Bednar","Rahsaan Hessel","Jordy Wilkinson","Jeanne McDermott","Angel Hagenes","Noemi Mraz","Burley Pfeffer","Lawson Casper","Everette SmithamI","Jacinthe Lakin","Norval Hodkiewicz","Eldora Hauck","Victoria Dicki","Linnie Kiehn","Blake Rodriguez","Bartholome Schaefer","Ashlynn Marks","Electa Cronin","Miller Mann","Antwon Grady","Martine Watsica","Wilmer Schiller","Susie Jacobson","Millie Windler","Mathilde Marquardt","Arely Langworth","Tabitha Schmeler","Kelley Schulist","Hans Rempel","Makenzie McLaughlin","Ethelyn Volkman","Gerry Renner","Cordelia Maggio","Taya Runolfsson","Dalton Stanton","Shania Nicolas","Kaylah Boyle","Martin Tillman","Robert Leannon","Presley Champlin","Ryley Berge I","Meta Smitham","Sylvester Bogan","Jerry Bechtelar","Abraham Rutherford","Tierra Altenwerth","Vincenzo Barrows","Lyda Rodriguez","Virgil McCullough","Buster Cassin","Lorenzo Koepp","Lavon Metz","Esperanza Cummings","Jarvis Kirlin","Kay Halvorson","Lazaro Hackett","Royal Brown","Jaqueline Brekke","Deangelo Bruen","Melyssa Hagenes","Antwon Walker","Stefan Monahan","Zaria Gorczany","Enos Daugherty","Brendon Kutch","Khalid Kling","Al Friesen","Elda Wolf I","Kole Conn","Emelie Medhurst","Mandy Mann","Braulio Rath","Reed StiedemannI","Reginald Simonis","Joan Gulgowski","Henriette Kuvalis","Kathryne Russel","Earlene Kemmer","Vita Boyer","Clifton Sanford","Miguel Legros","Sandy Konopelski","Lenore Paucek","Mathilde Daniel","Donavon Windler","Anais Barrows","Breanna Hammes","Cedrick Goodwin","Fredy Bayer","Katarina Leuschke","Carissa Kovacek","Shannon Corkery","Sydney Leffler","Maverick Dickinson","Wilmer Mills","Emelia Haag","Nikko Koepp","Thomas Keeling","Aliyah Rodriguez","Frida Kreiger","Korbin Ryan","Norbert Kuvalis","Lily Kshlerin","Amparo Stracke","Demetrius Carter","Raina Adams","Carolyn Kunde","Luisa Ortiz","Gwen Morar","Savanah Lebsack","Blake Ruecker V","Darrel Zulauf","Makenzie Daugherty","Afton Crist","Schuyler Willms","Eden Roberts","Eryn Wunsch","Kade Macejkovic","Ettie Heidenreich","Ted Hyatt","Morton Wuckert","Damien Ebert","Amalia Spinka","Mireya Corwin","Jaylen Ebert","Quinton Bernhard","Myriam Schuppe","Maxwell Barrows","Pat Turner","Maxie Prosacco","Patrick Fahey","Emilie Pouros","Nelle Runolfsdottir","Gay Dare","Jocelyn Deckow","Jordy Heller","Lauriane Weber","Hiram Stokes","Myron Orn","Wanda NaderI","Lucienne Hills","Margaretta Rodriguez","Brianne White","Destini Lubowitz","Shyann Kassulke","Kayden Hickle","Silas Jacobs","Augusta Koss V","Antwan Hoppe","Lilian Crist","Fidel Wuckert","Garrett Dickens","Nicole Lynch","Trent Ankunding","Ivy Douglas","Bridget Schaefer","Louvenia Klocko","Pascale Kris","Zackery Kertzmann","Vicenta Mayer","Clarabelle Toy","Lottie Gutmann","Maud Schoen","Alyson Cartwright","Loma Kohler","Isabelle Kihn","Maria Orn","Oda Fay","Clark Kris","Audreanne Ondricka I","Sabina Lind","Adriana Kling","Dwight Ryan","Antonette Rosenbaum","Myrtis O'Reilly","Darrin Brakus","Toby Reilly","Serena Senger","Felipe McLaughlin","Madge Nitzsche","Clara Lowe","Leopoldo Adams V","Gregoria Lynch","Rodolfo Hintz","Polly Medhurst","Jade Murazik","Jessica Hartmann","Savion Lehner","Terrill Nader","Tiffany Volkman","Denis Tromp","Albin Marvin","Ova Kassulke","Samara Cruickshank","Julio Pollich","Laila Kunde","Judy MitchellI","Gretchen Trantow","Isadore Reinger","Terrence Greenholt","Margret Von","Nella Wolff","Destiney Stroman","Noah Boyle","Veronica Renner","Kody Hane","Theresa Cruickshank","Frieda McClure","Maynard Cruickshank","Guadalupe Corkery","Kole Lang","Earnestine Kling","Triston Fritsch","Celestino Schultz","Monty Cruickshank","Hildegard Stroman","Terry D'Amore","Ignacio Tremblay","Karley Marvin","Leonora Dibbert","Alison Hoeger","Brent Johns","Cordell Harber","Letitia Baumbach","Kayla Ledner","Ferne Corkery","Joanny Rice V","Felicity Walter","Paris Ortiz","Jewel Dooley","Aylin Connelly","Ebba Murray","Jonathon Zemlak","Abdiel Kertzmann","Macey Champlin","Alvena Collier","Orlo Cole","Frederick Mante","Helga Kessler","Emile Conroy","Easter Hudson","Jared Greenfelder","Therese Crist","Icie Ryan","Alexandrine Collins","Karson Nader","Jocelyn Bahringer","Lance Ortiz","Emelia Ortiz","Demarco Schoen","Flo Cormier","Osbaldo Stiedemann","Yvonne Walsh","Monte Kub","Tillman Murazik","Johnathon Hessel","Stuart Corwin","Shanie Graham","Berniece Cole","Nicolette Sipes","Freida Carroll","Anissa Schuster","Ana Becker","Abdiel Pacocha","Giuseppe Hansen","Rafaela Sipes","Gustave Kozey","Zoie Sporer"];
+        document.getElementById("btn").onclick = function() {
+            document.getElementById("studentid").textContent = document.getElementById("input").value;
+            document.getElementById("name").textContent = NAMES[randBetween(0, NAMES.length - 1)];
+            document.getElementById("numberclasses").textContent = randBetween(1, 7);
+            document.getElementById("age").textContent = randBetween(19, 25);
+        }
+    </script>
+</body>
+
+</html>
