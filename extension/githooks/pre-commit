@@ -1,5 +1,6 @@
 #!/bin/sh
 
+cd extension
 npm run eslint
 if [ $? != 0 ]
 then
