@@ -6,7 +6,6 @@ const host = require("./hostjs/host.js"),
     backgroundutils = require("./backgroundutils.js"),
     storage = require("./storage.js");
 
-// Any function in this file can be referenced elsewhere by using chrome.extension.getBackgroundPage().myFunction()
 const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 
