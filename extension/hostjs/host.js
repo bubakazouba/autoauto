@@ -30,18 +30,16 @@ function handleAction(msg) {
 }
 
 function handleUserPressedStart(repetitions) {
-    storage.getPatternsFound().then(found_patternes => {
-        storage.getCurrentPatternId().then(current_pattern_id => {
-            found_patternes[current_pattern_id] = {
-                ...found_patternes[current_pattern_id],
-                "did_user_pressed_start": true,
-                "pressed_start": [
-                    ...found_patternes[current_pattern_id]["pressed_start"],
-                    { "repitition": repetitions }
-                ],
-            };
-            storage.setPatternsFound(found_patternes);
-        });
+    storage.getLastPatternHistory().then(lastPattern => {
+        lastPattern = {
+            ...lastPattern,
+            "did_user_pressed_start": true,
+            "pressed_start": [
+                ...lastPattern["pressed_start"],
+                { "repitition": repetitions }
+            ],
+        };
+        storage.updateLastPatternHistory(lastPattern);
     });
     let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
     return automation.triggerActions(actionsToTrigger, sequenceLength);

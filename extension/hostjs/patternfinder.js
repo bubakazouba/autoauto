@@ -116,15 +116,9 @@ class PatternFinder {
         if (!!this.suspected_result) {
             if (this._isUsersLastActionConfirmingSuggestion()) {
                 log("user is confirming our suggestion");
-                storage.getPatternsFound().then(found_patternes => {
-                    storage.getCurrentPatternId().then(current_pattern_id => {
-                        found_patternes[current_pattern_id] = {
-                            ...found_patternes[current_pattern_id],
-                            "surness": this._getSureness(),
-                            "len_user_confirmation": this._lenUserConfirmation(),
-                        };
-                        storage.setPatternsFound(found_patternes);
-                    });
+                storage.updateLastPatternHistory({
+                    "surness": this._getSureness(),
+                    "len_user_confirmation": this._lenUserConfirmation(),
                 });
                 return;
             } else {
@@ -167,23 +161,19 @@ class PatternFinder {
                 "error": final_result["error"],
             };
             this.suspected_result_last_index = this.actions.length;
-            storage.getPatternsFound().then(found_patternes => {
-                storage.getCurrentPatternId().then(current_pattern_id => {
-                    found_patternes.push({
-                        "pattern": final_result["pattern"],
-                        "error": final_result["error"],
-                        "surness": this._getSureness(),
-                        "len_user_confirmation": this._lenUserConfirmation(),
-                        "pattern_length": final_result["pattern"].length,
-                        "did_user_pressed_start": false,
-                        "pressed_start": [
-                            // {"repitition": Number}
-                        ],
-                    });
-                    storage.setPatternsFound(found_patternes);
-                    storage.setCurrentPatternId(current_pattern_id + 1);
-                });
-            });
+            let newPattern = {
+                "pattern": final_result["pattern"],
+                "error": final_result["error"],
+                "surness": this._getSureness(),
+                "len_user_confirmation": this._lenUserConfirmation(),
+                "pattern_length": final_result["pattern"].length,
+                "did_user_pressed_start": false,
+                "pressed_start": [
+                    // {"repitition": Number}
+                ],
+            };
+            storage.pushPatternHistory(newPattern);
+            storage.incrementCurrentPatternId();
         }
     }
 

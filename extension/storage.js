@@ -1,5 +1,5 @@
 const USER_SHEET_SETTING_KEY = "USER_SHEET_SETTING";
-const PATTERNS_ASSESSMENTS = "PATTERNS_ASSESSMENTS";
+const PATTERNS_HISTORY = "PATTERNS_HISTORY";
 const CURRENT_PATTERN_ID = "CURRENT_PATTERN_ID";
 const DEFAULT_SETTING = "PASTE";
 const MAPPING = {
@@ -39,22 +39,81 @@ function clearUserSheetSetting() {
     });
 }
 
-function setPatternsFound(found_patternes) {
+function setPatternsHistory(patternsHistory) {
     return new Promise((resolve) => {
         chrome.storage.sync.set({
-            [PATTERNS_ASSESSMENTS]: found_patternes
+            [PATTERNS_HISTORY]: patternsHistory
         }, function() {
-            console.log('[Storage][Set] Setting the patterns assessments', found_patternes);
-            resolve(found_patternes);
+            console.log('[Storage][Set] Setting the patterns assessments', patternsHistory);
+            resolve(patternsHistory);
         });
     });
 }
 
-function getPatternsFound() {
+function pushPatternHistory(newPattern) {
     return new Promise((resolve) => {
-        chrome.storage.sync.get([PATTERNS_ASSESSMENTS], function(result) {
+        let patternsHistory = chrome.storage.sync.get([PATTERNS_HISTORY]) || [];
+        patternsHistory.push(newPattern);
+        chrome.storage.sync.set({
+            [PATTERNS_HISTORY]: patternsHistory
+        }, function() {
+            console.log('[Storage][Set] Setting the patterns assessments', patternsHistory);
+            resolve(patternsHistory);
+        });
+    });
+}
+
+function clearPatternsHistory() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.set({
+            [PATTERNS_HISTORY]: []
+        }, function() {
+            console.log('[Storage][Clear] Clearing the patterns assessments');
+            resolve(true);
+        });
+    });
+}
+
+function updateLastPatternHistory(updatedObject) {
+    return new Promise((resolve) => {
+        let patternsHistory = chrome.storage.sync.get([PATTERNS_HISTORY]) || [];
+        let currentPatternId = chrome.storage.sync.get([CURRENT_PATTERN_ID]);
+        patternsHistory[currentPatternId] = {
+            ...patternsHistory[currentPatternId],
+            ...updatedObject,
+        };
+        chrome.storage.sync.set({
+            [PATTERNS_HISTORY]: patternsHistory
+        }, function() {
+            console.log('[Storage][Update] Updating the recent pattern', patternsHistory);
+            resolve(patternsHistory);
+        });
+    });
+}
+
+function getLastPatternHistory() {
+    return new Promise((resolve) => {
+        let currentPatternId = chrome.storage.sync.get([CURRENT_PATTERN_ID]) || 0;
+        chrome.storage.sync.get([PATTERNS_HISTORY], function(result) {
             console.log('[Storage][Get] getting the patterns assessments');
-            resolve(result[PATTERNS_ASSESSMENTS] || []);
+            let returnValue = [];
+            if(result[PATTERNS_HISTORY] && result[PATTERNS_HISTORY][currentPatternId]) {
+                returnValue = result[PATTERNS_HISTORY][currentPatternId];
+            }
+            resolve(returnValue);
+        });
+    });
+}
+
+function getPatternsHistory() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([CURRENT_PATTERN_ID], function(result) {
+            console.log('[Storage][Get] getting the current pattern id');
+            resolve(result[CURRENT_PATTERN_ID] || 0);
+        });
+        chrome.storage.sync.get([PATTERNS_HISTORY], function(result) {
+            console.log('[Storage][Get] getting the patterns assessments');
+            resolve(result[PATTERNS_HISTORY] || []);
         });
     });
 }
@@ -66,6 +125,18 @@ function setCurrentPatternId(value) {
         }, function() {
             console.log('[Storage][Set] Setting the current pattern id');
             resolve(value);
+        });
+    });
+}
+
+function incrementCurrentPatternId() {
+    return new Promise((resolve) => {
+        let currentPatternId = chrome.storage.sync.get([CURRENT_PATTERN_ID]) || 0;
+        chrome.storage.sync.set({
+            [CURRENT_PATTERN_ID]: currentPatternId + 1
+        }, function() {
+            console.log('[Storage][Set] Setting the current pattern id');
+            resolve(currentPatternId + 1);
         });
     });
 }
@@ -84,8 +155,13 @@ module.exports = {
     getUserSheetSetting: getUserSheetSetting,
     storeUserSheetSetting: storeUserSheetSetting,
     clearUserSheetSetting: clearUserSheetSetting,
-    setPatternsFound: setPatternsFound,
-    getPatternsFound: getPatternsFound,
+    setPatternsHistory: setPatternsHistory,
+    getPatternsHistory: getPatternsHistory,
+    clearPatternsHistory: clearPatternsHistory,
+    updateLastPatternHistory: updateLastPatternHistory,
+    getLastPatternHistory: getLastPatternHistory,
     setCurrentPatternId: setCurrentPatternId,
     getCurrentPatternId: getCurrentPatternId,
+    incrementCurrentPatternId: incrementCurrentPatternId,
+    pushPatternHistory: pushPatternHistory,
 };
