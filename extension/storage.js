@@ -44,7 +44,7 @@ function setPatternsHistory(patternsHistory) {
         chrome.storage.sync.set({
             [PATTERNS_HISTORY]: patternsHistory
         }, function() {
-            console.log('[Storage][Set] Setting the patterns assessments', patternsHistory);
+            console.log('[Storage][Set] Setting the patterns history', patternsHistory);
             resolve(patternsHistory);
         });
     });
@@ -58,7 +58,7 @@ function pushPatternHistory(newPattern) {
             chrome.storage.sync.set({
                 [PATTERNS_HISTORY]: patternsHistory
             }, function() {
-                console.log('[Storage][Set] Setting the patterns assessments', patternsHistory);
+                console.log('[Storage][Set] Setting the patterns history', patternsHistory);
                 resolve(patternsHistory);
             });
         });
@@ -68,9 +68,10 @@ function pushPatternHistory(newPattern) {
 function clearPatternsHistory() {
     return new Promise((resolve) => {
         chrome.storage.sync.set({
-            [PATTERNS_HISTORY]: []
+            [PATTERNS_HISTORY]: [],
+            [CURRENT_PATTERN_ID]: 0
         }, function() {
-            console.log('[Storage][Clear] Clearing the patterns assessments');
+            console.log('[Storage][Clear] Clearing the patterns history');
             resolve(true);
         });
     });
@@ -100,7 +101,7 @@ function getLastPatternHistory() {
         chrome.storage.sync.get([PATTERNS_HISTORY, CURRENT_PATTERN_ID], function(result) {
             let patternsHistory =  result[PATTERNS_HISTORY] || [];
             let currentPatternId = result[CURRENT_PATTERN_ID] || 0;
-            console.log('[Storage][Get] getting the patterns assessments');
+            console.log('[Storage][Get] getting the patterns history');
             resolve(patternsHistory[currentPatternId] || []);
         });
     });
@@ -109,7 +110,7 @@ function getLastPatternHistory() {
 function getPatternsHistory() {
     return new Promise((resolve) => {
         chrome.storage.sync.get([PATTERNS_HISTORY], function(result) {
-            console.log('[Storage][Get] getting the patterns assessments');
+            console.log('[Storage][Get] getting the patterns history');
             resolve(result[PATTERNS_HISTORY] || []);
         });
     });
