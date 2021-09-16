@@ -69,7 +69,7 @@ function clearPatternsHistory() {
     return new Promise((resolve) => {
         chrome.storage.sync.set({
             [PATTERNS_HISTORY]: [],
-            [CURRENT_PATTERN_ID]: 0
+            [CURRENT_PATTERN_ID]: -1
         }, function() {
             console.log('[Storage][Clear] Clearing the patterns history');
             resolve(true);
@@ -130,7 +130,7 @@ function setCurrentPatternId(value) {
 function incrementCurrentPatternId() {
     return new Promise((resolve) => {
         chrome.storage.sync.get([CURRENT_PATTERN_ID], function(result) {
-            let currentPatternId = result[CURRENT_PATTERN_ID] || 0;
+            let currentPatternId = result[CURRENT_PATTERN_ID] || -1;
             chrome.storage.sync.set({
                 [CURRENT_PATTERN_ID]: currentPatternId + 1
             }, function() {
@@ -145,7 +145,7 @@ function getCurrentPatternId() {
     return new Promise((resolve) => {
         chrome.storage.sync.get([CURRENT_PATTERN_ID], function(result) {
             console.log('[Storage][Get] getting the current pattern id');
-            resolve(result[CURRENT_PATTERN_ID] || 0);
+            resolve(result[CURRENT_PATTERN_ID] || -1);
         });
     });
 }
