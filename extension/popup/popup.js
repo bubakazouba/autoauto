@@ -1,9 +1,9 @@
-const REPETITIONS_TEXT_FIELD = document.getElementById('repetitions');
+// const REPETITIONS_TEXT_FIELD = document.getElementById('repetitions');
 
 document.getElementById('start').onclick = function() {
     sendMsg({
         type: "USER_PRESSED_START",
-        repetitions: REPETITIONS_TEXT_FIELD.value,
+        repetitions: 97//REPETITIONS_TEXT_FIELD.value,
     }, getAndUpdateState);
 };
 document.getElementById('usepaste').onclick = function() {
@@ -17,10 +17,10 @@ document.getElementById('useapi').onclick = function() {
 ['slowmode', 'mediummode', 'quickmode'].forEach(id => {
     document.getElementById(id).onclick = function() {
         ['slowmode', 'mediummode', 'quickmode'].forEach(id => {
-            document.getElementById(id).parentNode.className = "btn btn-primary";
+            document.getElementById(id).className = "btn btn-primary";
         });
 
-        document.getElementById(this.id).parentNode.className = "btn btn-primary active";
+        document.getElementById(this.id).className = "btn btn-primary active";
         sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
     }
 });
@@ -28,6 +28,7 @@ document.getElementById('useapi').onclick = function() {
 document.getElementById('clearsheetsetting').onclick = function() {
     sendMsg({ type: "CLEAR_SHEET_SETTING" }, callbackSetSheetSetting);
 };
+
 document.getElementById('haltautomation').onclick = function() {
     sendMsg({ type: "HALT_AUTOMATION" }, () => {
         getAndUpdateState();
@@ -72,12 +73,12 @@ function getAndUpdateState() {
         }
 
         if(response.amisure && !response.amIAutomating) {
-            _showElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
-            REPETITIONS_TEXT_FIELD.focus();
-            REPETITIONS_TEXT_FIELD.select();
+            _showElements(["start"]);
+            // REPETITIONS_TEXT_FIELD.focus();
+            // REPETITIONS_TEXT_FIELD.select();
         }
         else {
-            _hideElements(["repetitionslabel", REPETITIONS_TEXT_FIELD, "start"]);
+            _hideElements(["start"]);
         }
     });
 }
@@ -91,6 +92,7 @@ function _hideElements(elements) {
         elem.style.display = "none";
     }
 }
+
 // takes elements or ids
 function _showElements(elements) {
     for(let elem of elements) {
@@ -100,6 +102,7 @@ function _showElements(elements) {
         elem.style.display = "";
     }
 }
+
 window.onload = function() {
     getAndUpdateState();
 };

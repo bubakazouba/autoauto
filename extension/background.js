@@ -78,6 +78,7 @@ function handlePopupRequest(msg, sendResponse) {
         sendResponse("ok");
     } else if (msg.event.type == "USER_SELECTED_SPEED_MODE") {
         host.changeSpeed(msg.event.mode);
+        sendResponse("ok");
     }
 }
 
