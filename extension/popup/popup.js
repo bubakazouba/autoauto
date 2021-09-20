@@ -17,10 +17,10 @@ document.getElementById('useapi').onclick = function() {
 ['slowmode', 'mediummode', 'quickmode'].forEach(id => {
     document.getElementById(id).onclick = function() {
         ['slowmode', 'mediummode', 'quickmode'].forEach(id => {
-            document.getElementById(id).parentNode.className = "btn btn-primary";
+            document.getElementById(id).className = "btn btn-primary";
         });
 
-        document.getElementById(this.id).parentNode.className = "btn btn-primary active";
+        document.getElementById(this.id).className = "btn btn-primary active";
         sendMsg({ type: "USER_SELECTED_SPEED_MODE", mode: this.id });
     };
 });
