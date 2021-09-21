@@ -1,6 +1,7 @@
 const PatternFinder = require("./patternfinder.js").PatternFinder;
 const automation = require("./automation.js");
 const ActionsGrouper = require("./actionsgrouper.js").ActionsGrouper;
+const storage = require("../storage.js");
 
 const actions_grouper = new ActionsGrouper();
 const pattern_finder = new PatternFinder();
@@ -29,6 +30,17 @@ function handleAction(msg) {
 }
 
 function handleUserPressedStart(repetitions) {
+    storage.getLastPatternHistory().then(lastPattern => {
+        lastPattern = {
+            ...lastPattern,
+            "did_user_press_start": true,
+            "pressed_start": [
+                ...lastPattern["pressed_start"],
+                { "repitition": repetitions }
+            ],
+        };
+        storage.updateLastPatternHistory(lastPattern);
+    });
     let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
     return automation.triggerActions(actionsToTrigger, sequenceLength);
 }

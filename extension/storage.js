@@ -1,4 +1,6 @@
 const USER_SHEET_SETTING_KEY = "USER_SHEET_SETTING";
+const PATTERNS_HISTORY = "PATTERNS_HISTORY";
+const CURRENT_PATTERN_ID = "CURRENT_PATTERN_ID";
 const DEFAULT_SETTING = "PASTE";
 const MAPPING = {
     "USER_PRESSED_USE_API": "API",
@@ -37,9 +39,130 @@ function clearUserSheetSetting() {
     });
 }
 
+function setPatternsHistory(patternsHistory) {
+    return new Promise((resolve) => {
+        chrome.storage.sync.set({
+            [PATTERNS_HISTORY]: patternsHistory
+        }, function() {
+            console.log('[Storage][Set] Setting the patterns history', patternsHistory);
+            resolve(patternsHistory);
+        });
+    });
+}
+
+function pushPatternHistory(newPattern) {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([PATTERNS_HISTORY, CURRENT_PATTERN_ID], function(result) {
+            let patternsHistory =  result[PATTERNS_HISTORY] || [];
+            patternsHistory.push(newPattern);
+            chrome.storage.sync.set({
+                [PATTERNS_HISTORY]: patternsHistory,
+                [CURRENT_PATTERN_ID]: (result[CURRENT_PATTERN_ID] || 0) + 1
+            }, function() {
+                console.log('[Storage][Set] Setting the patterns history', patternsHistory);
+                resolve(patternsHistory);
+            });
+        });
+    });
+}
+
+function clearPatternsHistory() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.set({
+            [PATTERNS_HISTORY]: [],
+            [CURRENT_PATTERN_ID]: -1
+        }, function() {
+            console.log('[Storage][Clear] Clearing the patterns history');
+            resolve(true);
+        });
+    });
+}
+
+function updateLastPatternHistory(updatedObject) {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([PATTERNS_HISTORY, CURRENT_PATTERN_ID], function(result) {
+            let patternsHistory =  result[PATTERNS_HISTORY] || [];
+            let currentPatternId = result[CURRENT_PATTERN_ID] || 0;
+            patternsHistory[currentPatternId] = {
+                ...patternsHistory[currentPatternId],
+                ...updatedObject,
+            };
+            chrome.storage.sync.set({
+                [PATTERNS_HISTORY]: patternsHistory
+            }, function() {
+                console.log('[Storage][Update] Updating the recent pattern', patternsHistory);
+                resolve(patternsHistory);
+            });
+        });
+    });
+}
+
+function getLastPatternHistory() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([PATTERNS_HISTORY, CURRENT_PATTERN_ID], function(result) {
+            let patternsHistory =  result[PATTERNS_HISTORY] || [];
+            let currentPatternId = result[CURRENT_PATTERN_ID] || 0;
+            console.log('[Storage][Get] getting the patterns history');
+            resolve(patternsHistory[currentPatternId] || []);
+        });
+    });
+}
+
+function getPatternsHistory() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([PATTERNS_HISTORY], function(result) {
+            console.log('[Storage][Get] getting the patterns history');
+            resolve(result[PATTERNS_HISTORY] || []);
+        });
+    });
+}
+
+function setCurrentPatternId(value) {
+    return new Promise((resolve) => {
+        chrome.storage.sync.set({
+            [CURRENT_PATTERN_ID]: value
+        }, function() {
+            console.log('[Storage][Set] Setting the current pattern id');
+            resolve(value);
+        });
+    });
+}
+
+function incrementCurrentPatternId() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([CURRENT_PATTERN_ID], function(result) {
+            let currentPatternId = result[CURRENT_PATTERN_ID] || -1;
+            chrome.storage.sync.set({
+                [CURRENT_PATTERN_ID]: currentPatternId + 1
+            }, function() {
+                console.log('[Storage][Set] Setting the current pattern id');
+                resolve(currentPatternId + 1);
+            });
+        });
+    });
+}
+
+function getCurrentPatternId() {
+    return new Promise((resolve) => {
+        chrome.storage.sync.get([CURRENT_PATTERN_ID], function(result) {
+            console.log('[Storage][Get] getting the current pattern id');
+            resolve(result[CURRENT_PATTERN_ID] || -1);
+        });
+    });
+}
+
 
 module.exports = {
     getUserSheetSetting: getUserSheetSetting,
     storeUserSheetSetting: storeUserSheetSetting,
     clearUserSheetSetting: clearUserSheetSetting,
+    setPatternsHistory: setPatternsHistory,
+    getPatternsHistory: getPatternsHistory,
+    clearPatternsHistory: clearPatternsHistory,
+    updateLastPatternHistory: updateLastPatternHistory,
+    getLastPatternHistory: getLastPatternHistory,
+    setCurrentPatternId: setCurrentPatternId,
+    getCurrentPatternId: getCurrentPatternId,
+    incrementCurrentPatternId: incrementCurrentPatternId,
+    pushPatternHistory: pushPatternHistory,
 };

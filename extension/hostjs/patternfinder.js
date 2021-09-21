@@ -2,6 +2,7 @@ const adhoc2 = require("./adhoc2.js");
 const printutils = require("./printutils.js");
 const cloneDeep = require('clone-deep');
 const IncrementTracker = require("./incrementtracker.js");
+const storage = require("../storage.js");
 
 const log = function(...args) {
     console.log("    PATTERNFINDER", ...args);
@@ -34,13 +35,14 @@ class PatternFinder {
         } else {
             let sureness = this._getSureness();
             log("sureness=", sureness);
+            let len_user_confirmation = this._getLenUserConfirmation();
             return {
                 "sureness": sureness,
                 "suspected_result": this.suspected_result,
                 "sureness_breakdown": {
                     "len": this.suspected_result["pattern"].length,
                     "error": this.suspected_result["error"],
-                    "len_user_confirmation": this.actions.length - this.suspected_result_last_index,
+                    "len_user_confirmation": len_user_confirmation,
                     "how_many_times_user_completed_suggestion": (this.actions.length - this.suspected_result_last_index) / this.suspected_result["pattern"].length
                 }
             };
@@ -73,8 +75,12 @@ class PatternFinder {
         return this._actionIsEqualTo(expectedAction, this.actions[this.actions.length - 1], actionIndex);
     }
 
+    _getLenUserConfirmation() {
+        return this.actions.length - this.suspected_result_last_index;
+    }
+
     _getSureness() {
-        let len_user_confirmation = this.actions.length - this.suspected_result_last_index;
+        let len_user_confirmation = this._getLenUserConfirmation();
         let pattern_score = 0;
         let len_pattern = this.suspected_result["pattern"].length;
         for (let i = 0; i < len_pattern; i++) {
@@ -110,6 +116,10 @@ class PatternFinder {
         if (!!this.suspected_result) {
             if (this._isUsersLastActionConfirmingSuggestion()) {
                 log("user is confirming our suggestion");
+                storage.updateLastPatternHistory({
+                    "surness": this._getSureness(),
+                    "len_user_confirmation": this._getLenUserConfirmation(),
+                });
                 return;
             } else {
                 let expectedAction = this._getExpectedActionAccordingToOurSuspectedResult()["expectedAction"];
@@ -151,6 +161,18 @@ class PatternFinder {
                 "error": final_result["error"],
             };
             this.suspected_result_last_index = this.actions.length;
+            let newPattern = {
+                "pattern": final_result["pattern"],
+                "error": final_result["error"],
+                "surness": this._getSureness(),
+                "len_user_confirmation": this._getLenUserConfirmation(),
+                "pattern_length": final_result["pattern"].length,
+                "did_user_press_start": false,
+                "pressed_start": [
+                    // {"repitition": Number}
+                ],
+            };
+            storage.pushPatternHistory(newPattern);
         }
     }
 
