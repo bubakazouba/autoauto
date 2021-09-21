@@ -173,7 +173,6 @@ class PatternFinder {
                 ],
             };
             storage.pushPatternHistory(newPattern);
-            storage.incrementCurrentPatternId();
         }
     }
 
