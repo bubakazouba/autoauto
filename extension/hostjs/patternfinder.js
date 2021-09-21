@@ -35,7 +35,7 @@ class PatternFinder {
         } else {
             let sureness = this._getSureness();
             log("sureness=", sureness);
-            let len_user_confirmation = this._lenUserConfirmation();
+            let len_user_confirmation = this._getLenUserConfirmation();
             return {
                 "sureness": sureness,
                 "suspected_result": this.suspected_result,
@@ -75,12 +75,12 @@ class PatternFinder {
         return this._actionIsEqualTo(expectedAction, this.actions[this.actions.length - 1], actionIndex);
     }
 
-    _lenUserConfirmation() {
+    _getLenUserConfirmation() {
         return this.actions.length - this.suspected_result_last_index;
     }
 
     _getSureness() {
-        let len_user_confirmation = this._lenUserConfirmation();
+        let len_user_confirmation = this._getLenUserConfirmation();
         let pattern_score = 0;
         let len_pattern = this.suspected_result["pattern"].length;
         for (let i = 0; i < len_pattern; i++) {
@@ -118,7 +118,7 @@ class PatternFinder {
                 log("user is confirming our suggestion");
                 storage.updateLastPatternHistory({
                     "surness": this._getSureness(),
-                    "len_user_confirmation": this._lenUserConfirmation(),
+                    "len_user_confirmation": this._getLenUserConfirmation(),
                 });
                 return;
             } else {
@@ -165,9 +165,9 @@ class PatternFinder {
                 "pattern": final_result["pattern"],
                 "error": final_result["error"],
                 "surness": this._getSureness(),
-                "len_user_confirmation": this._lenUserConfirmation(),
+                "len_user_confirmation": this._getLenUserConfirmation(),
                 "pattern_length": final_result["pattern"].length,
-                "did_user_pressed_start": false,
+                "did_user_press_start": false,
                 "pressed_start": [
                     // {"repitition": Number}
                 ],

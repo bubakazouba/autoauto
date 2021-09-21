@@ -56,7 +56,8 @@ function pushPatternHistory(newPattern) {
             let patternsHistory =  result[PATTERNS_HISTORY] || [];
             patternsHistory.push(newPattern);
             chrome.storage.sync.set({
-                [PATTERNS_HISTORY]: patternsHistory
+                [PATTERNS_HISTORY]: patternsHistory,
+                [CURRENT_PATTERN_ID]: (result[CURRENT_PATTERN_ID] || 0) + 1
             }, function() {
                 console.log('[Storage][Set] Setting the patterns history', patternsHistory);
                 resolve(patternsHistory);

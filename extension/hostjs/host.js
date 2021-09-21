@@ -33,7 +33,7 @@ function handleUserPressedStart(repetitions) {
     storage.getLastPatternHistory().then(lastPattern => {
         lastPattern = {
             ...lastPattern,
-            "did_user_pressed_start": true,
+            "did_user_press_start": true,
             "pressed_start": [
                 ...lastPattern["pressed_start"],
                 { "repitition": repetitions }
