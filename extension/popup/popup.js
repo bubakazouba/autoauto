@@ -1,3 +1,4 @@
+const storage = require("../storage.js");
 const REPETITIONS_TEXT_FIELD = document.getElementById('repetitions');
 
 document.getElementById('start').onclick = function() {
@@ -33,7 +34,9 @@ document.getElementById('haltautomation').onclick = function() {
         getAndUpdateState();
     });
 };
-
+document.getElementById('clearpatternshistory').onclick = function() {
+    sendMsg({ type: "CLEAR_PATTERS_HISTORY" }, callbackClearPatternsHistory);
+};
 function sendMsg(event, callback) {
     if (!callback) {
         callback = (response) => {
@@ -51,6 +54,11 @@ function callbackSetSheetSetting(response) {
     document.getElementById('usepaste').parentNode.className = "btn btn-primary";
     document.getElementById('useapi').parentNode.className = "btn btn-primary";
     document.getElementById(response.whatAmIUsingText == "API" ? 'useapi' : 'usepaste').parentNode.className += " active";
+}
+
+function callbackClearPatternsHistory(response) {
+    console.log("got response back for callbackClearPatternsHistory", response.whatAmIUsingText);
+    updatePatternsHistoryField();
 }
 
 function getAndUpdateState() {
@@ -99,6 +107,12 @@ function _showElements(elements) {
         elem.style.display = "";
     }
 }
+
+function updatePatternsHistoryField() {
+    storage.getPatternsHistory().then(patternsHistory => document.getElementById('patternshistory').value = JSON.stringify(patternsHistory));
+}
+
 window.onload = function() {
     getAndUpdateState();
+    updatePatternsHistoryField();
 };
