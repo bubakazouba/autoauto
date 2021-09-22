@@ -35,7 +35,9 @@ document.getElementById('haltautomation').onclick = function() {
     });
 };
 document.getElementById('clearpatternshistory').onclick = function() {
-    sendMsg({ type: "CLEAR_PATTERS_HISTORY" }, callbackClearPatternsHistory);
+    sendMsg({ type: "CLEAR_PATTERS_HISTORY" }, () => {
+        updatePatternsHistoryField();
+    });
 };
 function sendMsg(event, callback) {
     if (!callback) {
@@ -54,11 +56,6 @@ function callbackSetSheetSetting(response) {
     document.getElementById('usepaste').parentNode.className = "btn btn-primary";
     document.getElementById('useapi').parentNode.className = "btn btn-primary";
     document.getElementById(response.whatAmIUsingText == "API" ? 'useapi' : 'usepaste').parentNode.className += " active";
-}
-
-function callbackClearPatternsHistory(response) {
-    console.log("got response back for callbackClearPatternsHistory", response.whatAmIUsingText);
-    updatePatternsHistoryField();
 }
 
 function getAndUpdateState() {
