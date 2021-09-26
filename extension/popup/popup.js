@@ -106,7 +106,22 @@ function _showElements(elements) {
 }
 
 function updatePatternsHistoryField() {
-    storage.getPatternsHistory().then(patternsHistory => document.getElementById('patternshistory').value = JSON.stringify(patternsHistory));
+    storage.getPatternsHistory().then(patternsHistory => document.getElementById('patternshistory').value = JSON.stringify(hideSenstiveData(patternsHistory)));
+}
+
+function hideSenstiveData(patternsData) {
+    for(let patternData of patternsData) {
+        for(let pattern of patternData.pattern) {
+            if(pattern.action.keyGroup && pattern.action.keyGroup.parts) {
+                for(let i = 0; i < pattern.action.keyGroup.parts.length; i++){
+                    if(typeof pattern.action.keyGroup.parts[i] == 'string') {
+                        pattern.action.keyGroup.parts[i] = '?';
+                    }
+                }
+            }
+        }
+    }
+    return patternsData;
 }
 
 window.onload = function() {
