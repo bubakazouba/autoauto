@@ -76,6 +76,9 @@ function handlePopupRequest(msg, sendResponse) {
         host.haltAutomation();
         window.amIAutomating = false;
         sendResponse("ok");
+    } else if (msg.event.type == "CLEAR_PATTERS_HISTORY") {
+        storage.clearPatternsHistory();
+        sendResponse("ok");
     } else if (msg.event.type == "USER_SELECTED_SPEED_MODE") {
         host.changeSpeed(msg.event.mode);
     }
