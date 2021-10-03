@@ -24,10 +24,10 @@ function changeSpeed(mode) {
     currentMode = mode;
 }
 
-function triggerActions(actions, sequenceLength) {
+function triggerActions(actions, sequenceLength, startingFromIndex) {
     shouldHaltAutomation = false;
     let lastTabId = null;
-    let i = 0;
+    let i = startingFromIndex;
     return new Promise(resolve => {
         function _act() {
             if (i >= actions.length || shouldHaltAutomation) {
@@ -75,12 +75,11 @@ function triggerActions(actions, sequenceLength) {
 
 function detectActionsToTrigger(pattern_finder, repetitions) {
     let res = pattern_finder.giveMePattern();
-    let repeatedActions = Array(repetitions - 1).fill(res["complete"]).flat();
-    let actionsToTrigger = [...res["current"], ...repeatedActions];
-    log("got stuff back from patternfinder len(actionsToTrigger)=", actionsToTrigger.length);
+    let actionsToTrigger = Array(repetitions).fill(res["complete"]).flat();
     return {
         actionsToTrigger: actionsToTrigger,
-        sequenceLength: res["sequenceLength"]
+        sequenceLength: res["complete"].length,
+        startingFromIndex: res["startingFromIndex"],
     };
 }
 

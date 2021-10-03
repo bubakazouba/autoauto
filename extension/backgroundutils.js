@@ -47,7 +47,7 @@ function copy(text) {
     //other elements can get access to this.
     document.body.removeChild(copyFrom);
 
-    return true;
+    return text;
 }
 
 function keyParamsToString(keyParams) {

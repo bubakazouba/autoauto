@@ -41,8 +41,8 @@ function handleUserPressedStart(repetitions) {
         };
         storage.updateLastPatternHistory(lastPattern);
     });
-    let { actionsToTrigger, sequenceLength } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
-    return automation.triggerActions(actionsToTrigger, sequenceLength);
+    let { actionsToTrigger, sequenceLength, startingFromIndex } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
+    return automation.triggerActions(actionsToTrigger, sequenceLength, startingFromIndex);
 }
 
 function haltAutomation() {

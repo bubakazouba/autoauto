@@ -254,8 +254,8 @@ document.addEventListener('paste', e => {
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
     if (request.action == "PLACE_IN_CLIPBOARD") {
-        console.log("I was asked to place element in clipboard element_id: " + request.params.id);
         automation.placeElementInClipboard(request.params.id).then(text => {
+            console.log("I was asked to place element in clipboard element_id: " + request.params.id + "I placed in clipboard: '" + text + "'");
             sendResponse({ "text": text });
         });
     } else if (request.action == "CLICK_ON_ELEMENT") {

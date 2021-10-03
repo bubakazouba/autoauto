@@ -53,11 +53,10 @@ class PatternFinder {
         if (!this.suspected_result) {
             return null;
         }
-        let start_from_index = (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
+        let startingFromIndex = (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
         return {
-            "current": this.suspected_result["pattern"].slice(start_from_index),
             "complete": this.suspected_result["pattern"],
-            "sequenceLength": this.suspected_result["pattern"].length,
+            "startingFromIndex": startingFromIndex,
         };
     }
 
