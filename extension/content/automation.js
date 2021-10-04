@@ -19,7 +19,7 @@ function keyGroupOnElement(element_id, keyGroup) {
         let finalValue = "";
         for (let p of keyGroup) {
             if (typeof p == typeof "") {
-                console.log("im appending p=", p);
+                console.log("[keyGroupOnElement] I'm appending p=", p);
                 finalValue += p;
             } else {
                 let s = "";
