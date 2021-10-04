@@ -53,11 +53,25 @@ class PatternFinder {
         if (!this.suspected_result) {
             return null;
         }
-        let startingFromIndex = (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
+        let startingFromIndex = this._getStartingFromIndex();
         return {
             "complete": this.suspected_result["pattern"],
             "startingFromIndex": startingFromIndex,
         };
+    }
+
+    // call to indicate that pattern has been automated
+    // this is required to keep track of the current index
+    automatedActions(numCompletedActions) {
+        let startingFromIndex = this._getStartingFromIndex();
+        for(let i = 0; i < numCompletedActions; i++) {
+            let j = i + startingFromIndex % this.suspected_result["pattern"].length;
+            this.actions.push(this.suspected_result["pattern"][j]);
+        }
+    }
+
+    _getStartingFromIndex() {
+        return (this.actions.length - this.suspected_result_last_index) % this.suspected_result["pattern"].length;
     }
 
     _getExpectedActionAccordingToOurSuspectedResult() {
