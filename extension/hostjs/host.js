@@ -3,8 +3,8 @@ const automation = require("./automation.js");
 const ActionsGrouper = require("./actionsgrouper.js").ActionsGrouper;
 const storage = require("../storage.js");
 
-const actions_grouper = new ActionsGrouper();
-const pattern_finder = new PatternFinder();
+const actionsGrouper = new ActionsGrouper();
+const patternFinder = new PatternFinder();
 const log = function(...args) {
     console.log("  HOST", ...args);
 };
@@ -12,7 +12,7 @@ const log = function(...args) {
 const MIN_SURENESS_THRESHOLD = 5;
 
 function handleAction(msg) {
-    let action_group = actions_grouper.append(msg["action"]);
+    let action_group = actionsGrouper.append(msg["action"]);
     if (!action_group || action_group.length == 0) {
         return;
     }
@@ -20,7 +20,7 @@ function handleAction(msg) {
     let res;
     for (let groupedAction of action_group) {
         log(">>>>>I'm appending groupedAction..", groupedAction);
-        res = pattern_finder.append(groupedAction);
+        res = patternFinder.append(groupedAction);
     }
     if (!!res && res["sureness"] >= MIN_SURENESS_THRESHOLD) {
         return { "event": "IM SURE", "sureness": res["sureness"] };
@@ -35,14 +35,16 @@ function handleUserPressedStart(repetitions) {
             ...lastPattern,
             "did_user_press_start": true,
             "pressed_start": [
-                ...lastPattern["pressed_start"],
+                ...(lastPattern["pressed_start"] || []),
                 { "repitition": repetitions }
             ],
         };
         storage.updateLastPatternHistory(lastPattern);
     });
-    let { actionsToTrigger, sequenceLength, startingFromIndex } = automation.detectActionsToTrigger(pattern_finder, parseInt(repetitions));
-    return automation.triggerActions(actionsToTrigger, sequenceLength, startingFromIndex);
+    let { actionsToTrigger, sequenceLength, startingFromIndex } = automation.detectActionsToTrigger(patternFinder, parseInt(repetitions));
+    return automation.triggerActions(actionsToTrigger, sequenceLength, startingFromIndex).then(numCompletedActions => {
+        return patternFinder.automatedActions(numCompletedActions);
+    });
 }
 
 function haltAutomation() {

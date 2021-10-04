@@ -24,6 +24,7 @@ function changeSpeed(mode) {
     currentMode = mode;
 }
 
+// Returns promise that resolves numberCompletedActions
 function triggerActions(actions, sequenceLength, startingFromIndex) {
     shouldHaltAutomation = false;
     let lastTabId = null;
@@ -31,7 +32,8 @@ function triggerActions(actions, sequenceLength, startingFromIndex) {
     return new Promise(resolve => {
         function _act() {
             if (i >= actions.length || shouldHaltAutomation) {
-                return resolve(true);
+                let numCompletedActions = i - startingFromIndex;
+                return resolve(numCompletedActions);
             }
             let action = actions[i];
             let actionIndex = i % sequenceLength;
