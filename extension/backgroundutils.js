@@ -11,10 +11,8 @@ function getValueInClipboard() {
     document.body.appendChild(getClipboardFrom);
     getClipboardFrom.focus();
     //Execute command
-    // document.execCommand('paste');
-    // let text = getClipboardFrom.value;
-
-    let text = singleton.getClipboard();
+    document.execCommand('paste');
+    let text = getClipboardFrom.value;
 
     //Remove the textbox field from the document.body, so no other JavaScript nor 
     //other elements can get access to this.
@@ -42,7 +40,6 @@ function copy(text) {
 
     //Execute command
     document.execCommand('copy');
-    singleton.setClipboard(text);
 
     //(Optional) De-select the text using blur(). 
     copyFrom.blur();

@@ -1,10 +1,14 @@
+const log = function(args) {
+    console.log("    PATTERNFINDER", ...args);
+};
+
 class Singleton {
     constructor() {
         this.clipboard = '';
     }
 
     setClipboard(text) {
-        console.log('Setting clipboard to', text)
+        log(['Setting clipboard to', text])
         this.clipboard = text;
     }
     
