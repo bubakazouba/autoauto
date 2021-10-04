@@ -4,7 +4,8 @@ const host = require("./hostjs/host.js"),
     oauthutils = require("./oauth/oauthutils.js"),
     sheets = require("./oauth/sheets.js"),
     backgroundutils = require("./backgroundutils.js"),
-    storage = require("./storage.js");
+    storage = require("./storage.js"),
+    singleton = require("./singleton.js");
 
 const API_KEY = 'AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
@@ -99,6 +100,10 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             return sendResponse(backgroundutils.getValueInClipboard());
         } else if (msg.request.type == "PLACE_IN_CLIPBOARD") {
             return sendResponse(backgroundutils.copy(msg.request.text));
+        } else if (msg.request.type == "GET_SECONDARY_CLIPBOARD") {
+            return sendResponse(backgroundutils.getSecondaryClipboard());
+        } else if (msg.request.type == "PLACE_IN_SECONDARY_CLIPBOARD") {
+            return sendResponse(backgroundutils.setSecondaryClipboard(msg.request.text));
         }
         return true;
     }

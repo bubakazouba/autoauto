@@ -1,3 +1,5 @@
+const singleton = require('./singleton');
+
 function getValueInClipboard() {
     let elementInFocus = document.activeElement;
     //Create a textbox field where we can insert text to. 
@@ -10,7 +12,6 @@ function getValueInClipboard() {
     getClipboardFrom.focus();
     //Execute command
     document.execCommand('paste');
-
     let text = getClipboardFrom.value;
 
     //Remove the textbox field from the document.body, so no other JavaScript nor 
@@ -83,9 +84,19 @@ function pprint(msg, tabIndex) {
     return _pprint(msg) + ", tab=" + tabIndex;
 }
 
+function setSecondaryClipboard(text) {
+    singleton.setClipboard(text);
+}
+
+function getSecondaryClipboard() {
+    return singleton.getClipboard();
+}
+
 module.exports = {
     getValueInClipboard: getValueInClipboard,
     copy: copy,
     keyParamsToString: keyParamsToString,
     pprint: pprint,
+    setSecondaryClipboard,
+    getSecondaryClipboard,
 };
