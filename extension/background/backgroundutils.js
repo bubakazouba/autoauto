@@ -1,4 +1,4 @@
-const clipboardStore = require('./clipboardStore');
+const clipboardStore = require('../clipboardStore');
 
 function getValueInClipboard() {
     let elementInFocus = document.activeElement;

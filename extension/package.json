@@ -4,7 +4,7 @@
   "description": "Auto Auto",
   "scripts": {
     "start": "npm-run-all --parallel  _watchifyBackground _watchifyContent _watchifyPopup",
-    "_watchifyBackground": "watchify background.js -o backgroundbundle.js --debug",
+    "_watchifyBackground": "watchify background/background.js -o backgroundbundle.js --debug",
     "_watchifyContent": "watchify content/content.js -o content/contentbundle.js --debug",
     "_watchifyPopup": "watchify popup/popup.js -o popup/popupbundle.js --debug",
     "test": "jest",

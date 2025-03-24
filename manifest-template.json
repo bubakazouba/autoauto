@@ -5,7 +5,7 @@
     "permissions": ["storage", "declarativeContent", "activeTab", "tabs", "<all_urls>", "clipboardWrite", "clipboardRead"],
     "background":
     {
-        "page": "extension/background.html",
+        "page": "extension/background/background.html",
         "persistent": false
     },
     

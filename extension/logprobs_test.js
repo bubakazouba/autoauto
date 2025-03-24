@@ -4,7 +4,7 @@
  */
 
 const { OpenAI } = require('openai');
-const config = require('./config.js');
+const config = require('../../config.js');
 
 // Initialize OpenAI client with API key from config
 const openai = new OpenAI({

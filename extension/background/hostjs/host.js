@@ -2,7 +2,7 @@ const automation = require("./automation.js");
 const ActionsGrouper = require("./actionsgrouper.js").ActionsGrouper;
 const { OpenAI } = require('openai');
 const openaiUtils = require("./openaiutils.js");
-const config = require("../config.js");
+const config = require("../../config.js");
 
 const actions_grouper = new ActionsGrouper();
 const log = function(...args) {
@@ -35,7 +35,7 @@ async function handleAction(msg) {
     // Limit to the last 20 actions to avoid token limits
     const limitedActionGroups = action_groups.slice(-20);
     
-    log("./././action_groups=", limitedActionGroups);
+    log("Requesting autocomplete with the following actionGroups", limitedActionGroups);
     // Create a prompt for OpenAI to predict the next actions
     const prompt = "You are a JSON generator. Your only job is to return valid JSON with no explanations. Given the action history, predict the next 10 likely actions in the same format.\n\nGiven this action history: " + JSON.stringify(limitedActionGroups) + ", predict the next likely actions in the same format. Return only valid JSON.";
     
@@ -44,7 +44,7 @@ async function handleAction(msg) {
         const response = await openai.completions.create({
             model: "gpt-3.5-turbo-instruct",
             prompt: prompt,
-            max_tokens: 2048,  // Increased from 1000 to 2048 to generate more tokens
+            max_tokens: 2048,
             temperature: 0.1,
             logprobs: 5  // Request logprobs to calculate confidence
         });

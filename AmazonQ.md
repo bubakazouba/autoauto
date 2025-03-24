@@ -5,10 +5,15 @@ Auto Auto is a Chrome extension designed to automate browser interactions by rec
 
 ## Architecture
 
-The extension consists of three main JavaScript components:
+The extension consists of three main JavaScript components organized in their respective directories:
 
-### 1. Background Script (background.js)
-The background script serves as the central controller for the extension:
+### 1. Background Scripts (background/)
+The background scripts serve as the central controller for the extension:
+
+- **Files**:
+  - `background.js`: Main background script
+  - `backgroundutils.js`: Utility functions for the background script
+  - `background.html`: HTML page that loads the background script
 
 - **State Management**: 
   - `amIAutomating`: Tracks if automation is currently running
@@ -21,7 +26,7 @@ The background script serves as the central controller for the extension:
   - Manages clipboard operations
   - Controls the extension icon (red/green) based on automation state
 
-### 2. Content Script (content.js)
+### 2. Content Script (content/)
 The content script runs in the context of web pages and monitors user interactions:
 
 - **Event Capturing**:
@@ -34,7 +39,7 @@ The content script runs in the context of web pages and monitors user interactio
   - Executes automated actions on the webpage
   - Manages clipboard operations within the page context
 
-### 3. Popup UI (popup.js)
+### 3. Popup UI (popup/)
 The popup script controls the extension's user interface:
 
 - **User Controls**:
@@ -71,7 +76,7 @@ The extension uses Chrome's messaging API for communication between components:
 - Background script → Content script: Send automation commands
 - Popup → Background script: Send user control commands
 
-The automation logic is primarily handled by the host module, which processes recorded events and determines how to replay them.
+The automation logic is primarily handled by the host module (in hostjs/), which processes recorded events and determines how to replay them.
 
 ## Use Cases
 

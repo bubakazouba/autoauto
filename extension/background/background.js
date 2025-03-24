@@ -5,6 +5,9 @@ window.onload = function() {
     window.amIAutomating = false;
     window.amisure = false;
 
+    // Set initial icon
+    chrome.browserAction.setIcon({ path: {"32": "../images/red.png"} });
+
     chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
         chrome.declarativeContent.onPageChanged.addRules([{
             conditions: [new chrome.declarativeContent.PageStateMatcher({
@@ -89,14 +92,14 @@ async function handleAction(msg) {
         
         if (res["event"] == "IM SURE") {
             window.amisure = true;
-            chrome.browserAction.setIcon({ path: 'images/green.png' });
+            chrome.browserAction.setIcon({ path: {"32": "../images/green.png"} });
         } else {
             window.amisure = false;
-            chrome.browserAction.setIcon({ path: 'images/red.png' });
+            chrome.browserAction.setIcon({ path: {"32": "../images/red.png"} });
         }
     } catch (error) {
         console.error("Error in handleAction:", error);
         window.amisure = false;
-        chrome.browserAction.setIcon({ path: 'images/red.png' });
+        chrome.browserAction.setIcon({ path: {"32": "../images/red.png"} });
     }
 }
