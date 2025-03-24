@@ -2,13 +2,21 @@
 
 Auto Auto is a Chrome extension designed to automate browser interactions by recording user actions and replaying them. This extension is particularly useful for repetitive tasks across web applications, with special handling for Google Sheets.
 
-For detailed documentation about the architecture and workflow, see [AmazonQ.md](AmazonQ.md).
 
 ## Installation
 * Install the pre-commit githook: `cp extension/githooks/pre-commit .git/hooks/`
 * `cp manifest-template.json manifest.json`
 * `npm install -g watchify`
 * `cd extension && npm install`
+* Configure your API keys:
+  * Edit `extension/config.js` with your OpenAI API key:
+  ```javascript
+  module.exports = {
+      openai: {
+          apiKey: 'your-openai-api-key-here'
+      }
+  };
+  ```
 
 ## Load extension (1 time process)
 * `cd extension && npm start`

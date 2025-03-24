@@ -73,7 +73,8 @@ function triggerActions(actions) {
 function _triggerKeyGroupInputCommand(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
-    let keyGroup = action["action"]["keyGroup"].toJSON();
+    log("keyGroup=", action["action"]["keyGroup"]);
+    let keyGroup = action["action"]["keyGroup"];
     let request = { action: 'KEY_GROUP_INPUT', params: { id: elementId, keyGroup: keyGroup } };
     log("keyGroupInput request=", request, "tabId=", tabId);
     return new Promise(resolve => {

@@ -2,9 +2,9 @@
  * Utility functions for handling JSON parsing with special handling for incomplete or malformed responses
  */
 
-const log = function(...args) {
-    console.log("  JSONUTILS", ...args);
-};
+// const log = function(...args) {
+//     console.log("  JSONUTILS", ...args);
+// };
 
 /**
  * Extract actions from various prediction formats
@@ -47,7 +47,6 @@ function parseRobustly(jsonString, filterEmptyArrays = true) {
     } catch (e) {
         // Second attempt: Try to extract valid arrays using regex
         try {
-            log("Initial JSON parsing failed, trying to extract valid arrays");
             const arrayPattern = /\[\s*\{.*?\}\s*\]/gs;
             const matches = [...jsonString.matchAll(arrayPattern)];
             

@@ -1,4 +1,4 @@
-const printutils = require('../../hostjs/printutils.js');
+const printutils = require('../../background/hostjs/printutils.js');
 
 describe('PrintUtils', () => {
     describe('get_keyboard_string_from_key_params', () => {

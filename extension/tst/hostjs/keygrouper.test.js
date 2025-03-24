@@ -1,4 +1,4 @@
-const keygrouper = require("../../hostjs/keygrouper.js");
+const keygrouper = require("../../background/hostjs/keygrouper.js");
 
 describe("KeyGrouper", () => {
     it("should work with appends", () => {

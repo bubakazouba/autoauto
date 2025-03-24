@@ -1,4 +1,4 @@
-const jsonUtils = require('../../hostjs/jsonutils.js');
+const jsonUtils = require('../../background/hostjs/jsonutils.js');
 
 describe('jsonUtils', () => {
     describe('parseRobustly', () => {
