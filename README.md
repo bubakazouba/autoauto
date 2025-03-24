@@ -1,3 +1,9 @@
+# Auto Auto
+
+Auto Auto is a Chrome extension designed to automate browser interactions by recording user actions and replaying them. This extension is particularly useful for repetitive tasks across web applications, with special handling for Google Sheets.
+
+For detailed documentation about the architecture and workflow, see [AmazonQ.md](AmazonQ.md).
+
 ## Installation
 * Install the pre-commit githook: `cp extension/githooks/pre-commit .git/hooks/`
 * `cp manifest-template.json manifest.json`

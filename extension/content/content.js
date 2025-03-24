@@ -10,7 +10,7 @@ document.addEventListener("change", (e) => {
         console.log("click not trusted ignore");
         return;
     }
-    let element = e.path[0];
+    let element = e.composedPath()[0];
     if (element.nodeName != "INPUT" || element.type.toLowerCase() != "checkbox") {
         return;
     }
@@ -25,6 +25,7 @@ document.addEventListener("change", (e) => {
     });
 });
 document.addEventListener('click', (e) => {
+    console.log('e=', e);
     if (!e.isTrusted) {
         // ignore javascript programmatic clicks
         console.log("click not trusted ignore");
@@ -42,8 +43,9 @@ document.addEventListener('click', (e) => {
     let elem;
     let elemIsClickable = false;
     // walk down the parents of the element until we find one thats clickable (if any)
-    for (let i = 0; i < e.path.length; i++) {
-        elem = e.path[i];
+    const path = e.composedPath();
+    for (let i = 0; i < path.length; i++) {
+        elem = path[i];
         elemIsClickable = _isElemClickable(elem);
         if (elemIsClickable) {
             break;
@@ -71,7 +73,7 @@ document.addEventListener('click', (e) => {
                 return PASTE_TEXT;
             }
         };
-        let elemText = _getText(e.path[0]);
+        let elemText = _getText(e.composedPath()[0]);
         if (!!elemText) {
             let actionType;
             if (elemText.toUpperCase() == PASTE_TEXT || elemText.toUpperCase() == RAW_PASTE_TEXT) {
@@ -227,7 +229,7 @@ document.addEventListener('paste', e => {
     if (contentutils.areWeInSpreadsheets()) {
         return;
     }
-    let elem = e.path[0];
+    let elem = e.composedPath()[0];
     let isElemFocused = document.activeElement == elem;
     // Not sure how this would happen but better be safe
     if (!contentutils.isElementTextEditable(elem) || !isElemFocused) {
@@ -269,7 +271,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         });
     } else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
-        automation.handleSheetsPaste(request.params.id, request.params.userSheetSetting).then(() => {
+        automation.handleSheetsPaste(request.params.id).then(() => {
             sendResponse({ "event": "DONE" });
         });
     }

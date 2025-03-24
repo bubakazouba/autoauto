@@ -7,3 +7,4 @@ node_modules/
 backgroundbundle.js
 contentbundle.js
 popupbundle.js
+extension/coverage/**

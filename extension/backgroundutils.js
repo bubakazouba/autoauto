@@ -1,4 +1,4 @@
-const singleton = require('./singleton');
+const clipboardStore = require('./clipboardStore');
 
 function getValueInClipboard() {
     let elementInFocus = document.activeElement;
@@ -85,11 +85,11 @@ function pprint(msg, tabIndex) {
 }
 
 function setSecondaryClipboard(text) {
-    singleton.setClipboard(text);
+    clipboardStore.setClipboard(text);
 }
 
 function getSecondaryClipboard() {
-    return singleton.getClipboard();
+    return clipboardStore.getClipboard();
 }
 
 module.exports = {

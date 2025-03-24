@@ -1,14 +1,14 @@
 const log = function(args) {
-    console.log("    PATTERNFINDER", ...args);
+    console.log("    ClipboardStore", ...args);
 };
 
-class Singleton {
+class ClipboardStore {
     constructor() {
         this.clipboard = '';
     }
 
     setClipboard(text) {
-        log(['Setting clipboard to', text])
+        log(['Setting clipboard to', text]);
         this.clipboard = text;
     }
     
@@ -16,4 +16,4 @@ class Singleton {
         return this.clipboard;
     }
 }
-module.exports = new Singleton();
+module.exports = new ClipboardStore();

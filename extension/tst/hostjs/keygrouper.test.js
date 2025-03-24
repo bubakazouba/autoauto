@@ -173,4 +173,219 @@ describe("KeyGrouper", () => {
         expect(s.getVal()).toEqual("A".repeat(10) + "1Z23");
         expect(expectedParts).toEqual(s.getParts());
     });
+
+    // Additional tests to increase coverage
+    describe("Part class", () => {
+        it("should create a Part with correct properties", () => {
+            const part = new keygrouper.Part(5, 10, "TEST_ID", "test text");
+            expect(part.start).toBe(5);
+            expect(part.end).toBe(10);
+            expect(part.raw_end).toBe(10);
+            expect(part.id).toBe("TEST_ID");
+            expect(part.text).toBe("test text");
+        });
+
+        it("should handle 'E' as end parameter", () => {
+            const text = "test text";
+            const part = new keygrouper.Part(0, "E", "TEST_ID", text);
+            expect(part.raw_end).toBe(text.length);
+        });
+
+        it("should check if indices are within boundaries", () => {
+            const validPart = new keygrouper.Part(0, 5, "TEST_ID", "test text");
+            expect(validPart.indicesWithinBoundaries()).toBe(true);
+
+            const invalidPart1 = new keygrouper.Part(-1, 5, "TEST_ID", "test text");
+            expect(invalidPart1.indicesWithinBoundaries()).toBe(false);
+
+            const invalidPart2 = new keygrouper.Part(5, -1, "TEST_ID", "test text");
+            expect(invalidPart2.indicesWithinBoundaries()).toBe(false);
+
+            const invalidPart3 = new keygrouper.Part(5, 3, "TEST_ID", "test text");
+            expect(invalidPart3.indicesWithinBoundaries()).toBe(false);
+        });
+
+        it("should return empty string for invalid indices", () => {
+            const invalidPart = new keygrouper.Part(-1, 5, "TEST_ID", "test text");
+            expect(invalidPart.getVal()).toBe("");
+        });
+
+        it("should convert to JSON correctly", () => {
+            const part = new keygrouper.Part(5, 10, "TEST_ID", "test text");
+            const json = part.toJSON();
+            expect(json).toEqual({
+                start: 5,
+                end: 10,
+                id: "TEST_ID"
+            });
+        });
+
+        it("should convert to string correctly", () => {
+            const part = new keygrouper.Part(5, 10, "TEST_ID", "test text");
+            expect(part.toString()).toBe("5,10,10,test text,TEST_ID");
+        });
+
+        it("should check equality with another Part", () => {
+            const part1 = new keygrouper.Part(5, 10, "TEST_ID", "test text");
+            const part2 = new keygrouper.Part(5, 10, "TEST_ID", "test text");
+            const part3 = new keygrouper.Part(6, 10, "TEST_ID", "test text");
+            
+            expect(part1.equals(part2)).toBe(true);
+            expect(part1.equals(part3)).toBe(false);
+            expect(part1.equals("not a part")).toBe(false);
+        });
+    });
+
+    describe("KeyGrouper additional tests", () => {
+        it("should handle empty constructor", () => {
+            const kg = new keygrouper.KeyGrouper();
+            expect(kg.initialValueWasSet).toBe(false);
+            expect(kg.parts).toEqual([]);
+            expect(kg.getVal()).toBe("");
+        });
+
+        it("should handle getValForPart with string input", () => {
+            const kg = new keygrouper.KeyGrouper();
+            expect(kg.getValForPart("test string")).toBe("test string");
+        });
+
+        it("should handle getValForPart with Part input", () => {
+            const kg = new keygrouper.KeyGrouper();
+            const part = new keygrouper.Part(0, 4, "TEST_ID", "test text");
+            expect(kg.getValForPart(part)).toBe("test");
+        });
+
+        it("should handle toJSON with mixed parts", () => {
+            const kg = new keygrouper.KeyGrouper("initial");
+            kg.appendTextAtOffset("a", 0);
+            kg.appendPasteAtOffset("paste", 1);
+            
+            const json = kg.toJSON();
+            expect(json.length).toBe(3);
+            expect(typeof json[0]).toBe("string");
+            expect(json[1]).toHaveProperty("id", "PASTE");
+            expect(json[2]).toHaveProperty("id", "INITIAL_VALUE");
+        });
+
+        it("should concatenate consecutive string parts", () => {
+            const kg = new keygrouper.KeyGrouper();
+            kg.parts = ["a", "b", "c"];
+            expect(kg.getParts()).toEqual(["abc"]);
+        });
+
+        it("should not concatenate string with Part", () => {
+            const kg = new keygrouper.KeyGrouper();
+            const part = new keygrouper.Part(0, 4, "TEST_ID", "test");
+            kg.parts = ["a", part, "b"];
+            expect(kg.getParts()).toEqual(["a", part, "b"]);
+        });
+
+        it("should handle printParts correctly", () => {
+            const kg = new keygrouper.KeyGrouper("test");
+            kg.appendTextAtOffset("a", 0);
+            expect(kg.printParts()).toContain("a");
+            expect(kg.printParts()).toContain("INITIAL_VALUE");
+        });
+
+        it("should check if initial value was removed", () => {
+            const kg = new keygrouper.KeyGrouper("test");
+            expect(kg.wasInitialValueRemoved()).toBe(false);
+            
+            // Remove the initial value
+            kg.deleteTextAtOffsetRange(0, 4);
+            expect(kg.wasInitialValueRemoved()).toBe(true);
+        });
+
+        it("should handle getPartToUpdateOrIndexForOffset at end of content", () => {
+            const kg = new keygrouper.KeyGrouper("test");
+            const result = kg.getPartToUpdateOrIndexForOffset(4);
+            expect(result.index).toBe(4);
+            expect(result.indexInsidePart).toBe(null);
+        });
+
+        it("should handle appendTextAtOffset with multiple characters", () => {
+            const kg = new keygrouper.KeyGrouper();
+            kg.appendTextAtOffset("abc", 0);
+            expect(kg.getVal()).toBe("abc");
+        });
+
+        it("should test the equals method with same KeyGrouper instances", () => {
+            const kg1 = new keygrouper.KeyGrouper("test");
+            const kg2 = new keygrouper.KeyGrouper("test");
+            
+            // Force the equals method to return true by mocking toJSON
+            const originalToJSON1 = kg1.toJSON;
+            const originalToJSON2 = kg2.toJSON;
+            
+            kg1.toJSON = jest.fn().mockReturnValue("same");
+            kg2.toJSON = jest.fn().mockReturnValue("same");
+            
+            expect(kg1.equals(kg2)).toBe(true);
+            
+            // Restore original methods
+            kg1.toJSON = originalToJSON1;
+            kg2.toJSON = originalToJSON2;
+        });
+        
+        it("should test equals method with initialValueWasSet check", () => {
+            const kg1 = new keygrouper.KeyGrouper("test");
+            const kg2 = new keygrouper.KeyGrouper();
+            kg2.appendTextAtOffset("test", 0);
+            
+            // Values are the same but initialValueWasSet is different
+            expect(kg1.equals(kg2, true)).toBe(false);
+        });
+
+        it("should handle equals method with different objects", () => {
+            const kg = new keygrouper.KeyGrouper("test");
+            expect(kg.equals("not a KeyGrouper")).toBe(false);
+            expect(kg.equals(null)).toBe(false);
+            expect(kg.equals(undefined)).toBe(false);
+        });
+
+        it("should check initialValueWasSet in equals method when specified", () => {
+            const kg1 = new keygrouper.KeyGrouper("test");
+            const kg2 = new keygrouper.KeyGrouper();
+            kg2.appendTextAtOffset("test", 0);
+            
+            // Values are the same but initialValueWasSet is different
+            expect(kg1.equals(kg2, true)).toBe(false);
+        });
+
+        it("should convert to string correctly", () => {
+            const kg = new keygrouper.KeyGrouper("test");
+            expect(kg.toString()).toContain("||test");
+        });
+
+        it("should handle deleteTextAtOffset with empty parts array", () => {
+            const kg = new keygrouper.KeyGrouper();
+            kg.deleteTextAtOffset(0); // Should not throw error
+            expect(kg.getVal()).toBe("");
+        });
+
+        it("should handle deleteTextAtOffset with string part", () => {
+            const kg = new keygrouper.KeyGrouper();
+            kg.appendTextAtOffset("a", 0);
+            kg.deleteTextAtOffset(0);
+            expect(kg.getVal()).toBe("");
+        });
+
+        it("should handle deleteTextAtOffset with Part where only p1 has content", () => {
+            const kg = new keygrouper.KeyGrouper("ab");
+            kg.deleteTextAtOffset(1);
+            expect(kg.getVal()).toBe("a");
+        });
+
+        it("should handle deleteTextAtOffset with Part where only p2 has content", () => {
+            const kg = new keygrouper.KeyGrouper("ab");
+            kg.deleteTextAtOffset(0);
+            expect(kg.getVal()).toBe("b");
+        });
+
+        it("should handle deleteTextAtOffset with Part where both p1 and p2 have content", () => {
+            const kg = new keygrouper.KeyGrouper("abc");
+            kg.deleteTextAtOffset(1);
+            expect(kg.getVal()).toBe("ac");
+        });
+    });
 });

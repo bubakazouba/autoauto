@@ -4,7 +4,7 @@ function getElementInfoForKeyPresses(e) {
         console.log("key event not trusted ignore");
         return;
     }
-    let element = e.path[0];
+    let element = e.composedPath()[0];
     let element_id = getElementId(element);
     let element_node = element.nodeName;
     // TODO: hack to avoid complexity of determining patterns for copy and paste actions

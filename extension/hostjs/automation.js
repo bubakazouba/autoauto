@@ -1,7 +1,3 @@
-// import time
-const cloneDeep = require('clone-deep');
-const storage = require("../storage.js");
-const IncrementTracker = require("./incrementtracker.js");
 const DEFAULT_MODE = "slowmode";
 const MODE_TO_SPEED = {
     "slowmode": 800,
@@ -24,20 +20,20 @@ function changeSpeed(mode) {
     currentMode = mode;
 }
 
-function triggerActions(actions, sequenceLength, startingFromIndex) {
+function triggerActions(actions) {
     shouldHaltAutomation = false;
     let lastTabId = null;
-    let i = startingFromIndex;
+    let i = 0;
     return new Promise(resolve => {
         function _act() {
             if (i >= actions.length || shouldHaltAutomation) {
                 return resolve(true);
             }
             let action = actions[i];
-            let actionIndex = i % sequenceLength;
             i++;
             // Only switch tabs if there's time to do so
             if (currentMode != "quickmode") {
+                log("doing action now", action, action["tab"]);
                 // only switch tab if we need to, we dont need to switch tabs to put stuff in the clipboard
                 if (lastTabId != action["tab"]["id"] && action["action"]["type"] != "PLACE_IN_CLIPBOARD") {
                     _triggerSwitchingTab(action["tab"]["id"]);
@@ -45,19 +41,19 @@ function triggerActions(actions, sequenceLength, startingFromIndex) {
             }
             if (action["action"]["type"] == "PLACE_IN_CLIPBOARD") {
                 log(">>>>>>>>>>>PLACE_IN_CLIPBOARD<<<<<<<<");
-                return _triggerPlaceClipboard(action, actionIndex).then(_waitThenActWrapper);
+                return _triggerPlaceClipboard(action).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "CLICK") {
                 log(">>>>>>>>>>>CLICK<<<<<<<<");
                 lastTabId = action["tab"]["id"];
-                return _triggerClickCommand(action, actionIndex).then(_waitThenActWrapper);
+                return _triggerClickCommand(action).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "KEY_GROUP_INPUT") {
                 log(">>>>>>>>>>>KEY_GROUP_INPUT<<<<<<<<");
                 lastTabId = action["tab"]["id"];
-                return _triggerKeyGroupInputCommand(action, actionIndex).then(_waitThenActWrapper);
+                return _triggerKeyGroupInputCommand(action).then(_waitThenActWrapper);
             } else if (action["action"]["type"] == "SHEETS_PASTE") {
                 log(">>>>>>>>>>>SHEETS_PASTE<<<<<<<<");
                 lastTabId = action["tab"]["id"];
-                return _triggerSheetsPaste(action, actionIndex).then(_waitThenActWrapper);
+                return _triggerSheetsPaste(action).then(_waitThenActWrapper);
             }
         }
         function _waitThenActWrapper() {
@@ -73,26 +69,8 @@ function triggerActions(actions, sequenceLength, startingFromIndex) {
     });
 }
 
-function detectActionsToTrigger(pattern_finder, repetitions) {
-    let res = pattern_finder.giveMePattern();
-    let actionsToTrigger = Array(repetitions).fill(res["complete"]).flat();
-    return {
-        actionsToTrigger: actionsToTrigger,
-        sequenceLength: res["complete"].length,
-        startingFromIndex: res["startingFromIndex"],
-    };
-}
 
-function _getActionWithIncrementedElementId(action, actionIndex) {
-    action = cloneDeep(action);
-    action["action"]["element_id"] = IncrementTracker.getExpectedIndex(actionIndex);
-    IncrementTracker.updateIndexTrackerElementId(actionIndex, action);
-    return action;
-}
-
-function _triggerKeyGroupInputCommand(action, actionIndex) {
-    action = _getActionWithIncrementedElementId(action, actionIndex);
-
+function _triggerKeyGroupInputCommand(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
     let keyGroup = action["action"]["keyGroup"].toJSON();
@@ -105,9 +83,7 @@ function _triggerKeyGroupInputCommand(action, actionIndex) {
     });
 }
 
-function _triggerClickCommand(action, actionIndex) {
-    action = _getActionWithIncrementedElementId(action, actionIndex);
-
+function _triggerClickCommand(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
     let request = { action: 'CLICK_ON_ELEMENT', params: { id: elementId } };
@@ -118,18 +94,15 @@ function _triggerClickCommand(action, actionIndex) {
     });
 }
 
-function _triggerSheetsPaste(action, actionIndex) {
-    action = _getActionWithIncrementedElementId(action, actionIndex);
+function _triggerSheetsPaste(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
 
     return new Promise(resolve => {
-        storage.getUserSheetSetting().then(userSheetSetting => {
-            let request = { action: 'SHEETS_PASTE', params: { id: elementId, userSheetSetting: userSheetSetting } };
-            log("PASTE request=", request, "tabId=", tabId);
-            chrome.tabs.sendMessage(tabId, request, function() {
-                resolve(true);
-            });
+        let request = { action: 'SHEETS_PASTE', params: { id: elementId } };
+        log("PASTE request=", request, "tabId=", tabId);
+        chrome.tabs.sendMessage(tabId, request, function() {
+            resolve(true);
         });
     });
 }
@@ -138,8 +111,7 @@ function _triggerSwitchingTab(tabId) {
     chrome.tabs.update(tabId, { selected: true });
 }
 
-function _triggerPlaceClipboard(action, actionIndex) {
-    action = _getActionWithIncrementedElementId(action, actionIndex);
+function _triggerPlaceClipboard(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];
     log("[placeInClipboard] element_id=", elementId);
@@ -154,7 +126,6 @@ function _triggerPlaceClipboard(action, actionIndex) {
 }
 
 module.exports = {
-    detectActionsToTrigger: detectActionsToTrigger,
     triggerActions: triggerActions,
     haltAutomation: haltAutomation,
     changeSpeed: changeSpeed,

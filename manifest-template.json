@@ -25,14 +25,5 @@
         "default_title": "Google Mail",
         "default_popup": "extension/popup/popup.html"
       },
-    "oauth2": {
-        "client_id": "965647531879-ul5u1moe1as7b96p2rmi6qpt79m4lpos.apps.googleusercontent.com",
-        "key": "AIzaSyDbMiUVxZ6F_zM0MCiwodGE7B6f_2lWLMA",
-        "scopes": [
-            "https://www.googleapis.com/auth/spreadsheets.readonly",
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/userinfo.email"
-        ]
-    },
     "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/; object-src 'self'"
 }

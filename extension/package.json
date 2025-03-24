@@ -8,6 +8,7 @@
     "_watchifyContent": "watchify content/content.js -o content/contentbundle.js --debug",
     "_watchifyPopup": "watchify popup/popup.js -o popup/popupbundle.js --debug",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "eslint": "./node_modules/.bin/eslint ."
   },
   "author": "",
@@ -23,12 +24,22 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "jest": "^23.1.0",
+    "istanbul-lib-coverage": "^3.2.2",
+    "istanbul-lib-instrument": "^6.0.3",
+    "istanbul-lib-report": "^3.0.1",
+    "istanbul-lib-source-maps": "^5.0.6",
+    "istanbul-reports": "^3.1.7",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
     "npm-run-all": "^4.1.5",
     "tinyify": "^3.0.0"
   },
   "dependencies": {
     "clone-deep": "^4.0.1",
-    "just-clone": "^3.2.1"
+    "just-clone": "^3.2.1",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.89.0",
+    "request": "^2.88.2"
   }
 }
