@@ -71,7 +71,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
             tab: {
                 id: sender.tab.id,
                 index: sender.tab.index,
-                url: sender.tab.url,
+                // url: sender.tab.url,
             },
             action: msg.event,
             // timestamp: Date.now(),

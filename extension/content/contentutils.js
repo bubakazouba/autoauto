@@ -17,7 +17,9 @@ function getElementInfoForKeyPresses(e) {
     }
     // Non editable fields are only allowed cmd+c, unless this is google drive
     if (!isElementTextEditable(element) && !areWeInSpreadsheets()) {
+        console.log(">> getElementInfoForKeyPresses this is not a text editable element and this is not google sheets");
         if (!keyIsCopy(e)) {
+            console.log(">> getElementInfoForKeyPresses this is not a copy im ignoring");
             return;
         }
     }
@@ -195,23 +197,6 @@ function getElementById(id) {
     // return window.elements[id];
 }
 
-function cellToColAndRow(cell) {
-    // basically a base 26 calculation
-    function _colToNum(col) {
-        let num = 0;
-        for (let i in col) {
-            let charCode = col[i].charCodeAt(0);
-            const A_CODE = "A".charCodeAt(0);
-            num += Math.pow(26, col.length - i - 1) * (1 + charCode - A_CODE);
-        }
-        return num;
-    }
-    let col = cell.match(/([A-Z]+)/)[0];
-    let row = cell.match(/([0-9]+)/)[0];
-    let col_in_num = _colToNum(col);
-    return col_in_num + "." + row;
-}
-
 function colNumAndRowToCell(colNumAndRow) {
     // TODO: this only works for A->Z
     function _numToCol(colNum) {
@@ -250,7 +235,6 @@ module.exports = {
     areWeInSpreadsheets: areWeInSpreadsheets,
     copy: copy,
     getElementById: getElementById,
-    cellToColAndRow: cellToColAndRow,
     colNumAndRowToCell: colNumAndRowToCell,
     getModifierKey: getModifierKey,
     getSelectedTextElem: getSelectedTextElem,

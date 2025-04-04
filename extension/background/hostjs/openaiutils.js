@@ -6,8 +6,6 @@
 //     console.log("  OPENAIUTILS", ...args);
 // };
 
-const { parseRobustly, extractActions } = require('./jsonutils');
-
 // Confidence thresholds for prediction quality
 const CONFIDENCE_THRESHOLDS = {
     HIGH: 0.85,    // High confidence (85% or higher)
@@ -21,21 +19,7 @@ const CONFIDENCE_THRESHOLDS = {
  * @param {Array} tokenLogprobs - Array of log probabilities for each token
  * @returns {Object} - Confidence metrics including score and level
  */
-function calculateConfidence(tokenLogprobs) {
-    if (!tokenLogprobs || tokenLogprobs.length === 0) {
-        return { score: 0, level: "UNKNOWN" };
-    }
-    
-    // Filter out null values and calculate average logprob
-    const validLogprobs = tokenLogprobs.filter(lp => lp !== null);
-    if (validLogprobs.length === 0) {
-        return { score: 0, level: "UNKNOWN" };
-    }
-    
-    const avgLogprob = validLogprobs.reduce((sum, lp) => sum + lp, 0) / validLogprobs.length;
-    const confidenceScore = Math.exp(avgLogprob); // Convert from log space to probability
-    
-    // Determine confidence level based on thresholds
+function createConfidenceObject(confidenceScore) {
     let confidenceLevel;
     if (confidenceScore >= CONFIDENCE_THRESHOLDS.HIGH) {
         confidenceLevel = "HIGH";
@@ -50,17 +34,15 @@ function calculateConfidence(tokenLogprobs) {
     return {
         score: confidenceScore,
         level: confidenceLevel,
-        avgLogprob: avgLogprob
     };
 }
 
 /**
  * Process OpenAI response to extract prediction and confidence
  * @param {Object} response - The OpenAI API response
- * @param {number} limit - Maximum number of actions to extract
  * @returns {Object} - Object containing prediction, actions, and confidence
  */
-function processOpenAIResponse(response, limit = Infinity) {
+function processOpenAIResponse(response) {
     if (!response || !response.choices || response.choices.length === 0) {
         return {
             success: false,
@@ -68,42 +50,23 @@ function processOpenAIResponse(response, limit = Infinity) {
             confidence: { score: 0, level: "UNKNOWN" }
         };
     }
-    
-    const choice = response.choices[0];
-    const prediction = choice.text;
-    
-    // Calculate confidence if logprobs are available
-    let confidence = { score: 0, level: "UNKNOWN" };
-    let leastConfidentTokens = [];
-    
-    if (choice.logprobs && choice.logprobs.token_logprobs) {
-        confidence = calculateConfidence(choice.logprobs.token_logprobs);
-        
-        // Get the least confident tokens for debugging
-        const tokens = choice.logprobs.tokens;
-        const tokenLogprobs = choice.logprobs.token_logprobs;
-        if (tokens && tokenLogprobs) {
-            const tokenConfidencePairs = tokens.map((token, i) => ({
-                token,
-                logprob: tokenLogprobs[i] || -Infinity
-            })).sort((a, b) => a.logprob - b.logprob);
-            
-            leastConfidentTokens = tokenConfidencePairs.slice(0, 3);
-        }
-    }
+    const choices = response.choices;
+    const prediction = JSON.parse(choices[0].message.content);
+    const actions = prediction.actions;
+    const confidence = prediction.confidence;
+    // const choice = choices[0];
+    // const prediction = JSON.parse(choice.text);
     
     // Try to parse the prediction as JSON
     try {
-        const parsedPrediction = parseRobustly(prediction);
-        const actions = extractActions(parsedPrediction, limit);
+        // const parsedPrediction = parseRobustly(prediction);
+        // const actions = extractActions(parsedPrediction);
         
         return {
             success: true,
             rawPrediction: prediction,
-            parsedPrediction: parsedPrediction,
             actions: actions,
-            confidence: confidence,
-            leastConfidentTokens: leastConfidentTokens
+            confidence: createConfidenceObject(confidence),
         };
     } catch (e) {
         return {
@@ -111,14 +74,12 @@ function processOpenAIResponse(response, limit = Infinity) {
             error: "Failed to parse prediction as JSON",
             rawPrediction: prediction,
             errorDetails: e.message,
-            confidence: confidence,
-            leastConfidentTokens: leastConfidentTokens
+            confidence: createConfidenceObject(confidence),
         };
     }
 }
 
 module.exports = {
-    calculateConfidence,
     processOpenAIResponse,
     CONFIDENCE_THRESHOLDS
 };

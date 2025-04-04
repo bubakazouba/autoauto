@@ -95,6 +95,19 @@ function _triggerClickCommand(action) {
     });
 }
 
+// function _triggerEnterValueInCell(action) {
+//     let elementId = action["action"]["element_id"];
+//     let tabId = action["tab"]["id"];
+
+//     return new Promise(resolve => {
+//         let request = { action: 'ENTER_VALUE_IN_CELL', params: { id: elementId } };
+//         log("PASTE request=", request, "tabId=", tabId);
+//         chrome.tabs.sendMessage(tabId, request, function () {
+//             resolve(true);
+//         });
+//     });
+// }
+
 function _triggerSheetsPaste(action) {
     let elementId = action["action"]["element_id"];
     let tabId = action["tab"]["id"];

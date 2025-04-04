@@ -1,8 +1,24 @@
+const html2canvas = require('html2canvas');
+const Compressor = require("compressorjs");
 const contentutils = require("./contentutils.js");
 const automation = require("./automation.js");
 
-const SHEET_ELEM_NODE = "SHEET";
-const SHEET_ELEM_ID = "0"; // It has to be a number
+
+// document.addEventListener("onready", (e) => {
+//     fetchCurrentSheetAsCSV()
+//         .then(csv => {
+//             let event = {
+//                 type: "PAGE_DATA",
+//                 data: csv,
+//             };
+//             chrome.runtime.sendMessage({
+//                 event: event
+//             });
+//         })
+//         .catch(error => {
+//             console.error('Error:', error);
+//         });
+// });
 
 document.addEventListener("change", (e) => {
     if (!e.isTrusted) {
@@ -25,10 +41,8 @@ document.addEventListener("change", (e) => {
     });
 });
 document.addEventListener('click', (e) => {
-    console.log('e=', e);
     if (!e.isTrusted) {
         // ignore javascript programmatic clicks
-        console.log("click not trusted ignore");
         return;
     }
     function _isElemAButton(elem) {
@@ -84,16 +98,28 @@ document.addEventListener('click', (e) => {
                     event: {
                         type: actionType,
                         element_id: getElementIdWithCellInfo(),
-                        element_node: SHEET_ELEM_NODE,
                     }
                 });
             }
         }
+        // TODO: also check if user was holding shift and report what cell range is selected in the sheet
+        // else {
+        //     console.log("reporting normal click on a cell in the sheet");
+        //     chrome.runtime.sendMessage({
+        //         event: {
+        //             type: "click",
+        //             element_id: getElementIdWithCellInfo(),
+        //         }
+        //     })
+        // }
     }
 }, true);
 
 document.addEventListener('focusin', function(e) {
     // TODO: i guess we shouldnt be using same function for key presses here
+    if (contentutils.areWeInSpreadsheets()) {
+        return;
+    }
     let elementInfo = contentutils.getElementInfoForKeyPresses(e);
     if (!elementInfo) {
         return;
@@ -118,17 +144,18 @@ document.addEventListener('focusin', function(e) {
 document.addEventListener("keydown", e => {
     let elementInfo = contentutils.getElementInfoForKeyPresses(e);
     if (!elementInfo) {
+        console.log(">> keydown got nothing from getElementInfoForKeyPresses returning early");
         return;
     }
     let { element, element_id, element_node } = elementInfo;
-    if (contentutils.areWeInSpreadsheets()) {
-        return handleSheetsKeyDown(e);
-    }
+    // if (contentutils.areWeInSpreadsheets()) {
+    //     return handleSheetsKeyDown(e);
+    // }
 
     // Copy and Pastes are handled in 'copy' and 'paste' event listeners
-    if (contentutils.keyIsCopy(e) || contentutils.keyIsPaste(e)) {
-        return;
-    }
+    // if (contentutils.keyIsCopy(e) || contentutils.keyIsPaste(e)) {
+    //     return;
+    // }
 
     // We are not interesting in  any text manuvering commands
     if (isTextManuveringCommand(e, false)) {
@@ -136,6 +163,17 @@ document.addEventListener("keydown", e => {
     }
 
     let event = contentutils.getKeyPressEvent(e, element, element_id, element_node);
+    if (["meta", "shift", "ctrl", "alt"].includes(event.keyParams.key.toLowerCase())) {
+        // we will assume users are just interested in pairing this with the next key so this will get caught later
+        return;
+    }
+    if(event.keyParams.key.toLowerCase().startsWith("arrow")) {
+        return;
+    }
+    event = transformKeyEvent(event);
+    if (contentutils.areWeInSpreadsheets()) {
+        event.element_id = document.getElementById("t-name-box").value;
+    }
 
     chrome.runtime.sendMessage({
         event: event
@@ -143,31 +181,12 @@ document.addEventListener("keydown", e => {
 });
 
 function getElementIdWithCellInfo() {
-    let element_id = SHEET_ELEM_ID;
-    let activeCell = document.getElementById("t-name-box").value;
-    return element_id + "." + contentutils.cellToColAndRow(activeCell);
-}
-
-function handleSheetsKeyDown(e) {
-    let isPaste = (e.key == "v" && e[contentutils.getModifierKey()]) || (e.key == "v" && e[contentutils.getModifierKey()] && e.shiftKey);
-    if (!isPaste) {
-        return;
-    }
-
-    let event = {
-        type: "SHEETS_PASTE",
-        element_id: getElementIdWithCellInfo(),
-        element_node: SHEET_ELEM_NODE,
-    };
-
-    chrome.runtime.sendMessage({
-        event: event
-    });
+    return document.getElementById("t-name-box").value;
 }
 
 function isTextManuveringCommand(e) {
     // This captures selections (shift+(alt/cmd)+right/left) and just offset changes (alt/cmd)+right/left
-    let c1 = e.key.substring(0, 5).toUpperCase() == "ARROW";
+    let c1 = e.key.toUpperCase().startsWith("ARROW");
     let c2 = e.key == "a" && e[contentutils.getModifierKey()];
     return c1 || c2;
 }
@@ -203,55 +222,6 @@ document.addEventListener('selectionchange', () => {
     });
 });
 
-document.addEventListener('copy', () => {
-    let element_id, element_node;
-    if (contentutils.areWeInSpreadsheets()) {
-        element_id = getElementIdWithCellInfo();
-        element_node = SHEET_ELEM_NODE;
-    } else {
-        let elem = contentutils.getSelectedTextElem();
-        element_id = contentutils.getElementId(elem);
-        element_node = elem.nodeName;    
-    }
-    
-    let event = {
-        type: "PLACE_IN_CLIPBOARD",
-        element_id: element_id,
-        element_node: element_node,
-    };
-    chrome.runtime.sendMessage({
-        event: event
-    });
-});
-
-document.addEventListener('paste', e => {
-    // We don't want to handle sheets paste here, since we want to differentiate between paste and raw paste
-    if (contentutils.areWeInSpreadsheets()) {
-        return;
-    }
-    let elem = e.composedPath()[0];
-    let isElemFocused = document.activeElement == elem;
-    // Not sure how this would happen but better be safe
-    if (!contentutils.isElementTextEditable(elem) || !isElemFocused) {
-        return;
-    }
-    contentutils.getValueInClipboard().then(clipboard => {
-        let event = {
-            type: "KEY_GROUP_PASTE",
-            element_id: contentutils.getElementId(elem),
-            element_node: elem.nodeName,
-            keyGroupInput: {
-                startOffset: elem.selectionStart,
-                value: elem.value,
-                clipboard: clipboard,
-            },
-        };
-        chrome.runtime.sendMessage({
-            event: event
-        });
-    });
-});
-
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     console.log("got this request:::", request);
@@ -266,15 +236,139 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         sendResponse({ "event": "DONE" });
     } else if (request.action == "KEY_GROUP_INPUT") {
         console.log("I was asked to keyGroup on element: " + request.params.id + ", keyGroup=", request.params.keyGroup);
-        automation.keyGroupOnElement(request.params.id, request.params.keyGroup).then(() => {
-            sendResponse({ "event": "DONE" });
-        });
+        console.log("areWeInSpreadsheets =", contentutils.areWeInSpreadsheets());
+        if (contentutils.areWeInSpreadsheets()) { // TODO there should be no need to copy and paste
+            contentutils.copy(request.params.keyGroup);
+            automation.handleSheetsPaste(request.params.id).then(() => {
+                sendResponse({ "event": "DONE" });
+            });
+        } else {
+            automation.keyGroupOnElement(request.params.id, request.params.keyGroup).then(() => {
+                sendResponse({ "event": "DONE" });
+            });
+        }
     } else if (request.action == "SHEETS_PASTE") {
         console.log("I was asked to paste on element: " + request.params.id);
         automation.handleSheetsPaste(request.params.id).then(() => {
             sendResponse({ "event": "DONE" });
         });
+    } else if (request.action == "TAKE_SCREENSHOT") {
+        takeScreenshotNewCompression().then((screenshot) => {
+            sendResponse({ "screenshot": screenshot });
+        });
+    } else if (request.action == "GET_PAGE_DATA") {
+        if(contentutils.areWeInSpreadsheets()) {
+            fetchCurrentSheetAsCSV()
+                .then(csv => {
+                    sendResponse({ "data": csv });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            // TODO: get the DOM?
+        }
     }
-    // Return true to signal that we will sendResponse asynchrounsly
+    // Return true to signal that we will sendResponse asynchronously
     return true;
 });
+
+/**
+ * Fetches the current Google Sheet tab as a CSV string
+ * @returns {Promise<string>} - Promise that resolves to CSV string
+ */
+function fetchCurrentSheetAsCSV() {
+    // Function to extract sheet ID from URL
+    function getSheetIdFromUrl(url) {
+        const regex = /\/d\/([a-zA-Z0-9-_]+)/;
+        const match = url.match(regex);
+
+        if (match && match[1]) {
+            return match[1];
+        }
+
+        throw new Error('Invalid Google Sheets URL: Could not extract sheet ID');
+    }
+
+    // Function to extract gid (tab ID) from URL
+    function getGidFromUrl(url) {
+        // Try to match gid in the URL query parameters or hash
+        const gidRegex = /[?#&]gid=(\d+)/;
+        const match = url.match(gidRegex);
+
+        // Return the gid if found, otherwise return 0 (first sheet)
+        return match && match[1] ? match[1] : '0';
+    }
+
+    return new Promise((resolve, reject) => {
+        try {
+            // Get the current URL
+            const currentUrl = window.location.href;
+
+            // Extract the sheet ID and gid (tab ID) from the current URL
+            const sheetId = getSheetIdFromUrl(currentUrl);
+            const gid = getGidFromUrl(currentUrl);
+
+            // Create the export URL with the specific tab (gid)
+            const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+
+            fetch(sheetUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then(csvData => {
+                    resolve(csvData);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+function takeScreenshotNewCompression(scale=1, quality=0.6) {
+    return new Promise(resolve => {
+        html2canvas(document.querySelector("body"), { scale: scale }).then(canvas => {
+            canvas.toBlob(blob => {
+                new Compressor(blob, {
+                    quality: quality,
+                    success(compressedBlob) {
+                        let url = URL.createObjectURL(compressedBlob);
+                        let a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'compressed new.jpg';
+                        a.click();
+                        resolve(url);
+                    }
+                });
+            }, "image/jpeg");
+        });
+    });
+}
+
+
+function transformKeyEvent(data) {
+    // Create a deep copy of the data
+    const result = JSON.parse(JSON.stringify(data));
+    const { key, shiftKey, ctrlKey, metaKey, altKey } = result.keyParams;
+
+    // Create an array of active modifiers
+    const modifiers = [];
+    if (shiftKey) modifiers.push('shift');
+    if (ctrlKey) modifiers.push('ctrl');
+    if (metaKey) modifiers.push('meta');
+    if (altKey) modifiers.push('alt');
+
+    // Combine modifiers and key into a single string
+    const keyString = [...modifiers, key.toLowerCase()].join('+');
+
+    // Replace keyParams with keyString
+    result.keyString = keyString;
+    delete result.keyParams;
+    return result;
+}

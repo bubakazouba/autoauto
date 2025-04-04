@@ -9,7 +9,8 @@
     "_watchifyPopup": "watchify popup/popup.js -o popup/popupbundle.js --debug",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "eslint": "./node_modules/.bin/eslint ."
+    "eslint": "./node_modules/.bin/eslint .",
+    "eslintfix": "./node_modules/.bin/eslint . --fix"
   },
   "author": "",
   "devDependencies": {
@@ -37,6 +38,8 @@
   },
   "dependencies": {
     "clone-deep": "^4.0.1",
+    "compressorjs": "^1.2.1",
+    "html2canvas": "^1.4.1",
     "just-clone": "^3.2.1",
     "node-fetch": "^3.3.2",
     "openai": "^4.89.0",

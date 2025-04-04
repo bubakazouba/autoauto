@@ -56,17 +56,13 @@ function placeElementInClipboard(element_id) {
 ////////////////////////////////////////
 // Sheets stuff
 
-function getCellFromSheetsElementId(element_id) {
-    return contentutils.colNumAndRowToCell(element_id.split(".").slice(-2));
-}
-
 function getSheetId() {
     // assuming we are in a spreadsheet tab
     return window.location.pathname.split("/")[3];
 }
 
 function changeCellWithElementId(element_id) {
-    let cell = getCellFromSheetsElementId(element_id);
+    let cell = element_id;
     console.log("[changeCellWithElementId] got cell=", cell);
     // Change Cell
     document.getElementById("t-name-box").value = cell;
@@ -89,7 +85,6 @@ module.exports = {
     clickOnElement: clickOnElement,
     keyGroupOnElement: keyGroupOnElement,
     placeElementInClipboard: placeElementInClipboard,
-    getCellFromSheetsElementId: getCellFromSheetsElementId,
     getSheetId: getSheetId,
     changeCellWithElementId: changeCellWithElementId,
     handleSheetsPaste: handleSheetsPaste,
